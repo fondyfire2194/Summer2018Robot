@@ -45,7 +45,7 @@ public class DriveTrainCanBus extends Subsystem {
 	public static double joystickXDeadband = .1;
 	// public static double encoderCountsPerRev = 400;
 	// public static double inchesPerEncoderRev = 4*Math.PI;
-	public double DRIVE_ENCODER_COUNTS_PER_INCH = 403.;// 32.515;
+	public static double DRIVE_ENCODER_COUNTS_PER_INCH = 403.;// 32.515;
 	// (ft *12/sec) = (in/sec) * enc Counts/in = enc counts / sec then divide by 10
 	// for 100ms
 	public double FT_PER_SEC_TO_ENC_CTS_PER_100MS = DRIVE_ENCODER_COUNTS_PER_INCH * 1.2;
@@ -55,6 +55,7 @@ public class DriveTrainCanBus extends Subsystem {
 	public double MAX_ENC_CTS_PER_100MS = MAX_ROBOT_FT_PER_SEC * FT_PER_SEC_TO_ENC_CTS_PER_100MS;
 
 	public static double FT_PER_SEC_TO_PCT_OUT = 1 / MAX_ROBOT_FT_PER_SEC;
+
 	public static double MINIMUM_START_PCT = .1;// pct needed to get robot moving;
 
 	public double IN_POSITION_BANDWIDTH = .075;
@@ -66,6 +67,7 @@ public class DriveTrainCanBus extends Subsystem {
 	private double WHEELBASE_WIDTH = 2.7;// ft
 
 	public double MM_FT_PER_DEGREE = Math.PI * WHEELBASE_WIDTH / 360;
+	
 	public boolean leftSideStopped;
 	public boolean rightSideStopped;
 	public boolean runStalledDetect;
@@ -78,24 +80,28 @@ public class DriveTrainCanBus extends Subsystem {
 	}
 
 	// order is Kp, Kd, Ka and Kturn
-	public static double[] LSW_L = { .8, 0, 0, .1 };
-	public static double[] LSW_L2 = { .8, 0, 0, .1 };
-	public static double[] LSW_C = { .8, .5, 0, .3 };
+	public static double[] LSW_L = { .4, 0, 0, 1};
+	public static double[] LSW_C = { .4, 0, 0, 1};
+	public static double[] RSW_C = { .4, 0, 0, 1};
+	public static double[] RSW_R = { .4, 0, 0, 1};
+
+	public static double[] LSW_L2 = { .8, 1.2, 0, .6 };
 	public static double[] LSW_C2 = { .5, 0, 0, .8 };
 	public static double[] LSW_R = { .8, 0, 0, .1 };
 	public static double[] LSW_R2 = { .8, 0, 0, .1 };
 
-	public static double[] RSW_C = { .8, .5, .06, .8 };
+	// order is Kp, Kd, Ka and Kturn
+
 	public static double[] RSW_C2 = { .8, .5, .06, .8 };
-	public static double[] RSW_R = { .8, 0, 0, .1 };
 	public static double[] RSW_R2 = { .8, 0, 0, .1 };
 	public static double[] RSW_L = { .8, .5, .06, .8 };
 	public static double[] RSW_L2 = { .8, .5, .06, .8 };
 
+	// order is Kp, Kd, Ka and Kturn
 	public static double[] LSC_L = { .8, 0, 0, .8 };
-	public static double[] RSC_L = { .8, 0, 0, .1 };
+	public static double[] RSC_L = { 3, 4.0, 0.2, .5 };
 	public static double[] RSC_R = { .8, 0, 0, .1 };
-	public static double[] LSC_R = { .8, 0, 0, .1 };
+	public static double[] LSC_R = { 3, 4.0, 0.2, .5 };
 	public static double[] Test = { .8, 0, 0, .1 };
 	public static double[] RevTest = { .8, 0, 0, .1 };
 
