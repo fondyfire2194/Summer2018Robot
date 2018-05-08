@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TurnWheelsToIntake extends Command {
 	private double mySpeed;
-	private boolean currentPeakSeen;;
+	private boolean currentPeakSeen;
 	private double highCurrentLimit = 10;
 	private double highCurrentTimeLimit = .5;
 	private double highCurrentTime;

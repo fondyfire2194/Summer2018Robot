@@ -105,8 +105,6 @@ public class Robot extends IterativeRobot {
 	public boolean secondAutonomousCommandsDone;
 
 	Command switchMovesAuxCommand;
-	private boolean switchMovesAuxCommandStarted;
-	public boolean switchMovesAuxCommandCommandsDone;
 
 	private SendableChooser<Integer> sameSideChooser;
 	private SendableChooser<Integer> startPositionChooser;
@@ -144,7 +142,6 @@ public class Robot extends IterativeRobot {
 	public boolean doRightSwitchFromLeft;
 	public boolean doRightSwitchFromCenter;
 
-	// public static boolean runTrajectory;
 	private boolean sameSideAvailable;
 	private boolean sameSideSwitchAvailable;
 	private boolean sameSideScaleAvailable;
@@ -188,8 +185,8 @@ public class Robot extends IterativeRobot {
 	public static boolean isInHighGear;
 
 	public static double joystickSlider;
-	public static driveSide continuingSide;
-	public static double continuingAngle;
+	public static driveSide stopSide;
+	public static int stopSideZeroSegments;
 
 	public long freeMemory;
 	public long minFreeMemory = 10000000000000L;
@@ -197,8 +194,6 @@ public class Robot extends IterativeRobot {
 
 	public long currentMs;
 	private boolean autoStarted;
-	private boolean firstAutoCommandSet;
-	private boolean doFinalScaleHeightMoves;
 	public static boolean isSwitch;
 	public static boolean isScale;
 
@@ -631,7 +626,6 @@ public class Robot extends IterativeRobot {
 		firstAutonomousCommandDone = false;
 		motionCommandRunning = false;
 		trajectoryRunning = false;
-		doFinalScaleHeightMoves = false;
 		autonomousSequenceStarted = false;
 		secondAutonomousCommandStarted = false;
 		secondAutonomousCommandsDone = false;
@@ -701,7 +695,6 @@ public class Robot extends IterativeRobot {
 		firstAutonomousCommandDone = false;
 		secondAutonomousCommandsDone = false;
 		motionCommandRunning = false;
-		firstAutoCommandSet = false;
 		driveTrainCanBus.setVBus(0, driveSide.both);
 		cubeHandler.holdPositionInches = cubeHandler.getElevatorPositionInches();
 		Robot.cubeHandler.closeIntakeArms();
@@ -838,7 +831,6 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putBoolean("MotCmdRng", motionCommandRunning);
 			SmartDashboard.putBoolean("MotCmdCmplt", motionCommandComplete);
 			SmartDashboard.putBoolean("Use Traj", useProfileTrajectories);
-			SmartDashboard.putBoolean("Do Scale Height Move", doFinalScaleHeightMoves);
 			SmartDashboard.putBoolean("Auto1 Startd", firstAutonomousCommandStarted);
 			SmartDashboard.putBoolean("Auto1Dn", firstAutonomousCommandDone);
 			SmartDashboard.putBoolean("Auto2Started", secondAutonomousCommandStarted);

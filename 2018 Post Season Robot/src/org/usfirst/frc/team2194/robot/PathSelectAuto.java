@@ -10,23 +10,25 @@ import org.usfirst.frc.team2194.robot.commands.Autonomous.*;
 
 public enum PathSelectAuto {
 	/*
-	 * Order of parameters is Trajectory File, trajectory Gains, continuing side and
-	 * angle for switch only, first move command,second trajectory command, second
+	 * Order of parameters is Trajectory File, trajectory Gains, stop side and
+	 * stop segments for side switch only, first move command,second trajectory command, second
 	 * move command
 	 * 
 	 */
-	LEFTSWITCHFROMCENTER("LSW_C", DriveTrainCanBus.LSW_C, driveSide.left, 0, new DoLeftSwitchFromCenterMove(),
+	LEFTSWITCHFROMCENTER("LSW_C", DriveTrainCanBus.LSW_C, new DoLeftSwitchFromCenterMove(),
 			new DoLeftSwitchFromCenterUsingTrajectories(), new DoLeftSwitchFromCenter()), //
-	RIGHTSWITCHFROMCENTER("RSW_C", DriveTrainCanBus.RSW_C, driveSide.right, 0, new DoRightSwitchFromCenterMove(),
+	RIGHTSWITCHFROMCENTER("RSW_C", DriveTrainCanBus.RSW_C, new DoRightSwitchFromCenterMove(),
 			new DoRightSwitchFromCenterUsingTrajectories(), new DoRightSwitchFromCenter()), //
-	LEFTSWITCHFROMLEFT("LSW_L", DriveTrainCanBus.LSW_L, driveSide.left, 90, new DoLeftSwitchFromLeftMove(),
+
+	LEFTSWITCHFROMLEFT("LSW_L", DriveTrainCanBus.LSW_L, driveSide.right, 20, new DoLeftSwitchFromLeftMove(),
 			new DoLeftSwitchFromLeftUsingTrajectories(), new DoLeftSwitchFromLeft()), //
-	RIGHTSWITCHFROMRIGHT("RSW_R", DriveTrainCanBus.RSW_R, driveSide.right, -90, new DoRightSwitchFromRightMove(),
+	RIGHTSWITCHFROMRIGHT("RSW_R", DriveTrainCanBus.RSW_R, driveSide.left, 20, new DoRightSwitchFromRightMove(),
 			new DoRightSwitchFromRightUsingTrajectories(), new DoRightSwitchFromRight()), //
-	LEFTSWITCHFROMRIGHT("LSW_R", DriveTrainCanBus.LSW_R, driveSide.both, 180, new DoLeftSwitchFromRightMove(),
-			new DoLeftSwitchFromRight(), new DoLeftSwitchFromRight()), //
-	RIGHTSWITCHFROMLEFT("RSW_L", DriveTrainCanBus.RSW_L, driveSide.both, 180, new DoRightSwitchFromLeftMove(),
-			new DoRightSwitchFromLeft(), new DoRightSwitchFromLeft()), //
+
+	LEFTSWITCHFROMRIGHT("LSW_R", DriveTrainCanBus.LSW_R, new DoLeftSwitchFromRightMove(), new DoLeftSwitchFromRight(),
+			new DoLeftSwitchFromRight()), //
+	RIGHTSWITCHFROMLEFT("RSW_L", DriveTrainCanBus.RSW_L, new DoRightSwitchFromLeftMove(), new DoRightSwitchFromLeft(),
+			new DoRightSwitchFromLeft()), //
 	/*
 	 * scales
 	 */
@@ -41,8 +43,8 @@ public enum PathSelectAuto {
 
 	private String name = null;
 	private double[] gains = { 0, 0, 0, 0 };
-	private driveSide side;
-	private double continuingAngle;
+	private driveSide side = driveSide.both;
+	private int stopSideZeroSegments;
 	private Command firstMove;
 	private Command second;
 	private Command secondMove;
@@ -51,6 +53,8 @@ public enum PathSelectAuto {
 	 * scale constructor
 	 */
 	PathSelectAuto(String name, double[] gains, Command firstMove, Command second, Command secondMove) {
+		this.side = driveSide.both;
+		this.stopSideZeroSegments = 0;
 		this.name = name;
 		this.gains = gains;
 		this.firstMove = firstMove;
@@ -59,14 +63,14 @@ public enum PathSelectAuto {
 	}
 
 	/*
-	 * switch constructor
+	 * switch from side constructor
 	 */
-	PathSelectAuto(String name, double[] gains, driveSide side, double continuingAngle, Command firstMove,
+	PathSelectAuto(String name, double[] gains, driveSide side, int stopSideZeroSegments, Command firstMove,
 			Command second, Command secondMove) {
 		this.name = name;
 		this.gains = gains;
 		this.side = side;
-		this.continuingAngle = continuingAngle;
+		this.stopSideZeroSegments = stopSideZeroSegments;
 		this.firstMove = firstMove;
 		this.second = second;
 		this.secondMove = secondMove;
@@ -75,8 +79,8 @@ public enum PathSelectAuto {
 	void build() {
 		if (Robot.getUSBPresence() && Robot.buildTrajectory.buildFileName(name, gains)) {
 			if (Robot.isSwitch) {
-				Robot.continuingSide = side;
-				Robot.continuingAngle = continuingAngle;
+				Robot.stopSide = side;
+				Robot.stopSideZeroSegments = stopSideZeroSegments;
 				Robot.firstAutonomousCommand = new DoTrajectorySwitch();
 			}
 			if (Robot.isScale)

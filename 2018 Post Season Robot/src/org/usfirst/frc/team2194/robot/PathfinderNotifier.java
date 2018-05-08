@@ -3,6 +3,7 @@ package org.usfirst.frc.team2194.robot;
 import java.nio.file.Path;
 
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
+import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -19,7 +20,7 @@ public class PathfinderNotifier {
 	private static double timeSum;
 	public static double timeAverage;
 	public static boolean isRunning;
-	public static int passCounter = 0;
+	public static int segmentCounter = 0;
 	public static double minTime = 9999;
 	public static double maxTime = 0;
 
@@ -38,7 +39,7 @@ public class PathfinderNotifier {
 		minTime = 999;
 		maxTime = 0;
 		timeAverage = 0;
-		passCounter = 0;
+		segmentCounter = 0;
 		timeSum = 0;
 		thisTime = 0;
 		lastTime = 0;
@@ -83,7 +84,7 @@ public class PathfinderNotifier {
 		 * else return 0; }
 		 *
 		 */
-		passCounter++;
+		segmentCounter++;
 
 		double left = Robot.driveTrainCanBus.leftDf.calculate(Robot.driveTrainCanBus.getLeftFeet());
 		double right = Robot.driveTrainCanBus.rightDf.calculate(Robot.driveTrainCanBus.getRightFeet());
@@ -99,7 +100,12 @@ public class PathfinderNotifier {
 		double leftPct = DriveTrainCanBus.MINIMUM_START_PCT + (left + turn);
 		double rightPct = DriveTrainCanBus.MINIMUM_START_PCT + (right - turn);
 
-		if (passCounter < activeTrajectoryLength - 1) {
+		if ((Robot.stopSide == driveSide.left) && segmentCounter >= (activeTrajectoryLength - Robot.stopSideZeroSegments))
+			leftPct = 0;
+		if ((Robot.stopSide == driveSide.right) && segmentCounter >= (activeTrajectoryLength - Robot.stopSideZeroSegments))
+			rightPct = 0;
+
+		if (segmentCounter < activeTrajectoryLength - 1) {
 			/*
 			 * write linear and angular data to file
 			 * 
@@ -109,7 +115,7 @@ public class PathfinderNotifier {
 			 * 
 			 */
 
-			Robot.simpleCSVLogger.writeData((double) passCounter, Robot.driveTrainCanBus.leftDf.getSegment().position,
+			Robot.simpleCSVLogger.writeData((double) segmentCounter, Robot.driveTrainCanBus.leftDf.getSegment().position,
 					Robot.driveTrainCanBus.getLeftFeet(), Robot.driveTrainCanBus.rightDf.getSegment().position,
 					Robot.driveTrainCanBus.getRightFeet(), desired_heading, -Robot.sensors.getGyroYaw(),
 					Robot.driveTrainCanBus.leftDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, left,
@@ -125,7 +131,7 @@ public class PathfinderNotifier {
 		timeDifference = thisTime - lastTime;
 		timeSum += timeDifference;
 		lastTime = thisTime;
-		if (passCounter >= 10) {
+		if (segmentCounter >= 10) {
 			timeAverage = timeDifference;
 			if (timeAverage < minTime)
 				minTime = timeAverage;
