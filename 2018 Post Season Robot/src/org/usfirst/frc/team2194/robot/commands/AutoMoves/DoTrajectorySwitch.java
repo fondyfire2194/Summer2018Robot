@@ -38,8 +38,8 @@ public class DoTrajectorySwitch extends CommandGroup {
 		addSequential(new ResetGyro());
 		addSequential(new ResetEncoders());
 		addSequential(new SetDriveBrakeOn(false));
-		addParallel(new PathfinderTrajectoryUsingNotifier());
-		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
+		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
+		addSequential(new PathfinderTrajectoryUsingNotifier());
 		addSequential(new SetDriveBrakeOn(true));
 		addSequential(new OuttakeCube(.5));
 		addSequential(new SetFirstAutoCommandsDone());

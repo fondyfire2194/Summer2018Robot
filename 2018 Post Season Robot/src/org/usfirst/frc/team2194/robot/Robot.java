@@ -116,7 +116,7 @@ public class Robot extends IterativeRobot {
 	public static boolean trajectoryRunning;
 	public static Trajectory activeLeftTrajectory;
 	public static Trajectory activeRightTrajectory;
-
+	public static boolean createTrajectoryDebugFile;
 	public static String chosenFile = "None Chosen";
 
 	private Integer startPosition = 0;
@@ -209,13 +209,12 @@ public class Robot extends IterativeRobot {
 
 	private int updateStatusCounter;
 	private boolean autonomousSequenceStarted;
-	
+
 	public static String[] names = { "Step", "Left Cmd", "Left Ft", "Right Cmd ", "Right Ft", "Angle Cmd", "Angle",
 			"LeftSegVel", "left", "ActLeftVel", "RightSegVel", "right", "ActRightVel", "turn" };
 	public static String[] units = { "Number", "FT", "FT", "FT", "FT", "Deg", "Deg", "pct", "pct", "pct", "pct", "pct",
 			"pct", "pct" };
 	public static String usbFilePath = "/media/sda1/TrajCSV/";
-
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -669,10 +668,11 @@ public class Robot extends IterativeRobot {
 		}
 
 		// moves to switch or scale are complete so do remainder of auto
-		if ((secondAutonomousCommand != null && !secondAutonomousCommandStarted) && firstAutonomousCommandDone) {
-			secondAutonomousCommand.start();
-			secondAutonomousCommandStarted = true;
-		}
+		// if ((secondAutonomousCommand != null && !secondAutonomousCommandStarted) &&
+		// firstAutonomousCommandDone) {
+		// secondAutonomousCommand.start();
+		// secondAutonomousCommandStarted = true;
+		// }
 		// if (secondAutonomousCommand.isRunning() && allCameras.visionTargetNotFound)
 		// secondAutonomousCommand.cancel();
 
@@ -766,7 +766,6 @@ public class Robot extends IterativeRobot {
 			doTeleopOrient = false;
 		}
 
-
 		Scheduler.getInstance().run();
 
 		updateStatus();
@@ -836,7 +835,8 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putBoolean("Auto2Started", secondAutonomousCommandStarted);
 			SmartDashboard.putBoolean("Auto2Dn", secondAutonomousCommandsDone);
 			SmartDashboard.putNumber("AngTar", angleTarget);
-			SmartDashboard.putBoolean("Gamepad", oi.gamepad.getButtonStateA() || oi.gamepad.getButtonStateX() || oi.gamepad.getButtonStateB() || oi.gamepad.getButtonStateY());
+			SmartDashboard.putBoolean("Gamepad", oi.gamepad.getButtonStateA() || oi.gamepad.getButtonStateX()
+					|| oi.gamepad.getButtonStateB() || oi.gamepad.getButtonStateY());
 
 			// if (activeLeftTrajectory != null) {
 			// SmartDashboard.putNumber("Traj Segment #L", activeLeftTrajectory.length());
@@ -879,26 +879,25 @@ public class Robot extends IterativeRobot {
 			activeTrajectoryTwoGains[3] = prefs.getDouble("PathTurn2", DriveTrainCanBus.drivePrefsDefaults[21]);
 		}
 	}
-	public static boolean getUSBPresence() {
-		/*
-		 * Check for usb stick present. Only one usb stick should be plugged in.
-		 */
-		String[] media = { "A", "B", "C" };
-		boolean temp = false;
-		int i = 0;
-		File f = new File("/media");
-		for (File fls : f.listFiles()) {
-			media[i] = fls.toString();
-			if (media[i].endsWith("sda1")) {
-				temp = true;
-				break;
-			}
-			i++;
-		}
 
-		SmartDashboard.putString("Media", media[0]);
-		SmartDashboard.putString("Media 1", media[1]);
-		SmartDashboard.putString("Media 2", media[2]);
+	public static boolean checkUsbFilePath() {
+		boolean temp = false;
+		File usbFile = new File("/media/sda1/TrajCSV/");
+		if (usbFile.exists()) {
+			temp = true;
+			usbFilePath = "/media/sda1/TrajCSV/";
+		}
+		if (!temp) {
+			usbFile = new File("/media/sdb1/TrajCSV/");
+			if (usbFile.exists()) {
+				usbFilePath = "/media/sdb1/TrajCSV/";
+				temp = true;
+			}
+		}
+		if (temp)
+			SmartDashboard.putString("USB ", usbFilePath);
+		else
+			SmartDashboard.putString("USB ", "Not Found");
 		return temp;
 	}
 

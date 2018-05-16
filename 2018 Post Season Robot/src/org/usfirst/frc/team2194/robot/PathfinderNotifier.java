@@ -1,7 +1,5 @@
 package org.usfirst.frc.team2194.robot;
 
-import java.nio.file.Path;
-
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
@@ -11,7 +9,6 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Trajectory;
 
 public class PathfinderNotifier {
 	private static double thisTime;
@@ -100,12 +97,14 @@ public class PathfinderNotifier {
 		double leftPct = DriveTrainCanBus.MINIMUM_START_PCT + (left + turn);
 		double rightPct = DriveTrainCanBus.MINIMUM_START_PCT + (right - turn);
 
-		if ((Robot.stopSide == driveSide.left) && segmentCounter >= (activeTrajectoryLength - Robot.stopSideZeroSegments))
+		if ((Robot.stopSide == driveSide.left)
+				&& segmentCounter >= (activeTrajectoryLength - Robot.stopSideZeroSegments))
 			leftPct = 0;
-		if ((Robot.stopSide == driveSide.right) && segmentCounter >= (activeTrajectoryLength - Robot.stopSideZeroSegments))
+		if ((Robot.stopSide == driveSide.right)
+				&& segmentCounter >= (activeTrajectoryLength - Robot.stopSideZeroSegments))
 			rightPct = 0;
 
-		if (segmentCounter < activeTrajectoryLength - 1) {
+		if (Robot.createTrajectoryDebugFile && segmentCounter < activeTrajectoryLength - 1) {
 			/*
 			 * write linear and angular data to file
 			 * 
@@ -115,9 +114,10 @@ public class PathfinderNotifier {
 			 * 
 			 */
 
-			Robot.simpleCSVLogger.writeData((double) segmentCounter, Robot.driveTrainCanBus.leftDf.getSegment().position,
-					Robot.driveTrainCanBus.getLeftFeet(), Robot.driveTrainCanBus.rightDf.getSegment().position,
-					Robot.driveTrainCanBus.getRightFeet(), desired_heading, -Robot.sensors.getGyroYaw(),
+			Robot.simpleCSVLogger.writeData((double) segmentCounter,
+					Robot.driveTrainCanBus.leftDf.getSegment().position, Robot.driveTrainCanBus.getLeftFeet(),
+					Robot.driveTrainCanBus.rightDf.getSegment().position, Robot.driveTrainCanBus.getRightFeet(),
+					desired_heading, -Robot.sensors.getGyroYaw(),
 					Robot.driveTrainCanBus.leftDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, left,
 					Robot.driveTrainCanBus.getLeftFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					Robot.driveTrainCanBus.rightDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, right,

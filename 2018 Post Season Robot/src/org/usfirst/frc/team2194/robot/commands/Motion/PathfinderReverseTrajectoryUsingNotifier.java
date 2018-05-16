@@ -39,8 +39,8 @@ public class PathfinderReverseTrajectoryUsingNotifier extends Command {
 		double V = 1 / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC;
 		double A = Robot.activeTrajectoryGains[2];
 
-			Robot.driveTrainCanBus.revLeftDf.setTrajectory(Robot.activeLeftTrajectory);
-			Robot.driveTrainCanBus.revRightDf.setTrajectory(Robot.activeRightTrajectory);
+		Robot.driveTrainCanBus.revLeftDf.setTrajectory(Robot.activeLeftTrajectory);
+		Robot.driveTrainCanBus.revRightDf.setTrajectory(Robot.activeRightTrajectory);
 
 		Robot.driveTrainCanBus.revLeftDf.configurePIDVA(P, I, D, V, A);
 		Robot.driveTrainCanBus.revRightDf.configurePIDVA(P, I, D, V, A);
@@ -49,8 +49,8 @@ public class PathfinderReverseTrajectoryUsingNotifier extends Command {
 		Robot.driveTrainCanBus.revRightDf.reset();
 
 		Robot.trajectoryRunning = true;
-
-		Robot.simpleCSVLogger.init(Robot.chosenFile + "Rev", Robot.names, Robot.units);
+		if (Robot.createTrajectoryDebugFile)
+			Robot.simpleCSVLogger.init(Robot.chosenFile + "Rev", Robot.names, Robot.units);
 
 		PathfinderReverseNotifier.startNotifier();
 
@@ -74,7 +74,8 @@ public class PathfinderReverseTrajectoryUsingNotifier extends Command {
 		RobotMap.driveLeftMotorA.setControlFramePeriod(ControlFrame.Control_3_General, 10);
 		RobotMap.driveRightMotorA.setControlFramePeriod(ControlFrame.Control_3_General, 10);
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(.5);
-		Robot.simpleCSVLogger.close();
+		if (Robot.createTrajectoryDebugFile)
+			Robot.simpleCSVLogger.close();
 		PathfinderReverseNotifier.stopNotfier();
 	}
 

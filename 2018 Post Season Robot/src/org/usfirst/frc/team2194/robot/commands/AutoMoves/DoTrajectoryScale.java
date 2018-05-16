@@ -31,9 +31,10 @@ public class DoTrajectoryScale extends CommandGroup {
 		// e.g. if Command1 requires chassis, and Command2 requires arm,
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
-		addParallel(new PathfinderTrajectoryUsingNotifier());
-		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
+		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
+		addSequential(new PathfinderTrajectoryUsingNotifier());
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SCALE_POSITION_INCHES));
+
 		addSequential(new OuttakeCube(.5));
 		addSequential(new SetFirstAutoCommandsDone());
 	}

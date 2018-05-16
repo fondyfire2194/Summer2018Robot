@@ -491,8 +491,8 @@ public class DriveTrainCanBus extends Subsystem {
 	}
 
 	public boolean closeToPosition() {
-		return Math.abs(leftPositionTargetFt - getLeftFeet()) < IN_POSITION_BANDWIDTH
-				&& Math.abs(rightPositionTargetFt - getRightFeet()) < IN_POSITION_BANDWIDTH;
+		return Math.abs(leftPositionTargetFt - getLeftFeet()) < CLOSE_POSITION_BANDWIDTH
+				&& Math.abs(rightPositionTargetFt - getRightFeet()) < CLOSE_POSITION_BANDWIDTH;
 	}
 
 	public void setEncoderPosition(driveSide side, double value) {
