@@ -56,7 +56,7 @@ public class PathfinderTrajectoryUsingNotifier extends Command {
 		Robot.driveTrainCanBus.leftDf.reset();
 		Robot.driveTrainCanBus.rightDf.reset();
 		Robot.trajectoryRunning = true;
-		if (Robot.createTrajectoryDebugFile)
+		if (Robot.createTrajectoryRunFile)
 			Robot.simpleCSVLogger.init(Robot.chosenFile, Robot.names, Robot.units);
 		scanCounter = 0;
 		startTime = Timer.getFPGATimestamp();
@@ -84,7 +84,7 @@ public class PathfinderTrajectoryUsingNotifier extends Command {
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(.5);
 		SmartDashboard.putNumber("Trajectory Time", Timer.getFPGATimestamp() - startTime);
 		PathfinderNotifier.stopNotfier();
-		if (Robot.createTrajectoryDebugFile)
+		if (Robot.createTrajectoryRunFile)
 			Robot.simpleCSVLogger.close();
 	}
 

@@ -49,7 +49,7 @@ public class PathfinderReverseTrajectoryUsingNotifier extends Command {
 		Robot.driveTrainCanBus.revRightDf.reset();
 
 		Robot.trajectoryRunning = true;
-		if (Robot.createTrajectoryDebugFile)
+		if (Robot.createTrajectoryRunFile)
 			Robot.simpleCSVLogger.init(Robot.chosenFile + "Rev", Robot.names, Robot.units);
 
 		PathfinderReverseNotifier.startNotifier();
@@ -74,7 +74,7 @@ public class PathfinderReverseTrajectoryUsingNotifier extends Command {
 		RobotMap.driveLeftMotorA.setControlFramePeriod(ControlFrame.Control_3_General, 10);
 		RobotMap.driveRightMotorA.setControlFramePeriod(ControlFrame.Control_3_General, 10);
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(.5);
-		if (Robot.createTrajectoryDebugFile)
+		if (Robot.createTrajectoryRunFile)
 			Robot.simpleCSVLogger.close();
 		PathfinderReverseNotifier.stopNotfier();
 	}

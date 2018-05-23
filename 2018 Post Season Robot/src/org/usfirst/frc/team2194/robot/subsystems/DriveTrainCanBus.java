@@ -34,7 +34,7 @@ public class DriveTrainCanBus extends Subsystem {
 
 	public DistanceFollower leftDf = new DistanceFollower();
 	public DistanceFollower rightDf = new DistanceFollower();
-	
+
 	public ReverseDistanceFollower revLeftDf = new ReverseDistanceFollower();
 	public ReverseDistanceFollower revRightDf = new ReverseDistanceFollower();
 
@@ -64,10 +64,10 @@ public class DriveTrainCanBus extends Subsystem {
 
 	private int MAGIC_MOTION_ACCEL_FPSPS = 10;
 
-	private double WHEELBASE_WIDTH = 2.7;// ft
+	public double WHEELBASE_WIDTH = 2.17;// ft
 
 	public double MM_FT_PER_DEGREE = Math.PI * WHEELBASE_WIDTH / 360;
-	
+
 	public boolean leftSideStopped;
 	public boolean rightSideStopped;
 	public boolean runStalledDetect;
@@ -80,10 +80,10 @@ public class DriveTrainCanBus extends Subsystem {
 	}
 
 	// order is Kp, Kd, Ka and Kturn
-	public static double[] LSW_L = { .4, 0, 0, 1};
-	public static double[] LSW_C = { .4, 0, 0, 1};
-	public static double[] RSW_C = { .4, 0, 0, 1};
-	public static double[] RSW_R = { .4, 0, 0, 1};
+	public static double[] LSW_L = { .4, 0, 0, 1 };
+	public static double[] LSW_C = { .4, 0, 0, 1 };
+	public static double[] RSW_C = { .4, 0, 0, 1 };
+	public static double[] RSW_R = { .4, 0, 0, 1 };
 
 	public static double[] LSW_L2 = { .8, 1.2, 0, .6 };
 	public static double[] LSW_C2 = { .5, 0, 0, .8 };
@@ -233,6 +233,10 @@ public class DriveTrainCanBus extends Subsystem {
 
 	public double getRightFeet() {
 		return getRightInches() / 12;
+	}
+
+	public double getRobotPositionFeet() {
+		return (getLeftFeet() + getRightFeet()) / 2;
 	}
 
 	public double getJoystickY() {

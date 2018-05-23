@@ -26,6 +26,9 @@ public class RobotDriveMonitor {
 	private double DRIVE_MOTOR_POWER_STOPPED_BAND = .005;
 	private int leftStoppedCounter;
 	private int rightStoppedCounter;
+	private double lastRobotPositionFt;
+	private double xLastChange;
+	private double yLastChange;
 
 	public RobotDriveMonitor() {
 
@@ -78,6 +81,27 @@ public class RobotDriveMonitor {
 			Robot.driveTrainCanBus.rightSideStopped = rightStoppedCounter > 2;
 
 		}
+		/*
+		 * Keep (approximate) track of robot position in X (up field) and Y (across
+		 * field) through computing distance moved (encoders) and angle turned (gyro).
+		 * 
+		 * Use formula Xchange = encoder distance change * cosine gyro angle.
+		 * 
+		 * and Y change = encoder distance change * - sine gyro angle
+		 * 
+		 * 
+		 * 
+		 */
+		double distanceChange = Robot.driveTrainCanBus.getRobotPositionFeet() - lastRobotPositionFt;
+
+		xLastChange = distanceChange * Math.cos(Math.toRadians(-Robot.sensors.getGyroYaw()));
+		Robot.xTotalChange += xLastChange;
+
+		yLastChange = -distanceChange * Math.sin(Math.toRadians(-Robot.sensors.getGyroYaw()));
+		Robot.yTotalChange += yLastChange;
+
+		lastRobotPositionFt = Robot.driveTrainCanBus.getRobotPositionFeet();
+
 	}
 
 }

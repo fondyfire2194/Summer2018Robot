@@ -74,7 +74,7 @@ public class PathfinderReverseNotifier {
 		RobotMap.driveLeftMotorA.set(ControlMode.PercentOutput, -DriveTrainCanBus.MINIMUM_START_PCT - left + turn);
 		RobotMap.driveRightMotorA.set(ControlMode.PercentOutput, -DriveTrainCanBus.MINIMUM_START_PCT - right - turn);
 
-		if (Robot.createTrajectoryDebugFile && passCounter > 1) {
+		if (passCounter > 1) {
 			/*
 			 * names = { "Step", "Left Cmd", "Left Ft", "Right Cmd ", "Right Ft",
 			 * "Angle Cmd", "Angle", "LeftSegVel", "left", "ActLeftVel", "RightSegVel",

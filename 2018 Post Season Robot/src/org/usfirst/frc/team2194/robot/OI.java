@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2194.robot;
 
 import org.usfirst.frc.team2194.robot.commands.LowerWings;
+import org.usfirst.frc.team2194.robot.commands.OperatorAcknowledge;
 import org.usfirst.frc.team2194.robot.commands.RaiseWings;
 import org.usfirst.frc.team2194.robot.commands.ResetScanValues;
 import org.usfirst.frc.team2194.robot.commands.Climber.DriveClimber;
@@ -12,6 +13,7 @@ import org.usfirst.frc.team2194.robot.commands.CubeHandler.ResetElevatorEncoder;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.RunElevatorFromGamepad;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnIntakeWheels;
+import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnWheelsToIntake;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.VariableOuttake;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoRobotMagicMotion;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoRobotOrient;
@@ -96,7 +98,7 @@ public class OI {
 
 	public JoystickButton jogElevator;
 	public JoystickButton variableOut;
-	
+
 	public JoystickButton lowerWings;
 	public JoystickButton raiseWings;
 
@@ -105,54 +107,45 @@ public class OI {
 		joystick1 = new Joystick(1);
 
 		intakeCube = new JoystickButton(joystick1, 1);
-		// intakeCube.whenPressed(new IntakeCube());
-		intakeCube.whileHeld(new TurnIntakeWheels(CubeHandler.INTAKE_SPEED));
-		intakeCube.whenReleased(new TurnIntakeWheels(0));
-		
+		 intakeCube.whenPressed(new TurnWheelsToIntake(CubeHandler.INTAKE_SPEED,5));
+//		intakeCube.whileHeld(new TurnIntakeWheels(CubeHandler.INTAKE_SPEED));
+//		intakeCube.whenReleased(new TurnIntakeWheels(0));
+		 SmartDashboard.putData("Intake Cube",new TurnWheelsToIntake(CubeHandler.INTAKE_SPEED,5));
+
 		variableOut = new JoystickButton(joystick1, 2);
 		variableOut.whileHeld(new VariableOuttake());
 		variableOut.whenReleased(new TurnIntakeWheels(0));
-		
+
 		closeIntakeArms = new JoystickButton(joystick1, 3);
 		closeIntakeArms.whenPressed(new CloseIntakeArms());
-		
+
 		spinCube = new JoystickButton(joystick1, 4);
 		spinCube.whileHeld(new SpinCube(true));
 		spinCube.whenReleased(new TurnIntakeWheels(0));
-		
-		
+
 		openIntakeArms = new JoystickButton(joystick1, 5);
 		openIntakeArms.whenPressed(new OpenIntakeArms());
-		
-		
+
 		climbBackward = new JoystickButton(joystick1, 8);
 		climbBackward.whileHeld(new DriveClimber(-.9));
 		climbBackward.whenReleased(new StopClimber());
-		
+
 		climbForward = new JoystickButton(joystick1, 7);
 		climbForward.whileHeld(new DriveClimber(.9));
 		climbForward.whenReleased(new StopClimber());
-		
+
 		lowerWings = new JoystickButton(joystick1, 9);
 		lowerWings.whenPressed(new LowerWings());
-		
+
 		raiseWings = new JoystickButton(joystick1, 10);
 		raiseWings.whenPressed(new RaiseWings());
-
-		
-
-		
-
-		
-
-		
 
 		elevatorToBottomPosition = gamepad.getButtonA();
 		elevatorToBottomPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
 
 		elevatorToTravelPosition = gamepad.getButtonB();
 		elevatorToTravelPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_TRAVEL_POSITION_INCHES));
-		
+
 		elevatorToScalePosition = gamepad.getButtonY();
 		elevatorToScalePosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SCALE_POSITION_INCHES));
 
@@ -162,13 +155,12 @@ public class OI {
 
 		elevatorToSwitchPosition = gamepad.getLeftShoulder();
 		elevatorToSwitchPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
-		
+
 		elevatorToPortalPosition = gamepad.getRightShoulder();
-		elevatorToPortalPosition
-		.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PORTAL_POSITION_INCHES));
-		
+		elevatorToPortalPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PORTAL_POSITION_INCHES));
+
 		stopIntakeWheels = gamepad.getLeftTriggerClick();
-		//stopIntakeWheels.whenPressed(new TurnIntakeWheels(0));
+		// stopIntakeWheels.whenPressed(new TurnIntakeWheels(0));
 		stopIntakeWheels.whileHeld(new DriveClimber(-.9));
 		stopIntakeWheels.whenReleased(new StopClimber());
 		elevatorToExchange = gamepad.getRightTriggerClick();
@@ -176,8 +168,6 @@ public class OI {
 
 		jogElevator = gamepad.getStartButton();
 		jogElevator.whileHeld(new RunElevatorFromGamepad());
-
-		
 
 		SmartDashboard.putData("Reset Encoders", new ResetEncoders());
 		SmartDashboard.putData("Reset Gyro", new ResetGyro());
@@ -193,7 +183,7 @@ public class OI {
 		SmartDashboard.putData("Vision Motion Robot", new DoRobotVisionPosition());
 		SmartDashboard.putData("Turn To Vision Robot", new DoRobotTurnToVision());
 		SmartDashboard.putData("Reset Elevator Position", new ResetElevatorEncoder());
-
+		SmartDashboard.putData("Operator Acknowledge", new OperatorAcknowledge());
 	}
 
 	public Joystick getgamepad() {

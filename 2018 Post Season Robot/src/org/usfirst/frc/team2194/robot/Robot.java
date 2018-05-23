@@ -5,32 +5,15 @@ import java.io.File;
 
 import org.usfirst.frc.team2194.robot.commands.TimeDelay;
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoCrossLineMove;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoLeftScaleFromLeftMove;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoLeftScaleFromRightMove;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoLeftSwitchFromCenterMove;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoLeftSwitchFromLeftMove;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoLeftSwitchFromRightMove;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightScaleFromLeftMove;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightScaleFromRightMove;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightSwitchFromCenterMove;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightSwitchFromLeftMove;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightSwitchFromRightMove;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoTrajectoryScale;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoTrajectorySwitch;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftScale;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenter;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeft;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeftWithPickup;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromRight;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightScale;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromCenter;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromLeft;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRight;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRightWithPickup;
+import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopTrajectorySwitch;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveMagicMotion;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveToPosition;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveToVisionTarget;
 import org.usfirst.frc.team2194.robot.commands.Motion.MMRotateToVision;
+import org.usfirst.frc.team2194.robot.commands.Motion.PathfinderReverseTrajectoryUsingNotifier;
+import org.usfirst.frc.team2194.robot.commands.Motion.PathfinderTrajectoryUsingNotifier;
 import org.usfirst.frc.team2194.robot.commands.Motion.RobotOrient;
 import org.usfirst.frc.team2194.robot.commands.Motion.RunFromGamepadCanBus;
 import org.usfirst.frc.team2194.robot.subsystems.AirCompressor;
@@ -80,8 +63,6 @@ public class Robot extends IterativeRobot {
 
 	public static BuildTrajectory buildTrajectory;
 
-	public static boolean useProfileTrajectories = false;
-	public static boolean doMotion1Option;// first profile files not found
 	public static boolean doMotionOption;
 	public static boolean driveStraight;
 	public static float yawTarget;
@@ -109,6 +90,7 @@ public class Robot extends IterativeRobot {
 	private SendableChooser<Integer> sameSideChooser;
 	private SendableChooser<Integer> startPositionChooser;
 	private SendableChooser<Integer> oppositeSidePriorityChooser;
+	private SendableChooser<Integer> testTrajectoryChooser;
 
 	public boolean onBlueAlliance;
 	public boolean onRedAlliance;
@@ -116,7 +98,7 @@ public class Robot extends IterativeRobot {
 	public static boolean trajectoryRunning;
 	public static Trajectory activeLeftTrajectory;
 	public static Trajectory activeRightTrajectory;
-	public static boolean createTrajectoryDebugFile;
+	public static boolean createTrajectoryRunFile = true;
 	public static String chosenFile = "None Chosen";
 
 	private Integer startPosition = 0;
@@ -131,16 +113,17 @@ public class Robot extends IterativeRobot {
 	public boolean leftSwitchActive;
 	public boolean rightSwitchActive;
 	public boolean leftScaleActive;
+
 	public boolean rightScaleActive;
 	public boolean otherLeftSwitchActive;
 	public boolean otherRightSwitchActive;
 
 	public boolean doLeftSwitchFromLeft;
 	public boolean doLeftSwitchFromRight;
-	public boolean doLeftSwitchFromCenter;
+	public static boolean doLeftSwitchFromCenter;
 	public boolean doRightSwitchFromRight;
 	public boolean doRightSwitchFromLeft;
-	public boolean doRightSwitchFromCenter;
+	public static boolean doRightSwitchFromCenter;
 
 	private boolean sameSideAvailable;
 	private boolean sameSideSwitchAvailable;
@@ -180,6 +163,10 @@ public class Robot extends IterativeRobot {
 	public static boolean doTeleopMagicMotion;
 	public static boolean doTeleopVisionMotion;
 	public static boolean doTeleopRotateToVision;
+	private Integer testTrajectory;
+	private String trajFileName;
+	public static driveSide continuingSide;
+	public static double continuingAngle;;
 
 	public static boolean cancelGamepad;
 	public static boolean isInHighGear;
@@ -209,12 +196,26 @@ public class Robot extends IterativeRobot {
 
 	private int updateStatusCounter;
 	private boolean autonomousSequenceStarted;
+	private static boolean oppositeSideSwitch;
+	private static boolean secondaryTrajectory;
 
 	public static String[] names = { "Step", "Left Cmd", "Left Ft", "Right Cmd ", "Right Ft", "Angle Cmd", "Angle",
 			"LeftSegVel", "left", "ActLeftVel", "RightSegVel", "right", "ActRightVel", "turn" };
 	public static String[] units = { "Number", "FT", "FT", "FT", "FT", "Deg", "Deg", "pct", "pct", "pct", "pct", "pct",
 			"pct", "pct" };
-	public static String usbFilePath = "/media/sda1/TrajCSV/";
+
+	public static String[] intakeNames = { "Time", "Left Amps", "Left Volts", "Right Amps", "Right Volts" };
+	public static String[] intakeUnits = { "mS", "Amps", "Amps", "Volts", "Volts" };
+
+	public static String usbFilePath = "/U";
+	public static boolean createIntakeRunFile = true;
+	public static boolean singleStep;
+	public static boolean operatorAcknowledge;
+	public static double xTotalChange;
+	public static double yTotalChange;
+	public static boolean useVision = false;
+	public static double xPosition;
+	public static double yPosition;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -232,7 +233,7 @@ public class Robot extends IterativeRobot {
 
 		// freeMemory = Runtime.getRuntime().freeMemory();
 
-		powerPanel = new PowerPanel();
+		// powerPanel = new PowerPanel();
 		airCompressor = new AirCompressor();
 
 		driveTrainCanBus = new DriveTrainCanBus();
@@ -250,7 +251,8 @@ public class Robot extends IterativeRobot {
 		robotRotate = new RobotRotate();
 		climber = new Climber();
 
-		allCameras = new AllCameras();
+		if (useVision)
+			allCameras = new AllCameras();
 		// driveMonitor = new RobotDriveMonitor();
 
 		Scheduler.getInstance().run();
@@ -275,6 +277,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putNumber("XPixelTarget", 5);
 
+		SmartDashboard.putBoolean("Single Step", singleStep);
 		if (!RobotMap.elevatorSwitch.get() && cubeHandler.holdPositionInches != 0
 				&& cubeHandler.getElevatorEncoderPosition() != 0) {
 			cubeHandler.resetElevatorPosition();
@@ -289,6 +292,37 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 
 		Timer.delay(.1);
+
+		testTrajectoryChooser = new SendableChooser<Integer>();
+
+		testTrajectoryChooser.addDefault("Test", 0);
+		testTrajectoryChooser.addObject("LSW_L", 1);
+		testTrajectoryChooser.addObject("LSW_L1 REV", 11);
+		testTrajectoryChooser.addObject("LSW_L2", 12);
+
+		testTrajectoryChooser.addObject("LSW_C", 2);
+		testTrajectoryChooser.addObject("LSW_C1 REV", 21);
+		testTrajectoryChooser.addObject("LSW_C2 REV", 22);
+
+		testTrajectoryChooser.addObject("LSW_R", 3);
+
+		testTrajectoryChooser.addObject("RSW_R", 4);
+		testTrajectoryChooser.addObject("RSW_R1 REV", 41);
+		testTrajectoryChooser.addObject("RSW_R2", 42);
+
+		testTrajectoryChooser.addObject("RSW_C", 5);
+		testTrajectoryChooser.addObject("RSW_C1 REV", 51);
+		testTrajectoryChooser.addObject("RSW_C2 REV", 52);
+
+		testTrajectoryChooser.addObject("RSW_L", 6);
+
+		testTrajectoryChooser.addObject("LSC_L", 7);
+		testTrajectoryChooser.addObject("LSC_R", 8);
+
+		testTrajectoryChooser.addObject("RSC_R", 9);
+		testTrajectoryChooser.addObject("RSC_L", 10);
+
+		SmartDashboard.putData("Trajectory Chooser", testTrajectoryChooser);
 
 		startPositionChooser = new SendableChooser<Integer>();
 
@@ -629,7 +663,8 @@ public class Robot extends IterativeRobot {
 		secondAutonomousCommandStarted = false;
 		secondAutonomousCommandsDone = false;
 
-		allCameras.cubeVisionTurnedOn = true;
+		if (useVision)
+			allCameras.cubeVisionTurnedOn = true;
 
 	}
 
@@ -688,7 +723,8 @@ public class Robot extends IterativeRobot {
 		if (secondAutonomousCommand != null)
 			secondAutonomousCommand.cancel();
 
-		allCameras.cubeVisionTurnedOn = false;
+		if (useVision)
+			allCameras.cubeVisionTurnedOn = false;
 
 		trajectoryRunning = false;
 		motionCommandComplete = false;
@@ -716,6 +752,7 @@ public class Robot extends IterativeRobot {
 		// System.out.print("RIO MEM Load: ");
 		// System.out.println(loadMon.getMemLoadPct());
 		// System.out.println("===============================\n\n\n");
+		Scheduler.getInstance().run();
 
 		if (doTeleopPosition) {
 			positionTarget = SmartDashboard.getNumber("Target Feet", 5);
@@ -765,8 +802,170 @@ public class Robot extends IterativeRobot {
 			}
 			doTeleopOrient = false;
 		}
+		if ((doTeleopTrajectory || doTeleopRevTrajectory) && !trajectoryRunning) {
+			leftStartPosition = false;
+			centerStartPosition = false;
+			rightStartPosition = false;
+			isSwitch = false;
+			isScale = false;
+			secondaryTrajectory = false;
+			oppositeSideSwitch = false;
 
-		Scheduler.getInstance().run();
+			testTrajectory = testTrajectoryChooser.getSelected();
+
+			switch (testTrajectory) {
+
+			case 0:
+				trajFileName = "Test";
+				break;
+			case 1:
+				trajFileName = "LSW_L";
+				continuingAngle = 90;
+				continuingSide = driveSide.left;
+				leftStartPosition = true;
+				isSwitch = true;
+				oppositeSideSwitch = false;
+				break;
+			case 11:
+				trajFileName = "LSW_L1";
+				leftStartPosition = true;
+				isSwitch = true;
+				break;
+			case 12:
+				trajFileName = "LSW_L2";
+				leftStartPosition = true;
+				secondaryTrajectory = true;
+				isSwitch = true;
+				break;
+
+			case 2:
+				trajFileName = "LSW_C";
+				continuingAngle = 0;
+				continuingSide = driveSide.left;
+				centerStartPosition = true;
+				isSwitch = true;
+				oppositeSideSwitch = false;
+				break;
+			case 21:
+				trajFileName = "LSW_C1";
+				centerStartPosition = true;
+				isSwitch = true;
+				break;
+			case 22:
+				trajFileName = "LSW_C2";
+				centerStartPosition = true;
+				isSwitch = true;
+				break;
+
+			case 3:
+				trajFileName = "LSW_R";
+				oppositeSideSwitch = true;
+				rightStartPosition = true;
+				isSwitch = true;
+				oppositeSideSwitch = true;
+				break;
+			case 4:
+				trajFileName = "RSW_R";
+				continuingAngle = -90;
+				continuingSide = driveSide.right;
+				rightStartPosition = true;
+				isSwitch = true;
+				oppositeSideSwitch = false;
+				break;
+			case 41:
+				trajFileName = "RSW_R1";
+				rightStartPosition = true;
+				break;
+			case 42:
+				trajFileName = "RSW_R2";
+				rightStartPosition = true;
+				secondaryTrajectory = true;
+				break;
+
+			case 5:
+				trajFileName = "RSW_C";
+				continuingAngle = 0;
+				continuingSide = driveSide.right;
+				centerStartPosition = true;
+				isSwitch = true;
+				oppositeSideSwitch = false;
+				break;
+			case 51:
+				trajFileName = "RSW_C1";
+				centerStartPosition = true;
+				isSwitch = true;
+				break;
+			case 52:
+				trajFileName = "RSW_C2";
+				rightStartPosition = true;
+				isSwitch = true;
+				break;
+
+			case 6:
+				trajFileName = "RSW_L";
+				leftStartPosition = true;
+				isSwitch = true;
+				oppositeSideSwitch = true;
+				break;
+			case 7:
+				trajFileName = "LSC_L";
+				leftStartPosition = true;
+				isScale = true;
+				break;
+			case 8:
+				trajFileName = "LSC_R";
+				rightStartPosition = true;
+				isScale = true;
+				break;
+			case 9:
+				trajFileName = "RSC_R";
+				rightStartPosition = true;
+				isScale = true;
+				break;
+			case 10:
+				trajFileName = "RSC_L";
+				leftStartPosition = true;
+				isScale = true;
+				break;
+
+			default:
+				trajFileName = "Test";
+				break;
+			}
+			if (doTeleopTrajectory) {
+				doMotionOption = !checkUsbFilePath();
+				if (buildTrajectory.buildFileName(trajFileName, DriveTrainCanBus.Test)) {
+					if (!Robot.doMotionOption) {
+						constantsFromPrefs();
+						driveTrainCanBus.resetEncoders();
+						sensors.resetGyro();
+						if (isScale || secondaryTrajectory || isSwitch && oppositeSideSwitch)
+							new PathfinderTrajectoryUsingNotifier().start();
+						else
+							new DoTeleopTrajectorySwitch().start();
+						trajectoryRunning = true;
+					}
+					doTeleopTrajectory = false;
+				}
+			}
+		}
+
+		if (doTeleopRevTrajectory && !trajectoryRunning) {
+			doMotionOption = !checkUsbFilePath();
+			if (buildTrajectory.buildFileName(trajFileName, DriveTrainCanBus.Test)) {
+				if (!Robot.doMotionOption) {
+					constantsFromPrefs();
+					driveTrainCanBus.resetEncoders();
+					new PathfinderReverseTrajectoryUsingNotifier().start();
+					trajectoryRunning = true;
+				}
+				doTeleopRevTrajectory = false;
+			}
+		}
+		if (doMotionOption) {
+			doTeleopRevTrajectory = false;
+			doTeleopTrajectory = false;
+		}
 
 		updateStatus();
 	}
@@ -813,11 +1012,11 @@ public class Robot extends IterativeRobot {
 			break;
 
 		case 4:
-			allCameras.updateStatus();
+			if (useVision)
+				allCameras.updateStatus();
 			break;
 
 		case 5:
-
 			SmartDashboard.putBoolean("Prox", RobotMap.testProx.get());
 			SmartDashboard.putBoolean("PositionRunning", positionRunning);
 			SmartDashboard.putBoolean("MagicMotionRunning", magicMotionRunning);
@@ -829,7 +1028,6 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putBoolean("Motion Option", doMotionOption);
 			SmartDashboard.putBoolean("MotCmdRng", motionCommandRunning);
 			SmartDashboard.putBoolean("MotCmdCmplt", motionCommandComplete);
-			SmartDashboard.putBoolean("Use Traj", useProfileTrajectories);
 			SmartDashboard.putBoolean("Auto1 Startd", firstAutonomousCommandStarted);
 			SmartDashboard.putBoolean("Auto1Dn", firstAutonomousCommandDone);
 			SmartDashboard.putBoolean("Auto2Started", secondAutonomousCommandStarted);
@@ -837,11 +1035,8 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("AngTar", angleTarget);
 			SmartDashboard.putBoolean("Gamepad", oi.gamepad.getButtonStateA() || oi.gamepad.getButtonStateX()
 					|| oi.gamepad.getButtonStateB() || oi.gamepad.getButtonStateY());
-
-			// if (activeLeftTrajectory != null) {
-			// SmartDashboard.putNumber("Traj Segment #L", activeLeftTrajectory.length());
-			// SmartDashboard.putNumber("Traj Segment #R", activeRightTrajectory.length());
-			// }
+			SmartDashboard.putNumber("X Position", xPosition);
+			SmartDashboard.putNumber("Y Position", yPosition);
 			break;
 		case 6:
 			cubeHandler.updateStatus();
@@ -865,19 +1060,11 @@ public class Robot extends IterativeRobot {
 			DriverStation.reportError("Prefs Array Mismatch" + names, false);
 	}
 
-	private void constantsFromPrefs(int number) {
-		if (number == 1) {
-			activeTrajectoryGains[0] = prefs.getDouble("PathP", DriveTrainCanBus.drivePrefsDefaults[14]);
-			activeTrajectoryGains[1] = prefs.getDouble("PathD", DriveTrainCanBus.drivePrefsDefaults[15]);
-			activeTrajectoryGains[2] = prefs.getDouble("PathA", DriveTrainCanBus.drivePrefsDefaults[16]);
-			activeTrajectoryGains[3] = prefs.getDouble("PathTurn", DriveTrainCanBus.drivePrefsDefaults[17]);
-
-		} else {
-			activeTrajectoryTwoGains[0] = prefs.getDouble("PathP2", DriveTrainCanBus.drivePrefsDefaults[18]);
-			activeTrajectoryTwoGains[1] = prefs.getDouble("PathD2", DriveTrainCanBus.drivePrefsDefaults[19]);
-			activeTrajectoryTwoGains[2] = prefs.getDouble("PathA2", DriveTrainCanBus.drivePrefsDefaults[20]);
-			activeTrajectoryTwoGains[3] = prefs.getDouble("PathTurn2", DriveTrainCanBus.drivePrefsDefaults[21]);
-		}
+	private void constantsFromPrefs() {
+		activeTrajectoryGains[0] = prefs.getDouble("PathP", DriveTrainCanBus.drivePrefsDefaults[14]);
+		activeTrajectoryGains[1] = prefs.getDouble("PathD", DriveTrainCanBus.drivePrefsDefaults[15]);
+		activeTrajectoryGains[2] = prefs.getDouble("PathA", DriveTrainCanBus.drivePrefsDefaults[16]);
+		activeTrajectoryGains[3] = prefs.getDouble("PathTurn", DriveTrainCanBus.drivePrefsDefaults[17]);
 	}
 
 	public static boolean checkUsbFilePath() {
@@ -895,7 +1082,7 @@ public class Robot extends IterativeRobot {
 			}
 		}
 		if (temp)
-			SmartDashboard.putString("USB ", usbFilePath);
+			SmartDashboard.putString("USB Path", usbFilePath);
 		else
 			SmartDashboard.putString("USB ", "Not Found");
 		return temp;

@@ -4,6 +4,7 @@ import org.usfirst.frc.team2194.robot.DistCon;
 import org.usfirst.frc.team2194.robot.Robot.motionType;
 import org.usfirst.frc.team2194.robot.commands.AlertDriver;
 import org.usfirst.frc.team2194.robot.commands.TimeDelay;
+import org.usfirst.frc.team2194.robot.commands.WaitForOperator;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.CloseIntakeArms;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.OuttakeCube;
@@ -44,8 +45,9 @@ public class DoLeftSwitchFromCenterUsingTrajectories extends CommandGroup {
 		 * degrees. The trajectory is defined from the switch and moves in reverse.
 		 * Reset encoders first as reverse trajectory requires this
 		 */
-		addSequential(new ResetEncoders());
 
+		addSequential(new ResetEncoders());
+		addSequential(new WaitForOperator());
 		addParallel(new AlertDriver("Running Reverse Traj LSWC1"));
 		addSequential(new RunReverseTrajectory("LSW_C1", DriveTrainCanBus.LSW_C));
 
@@ -55,6 +57,7 @@ public class DoLeftSwitchFromCenterUsingTrajectories extends CommandGroup {
 		addSequential(new SetDriveStraightAngle(50));
 
 		addSequential(new ResetEncoders());
+		addSequential(new WaitForOperator());
 
 		addParallel(new AlertDriver("Driving to Position 5.5"));
 		addSequential(new DriveToPosition(5.5, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, 2));
@@ -64,6 +67,7 @@ public class DoLeftSwitchFromCenterUsingTrajectories extends CommandGroup {
 		addSequential(new TimeDelay(1));
 		//
 		addSequential(new TurnWheelsToIntake(.5, 1));
+		addSequential(new WaitForOperator());
 
 		addParallel(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, 2));
 		/*
@@ -73,6 +77,7 @@ public class DoLeftSwitchFromCenterUsingTrajectories extends CommandGroup {
 		 */
 
 		addSequential(new ResetEncoders());
+		addSequential(new WaitForOperator());
 
 		addParallel(new AlertDriver("Trajectory LSWC2"));
 		addSequential(new RunReverseTrajectory("LSW_C2", DriveTrainCanBus.LSW_C));
@@ -84,6 +89,7 @@ public class DoLeftSwitchFromCenterUsingTrajectories extends CommandGroup {
 		addSequential(new SetDriveStraightAngle(0));
 
 		addSequential(new ResetEncoders());
+		addSequential(new WaitForOperator());
 
 		addParallel(new AlertDriver("Positon to Switch Wall"));
 
@@ -92,6 +98,7 @@ public class DoLeftSwitchFromCenterUsingTrajectories extends CommandGroup {
 		addSequential(new OuttakeCube(.5));
 
 		addSequential(new ResetEncoders());
+		addSequential(new WaitForOperator());
 
 		addParallel(new AlertDriver("Retracting"));
 		addSequential(new DriveMagicMotion(-2, motionType.absolute, driveSide.both, DistCon.SHORT_POSITION_RATE, 2.5));

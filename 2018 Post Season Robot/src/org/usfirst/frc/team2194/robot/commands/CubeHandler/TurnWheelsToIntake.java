@@ -2,6 +2,7 @@ package org.usfirst.frc.team2194.robot.commands.CubeHandler;
 
 import org.usfirst.frc.team2194.robot.Robot;
 import org.usfirst.frc.team2194.robot.RobotMap;
+import org.usfirst.frc.team2194.robot.commands.AlertDriver;
 import org.usfirst.frc.team2194.robot.subsystems.CubeHandler;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -33,18 +34,29 @@ public class TurnWheelsToIntake extends Command {
 		Robot.cubeHandler.intakeWheelsTurn(mySpeed);
 		highCurrentTime = 0;
 		currentPeakSeen = false;
-		startTime = Timer.getFPGATimestamp();
 		setTimeout(myTimeout);
+		new AlertDriver("File Started").start();
+		if (Robot.createIntakeRunFile)
+			Robot.simpleCSVLogger.init("Intake", Robot.intakeNames, Robot.intakeUnits);
+		startTime = Timer.getFPGATimestamp();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (Timer.getFPGATimestamp() - startTime > waitForMotorStartedTime) {
-			if ((highCurrentTime == 0) && (RobotMap.intakeLeftMotor.getOutputCurrent() > highCurrentLimit)
-					|| RobotMap.intakeRightMotor.getOutputCurrent() > highCurrentLimit)
-				highCurrentTime = Timer.getFPGATimestamp();
-			if (highCurrentTime != 0 && Timer.getFPGATimestamp() - highCurrentLimit > highCurrentTimeLimit)
-				currentPeakSeen = true;
+			// if ((highCurrentTime == 0) && (RobotMap.intakeLeftMotor.getOutputCurrent() >
+			// highCurrentLimit)
+			// || RobotMap.intakeRightMotor.getOutputCurrent() > highCurrentLimit)
+			// highCurrentTime = Timer.getFPGATimestamp();
+			// if (highCurrentTime != 0 && Timer.getFPGATimestamp() - highCurrentLimit >
+			// highCurrentTimeLimit)
+			// currentPeakSeen = true;
+			if (Robot.createIntakeRunFile) {
+				Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime),
+						RobotMap.intakeLeftMotor.getOutputCurrent(), RobotMap.intakeLeftMotor.getMotorOutputVoltage(),
+						RobotMap.intakeRightMotor.getOutputCurrent(),
+						RobotMap.intakeRightMotor.getMotorOutputVoltage());
+			}
 		}
 	}
 
@@ -56,6 +68,8 @@ public class TurnWheelsToIntake extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.cubeHandler.intakeWheelsTurn(0);
+		if (Robot.createIntakeRunFile)
+			Robot.simpleCSVLogger.close();
 	}
 
 	// Called when another command which requires one or more of the same

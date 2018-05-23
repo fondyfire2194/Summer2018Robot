@@ -1,8 +1,6 @@
 package org.usfirst.frc.team2194.robot;
 
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
-import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.Notifier;
@@ -97,14 +95,7 @@ public class PathfinderNotifier {
 		double leftPct = DriveTrainCanBus.MINIMUM_START_PCT + (left + turn);
 		double rightPct = DriveTrainCanBus.MINIMUM_START_PCT + (right - turn);
 
-		if ((Robot.stopSide == driveSide.left)
-				&& segmentCounter >= (activeTrajectoryLength - Robot.stopSideZeroSegments))
-			leftPct = 0;
-		if ((Robot.stopSide == driveSide.right)
-				&& segmentCounter >= (activeTrajectoryLength - Robot.stopSideZeroSegments))
-			rightPct = 0;
-
-		if (Robot.createTrajectoryDebugFile && segmentCounter < activeTrajectoryLength - 1) {
+		if (segmentCounter < activeTrajectoryLength - 1) {
 			/*
 			 * write linear and angular data to file
 			 * 
