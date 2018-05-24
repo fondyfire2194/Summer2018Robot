@@ -1,17 +1,11 @@
 package org.usfirst.frc.team2194.robot.commands.Motion;
 
 import org.usfirst.frc.team2194.robot.Robot;
-import org.usfirst.frc.team2194.robot.Robot.motionType;
-import org.usfirst.frc.team2194.robot.commands.AlertDriver;
 import org.usfirst.frc.team2194.robot.RobotMap;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *

@@ -2,11 +2,9 @@ package org.usfirst.frc.team2194.robot.commands.Climber;
 
 import org.usfirst.frc.team2194.robot.Robot;
 import org.usfirst.frc.team2194.robot.RobotMap;
-import org.usfirst.frc.team2194.robot.commands.Motion.RunFromGamepadCanBus;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-import edu.wpi.first.wpilibj.GamepadBase;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**

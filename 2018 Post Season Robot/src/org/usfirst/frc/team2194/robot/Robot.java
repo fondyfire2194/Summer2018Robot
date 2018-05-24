@@ -211,8 +211,6 @@ public class Robot extends IterativeRobot {
 	public static boolean createIntakeRunFile = true;
 	public static boolean singleStep;
 	public static boolean operatorAcknowledge;
-	public static double xTotalChange;
-	public static double yTotalChange;
 	public static boolean useVision = false;
 	public static double xPosition;
 	public static double yPosition;
@@ -253,7 +251,7 @@ public class Robot extends IterativeRobot {
 
 		if (useVision)
 			allCameras = new AllCameras();
-		// driveMonitor = new RobotDriveMonitor();
+		driveMonitor = new RobotDriveMonitor();
 
 		Scheduler.getInstance().run();
 

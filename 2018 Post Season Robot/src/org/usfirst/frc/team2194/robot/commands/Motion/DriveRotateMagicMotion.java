@@ -1,44 +1,33 @@
 package org.usfirst.frc.team2194.robot.commands.Motion;
 
 import org.usfirst.frc.team2194.robot.Robot;
-import org.usfirst.frc.team2194.robot.Robot.motionType;
-import org.usfirst.frc.team2194.robot.RobotMap;
-import org.usfirst.frc.team2194.robot.SD;
-import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
-
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ *Rotates angle amount using Magic Motion
  */
 public class DriveRotateMagicMotion extends Command {
-	private double myTargetFt;
+	private double myTargetAngle;
 	private double myFtPerSec;
 	private double myTimeout;
-	private motionType myType;
 
-	public DriveRotateMagicMotion(double targetPositionFt, motionType type, double ftPerSecond, double timeout) {
+	public DriveRotateMagicMotion(double targetAngle, double ftPerSecond, double timeout) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.driveTrainCanBus);
 
-		myTargetFt = targetPositionFt;
+		myTargetAngle = targetAngle;
 		myFtPerSec = ftPerSecond;
 		myTimeout = timeout;
-		myType = type;
 
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if (myType == motionType.incremental) {
-			myTargetFt += Robot.driveTrainCanBus.getLeftFeet();
-		}
-		Robot.driveTrainCanBus.leftPositionTargetFt = myTargetFt;
-		Robot.driveTrainCanBus.rightPositionTargetFt = -myTargetFt;
+		Robot.driveTrainCanBus.leftPositionTargetFt = myTargetAngle * Robot.driveTrainCanBus.MM_FT_PER_DEGREE;
+		Robot.driveTrainCanBus.rightPositionTargetFt = -myTargetAngle * Robot.driveTrainCanBus.MM_FT_PER_DEGREE;
 
 		setTimeout(myTimeout);
 

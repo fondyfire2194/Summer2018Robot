@@ -3,7 +3,6 @@ package org.usfirst.frc.team2194.robot.commands.AutoMoves;
 import org.usfirst.frc.team2194.robot.DistCon;
 import org.usfirst.frc.team2194.robot.Robot.motionType;
 import org.usfirst.frc.team2194.robot.commands.SetFirstAutoCommandsDone;
-import org.usfirst.frc.team2194.robot.commands.TimeDelay;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveToPosition;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetEncoders;

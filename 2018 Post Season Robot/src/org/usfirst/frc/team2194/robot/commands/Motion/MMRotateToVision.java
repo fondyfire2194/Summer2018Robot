@@ -1,10 +1,5 @@
 package org.usfirst.frc.team2194.robot.commands.Motion;
 
-import org.usfirst.frc.team2194.robot.Robot;
-import org.usfirst.frc.team2194.robot.Robot.motionType;
-import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
-
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -30,8 +25,7 @@ public class MMRotateToVision extends CommandGroup {
 		 * 
 		 */
 		addSequential(new ResetEncoders());
-		addSequential(new DriveRotateMagicMotion(angle * Robot.driveTrainCanBus.MM_FT_PER_DEGREE, motionType.absolute,
-				rate, 5));
+		addSequential(new DriveRotateMagicMotion(angle, rate, 5));
 
 	}
 }

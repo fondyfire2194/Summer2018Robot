@@ -4,7 +4,6 @@ import org.usfirst.frc.team2194.robot.DistCon;
 import org.usfirst.frc.team2194.robot.Robot.motionType;
 import org.usfirst.frc.team2194.robot.commands.AlertDriver;
 import org.usfirst.frc.team2194.robot.commands.TimeDelay;
-import org.usfirst.frc.team2194.robot.commands.CubeHandler.CloseIntakeArms;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.OuttakeCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;

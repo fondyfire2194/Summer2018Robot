@@ -1,12 +1,33 @@
 package org.usfirst.frc.team2194.robot;
 
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoLeftScaleFromLeftMove;
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoLeftScaleFromRightMove;
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoLeftSwitchFromCenterMove;
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoLeftSwitchFromLeftMove;
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoLeftSwitchFromRightMove;
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightScaleFromLeftMove;
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightScaleFromRightMove;
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightSwitchFromCenterMove;
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightSwitchFromLeftMove;
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightSwitchFromRightMove;
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoTrajectoryScale;
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoTrajectorySwitch;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftScale;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenter;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenterUsingTrajectories;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeft;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeftUsingTrajectories;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromRight;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightScale;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromCenter;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromCenterUsingTrajectories;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromLeft;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRight;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRightUsingTrajectories;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
-
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.*;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.*;
 
 public enum PathSelectAuto {
 	/*

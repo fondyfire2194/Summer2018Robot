@@ -95,10 +95,10 @@ public class RobotDriveMonitor {
 		double distanceChange = Robot.driveTrainCanBus.getRobotPositionFeet() - lastRobotPositionFt;
 
 		xLastChange = distanceChange * Math.cos(Math.toRadians(-Robot.sensors.getGyroYaw()));
-		Robot.xTotalChange += xLastChange;
+		Robot.xPosition += xLastChange;
 
 		yLastChange = -distanceChange * Math.sin(Math.toRadians(-Robot.sensors.getGyroYaw()));
-		Robot.yTotalChange += yLastChange;
+		Robot.yPosition += yLastChange;
 
 		lastRobotPositionFt = Robot.driveTrainCanBus.getRobotPositionFeet();
 

@@ -3,7 +3,6 @@ package org.usfirst.frc.team2194.robot.commands.AutoMoves;
 import org.usfirst.frc.team2194.robot.commands.SetFirstAutoCommandsDone;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.OuttakeCube;
-
 import org.usfirst.frc.team2194.robot.commands.Motion.PathfinderTrajectoryUsingNotifier;
 import org.usfirst.frc.team2194.robot.subsystems.CubeHandler;
 

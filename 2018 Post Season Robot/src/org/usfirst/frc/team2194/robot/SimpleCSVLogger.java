@@ -1,12 +1,12 @@
 package org.usfirst.frc.team2194.robot;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import java.io.BufferedWriter;
 
 /*
  *******************************************************************************************
