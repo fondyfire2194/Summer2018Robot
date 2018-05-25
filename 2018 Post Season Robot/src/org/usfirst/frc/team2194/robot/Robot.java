@@ -224,8 +224,8 @@ public class Robot extends IterativeRobot {
 		RobotMap.init();
 		DistCon.init();
 		// DistCon.updateStatus();
-		// loadMon = new CasseroleRIOLoadMonitor();
-
+//		loadMon = new CasseroleRIOLoadMonitor();
+		driveMonitor = new RobotDriveMonitor();
 		prefs = Preferences.getInstance();
 		simpleCSVLogger = new SimpleCSVLogger();
 
@@ -251,7 +251,6 @@ public class Robot extends IterativeRobot {
 
 		if (useVision)
 			allCameras = new AllCameras();
-		driveMonitor = new RobotDriveMonitor();
 
 		Scheduler.getInstance().run();
 
@@ -987,7 +986,10 @@ public class Robot extends IterativeRobot {
 		switch (updateStatusCounter) {
 		case 0:
 			// DistCon.updateStatus();
-			// loadMon.updateStatus();
+//			loadMon.updateStatus();
+			
+			xPosition+=driveMonitor.updateXPosition();
+			yPosition+=driveMonitor.updateYPosition();
 			break;
 		case 1:
 			driveTrainCanBus.updateStatus();

@@ -63,7 +63,8 @@ public class DriveTrainCanBus extends Subsystem {
 	public double CLOSE_POSITION_BANDWIDTH = .4;
 
 	private int MAGIC_MOTION_ACCEL_FPSPS = 10;
-
+	public double ROBOT_WIDTH = 2.84;
+	public double ROBOT_LENGTH = 3.25;
 	public double WHEELBASE_WIDTH = 2.17;// ft
 
 	public double MM_FT_PER_DEGREE = Math.PI * WHEELBASE_WIDTH / 360;

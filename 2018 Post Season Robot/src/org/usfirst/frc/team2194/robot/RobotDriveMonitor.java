@@ -1,5 +1,9 @@
 package org.usfirst.frc.team2194.robot;
 
+import java.util.Arrays;
+
+import org.usfirst.frc.team2194.robot.subsystems.Sensors;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*The thread that starts here will monitor the robot for driving into the Power Up switch 
@@ -21,49 +25,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotDriveMonitor {
 
 	public static final int UPDATE_RATE_MS = 20;
-	boolean something_to_do = false;
 	private int lastLeftEncoderPosition;
 	private int lastRightEncoderPosition;
 	private int DRIVE_ENCODER_STOPPED_BAND = 10;
 	private double DRIVE_MOTOR_POWER_STOPPED_BAND = .005;
 	private int leftStoppedCounter;
 	private int rightStoppedCounter;
-	private double lastRobotPositionFt;
+	private double lastXRobotPositionFt;
+	private double lastYRobotPositionFt;
 	private double xLastChange;
 	private double yLastChange;
 	private double distanceChange;
 
 	public RobotDriveMonitor() {
-
-		// Reset give up flag
-		something_to_do = true;//Robot.driveTrainCanBus.runStalledDetect;
-
-		// Kick off monitor in brand new thread.
-		// Thanks to Team 254 and Robot Casserole for an example of how to do this!
-		Thread driveMonitorThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					while (something_to_do) {
-						periodicUpdate();
-						Thread.sleep(UPDATE_RATE_MS);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-		// Set up thread properties and start it off
-		driveMonitorThread.setName("RobotDrivesMonitor");
-		driveMonitorThread.setPriority(Thread.MIN_PRIORITY + 1);
-		driveMonitorThread.start();
 	}
 
-	private void periodicUpdate() {
-		int testVariable = 0;
-		distanceChange++;
-		SmartDashboard.putNumber("test monitor", distanceChange);
+	public boolean getLeftDriveStopped() {
 		if (Robot.driveTrainCanBus.runStalledDetect) {
 			if (Math.abs(RobotMap.driveLeftMotorA.getMotorOutputPercent()) > DRIVE_MOTOR_POWER_STOPPED_BAND) {
 				if (Math.abs(Robot.driveTrainCanBus.getLeftEncoder()
@@ -73,41 +50,48 @@ public class RobotDriveMonitor {
 				} else
 					leftStoppedCounter = 0;
 			}
-			Robot.driveTrainCanBus.leftSideStopped = leftStoppedCounter > 2;
-
-			if (Math.abs(RobotMap.driveRightMotorA.getMotorOutputPercent()) > DRIVE_MOTOR_POWER_STOPPED_BAND) {
-
-				if (Math.abs(Robot.driveTrainCanBus.getRightEncoder()
-						- lastRightEncoderPosition) < DRIVE_ENCODER_STOPPED_BAND) {
-					rightStoppedCounter++;
-					lastRightEncoderPosition = Robot.driveTrainCanBus.getRightEncoder();
-				} else
-					rightStoppedCounter = 0;
-			}
-			Robot.driveTrainCanBus.rightSideStopped = rightStoppedCounter > 2;
 
 		}
-		/*
-		 * Keep (approximate) track of robot position in X (up field) and Y (across
-		 * field) through computing distance moved (encoders) and angle turned (gyro).
-		 * 
-		 * Use formula Xchange = encoder distance change * cosine gyro angle.
-		 * 
-		 * and Y change = encoder distance change * - sine gyro angle
-		 * 
-		 * 
-		 * 
-		 */
-//		distanceChange = Robot.driveTrainCanBus.getRobotPositionFeet() - lastRobotPositionFt;
+		return leftStoppedCounter > 2;
+	}
 
-		xLastChange = distanceChange * Math.cos(Math.toRadians(-Robot.sensors.getGyroYaw()));
-		Robot.xPosition += xLastChange;
+	public boolean getRightDriveStopped() {
 
-		yLastChange = -distanceChange * Math.sin(Math.toRadians(-Robot.sensors.getGyroYaw()));
-		Robot.yPosition += yLastChange;
-
-		lastRobotPositionFt = Robot.driveTrainCanBus.getRobotPositionFeet();
+		if (Math.abs(RobotMap.driveRightMotorA.getMotorOutputPercent()) > DRIVE_MOTOR_POWER_STOPPED_BAND) {
+			if (Math.abs(
+					Robot.driveTrainCanBus.getRightEncoder() - lastRightEncoderPosition) < DRIVE_ENCODER_STOPPED_BAND) {
+				rightStoppedCounter++;
+				lastRightEncoderPosition = Robot.driveTrainCanBus.getRightEncoder();
+			} else
+				rightStoppedCounter = 0;
+		}
+		return rightStoppedCounter > 2;
 
 	}
 
+	/*
+	 * Keep (approximate) track of robot position in X (up field) and Y (across
+	 * field) through computing distance moved (encoders) and angle turned (gyro).
+	 * 
+	 * Use formula Xchange = encoder distance change * cosine gyro angle.
+	 * 
+	 * and Y change = encoder distance change * - sine gyro angle
+	 * 
+	 * 
+	 * 
+	 */
+
+	public double updateXPosition() {
+		double latchPositionReading = Robot.driveTrainCanBus.getRobotPositionFeet();
+		distanceChange = latchPositionReading - lastXRobotPositionFt;
+		lastXRobotPositionFt = latchPositionReading;
+		return distanceChange * Math.cos(Math.toRadians(-Robot.sensors.getGyroYaw()));
+	}
+
+	public double updateYPosition() {
+		double latchPositionReading = Robot.driveTrainCanBus.getRobotPositionFeet();
+		distanceChange = latchPositionReading - lastYRobotPositionFt;
+		lastYRobotPositionFt = latchPositionReading;
+		return -distanceChange * Math.sin(Math.toRadians(-Robot.sensors.getGyroYaw()));
+	}
 }
