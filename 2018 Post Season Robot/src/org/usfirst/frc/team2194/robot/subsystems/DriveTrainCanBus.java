@@ -80,10 +80,10 @@ public class DriveTrainCanBus extends Subsystem {
 	}
 
 	// order is Kp, Kd, Ka and Kturn
-	public static double[] LSW_L = { .4, 0, 0, 1 };
-	public static double[] LSW_C = { .4, 0, 0, 1 };
-	public static double[] RSW_C = { .4, 0, 0, 1 };
-	public static double[] RSW_R = { .4, 0, 0, 1 };
+	public static double[] LSW_L = { .4, 0, 0.02, 1 };
+	public static double[] LSW_C = { .4, 0, 0.02, 1 };
+	public static double[] RSW_C = { .4, 0, 0.02, 1 };
+	public static double[] RSW_R = { .4, 0, 0.02, 1 };
 
 	public static double[] LSW_L2 = { .8, 1.2, 0, .6 };
 	public static double[] LSW_C2 = { .5, 0, 0, .8 };

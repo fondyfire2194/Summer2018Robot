@@ -107,10 +107,10 @@ public class OI {
 		joystick1 = new Joystick(1);
 
 		intakeCube = new JoystickButton(joystick1, 1);
-		 intakeCube.whenPressed(new TurnWheelsToIntake(CubeHandler.INTAKE_SPEED,5));
-//		intakeCube.whileHeld(new TurnIntakeWheels(CubeHandler.INTAKE_SPEED));
-//		intakeCube.whenReleased(new TurnIntakeWheels(0));
-		 SmartDashboard.putData("Intake Cube",new TurnWheelsToIntake(CubeHandler.INTAKE_SPEED,5));
+//		 intakeCube.whenPressed(new TurnWheelsToIntake(CubeHandler.INTAKE_SPEED,5));
+		intakeCube.whileHeld(new TurnIntakeWheels(CubeHandler.INTAKE_SPEED));
+		intakeCube.whenReleased(new TurnIntakeWheels(0));
+//		 SmartDashboard.putData("Intake Cube",new TurnWheelsToIntake(CubeHandler.INTAKE_SPEED,5));
 
 		variableOut = new JoystickButton(joystick1, 2);
 		variableOut.whileHeld(new VariableOuttake());

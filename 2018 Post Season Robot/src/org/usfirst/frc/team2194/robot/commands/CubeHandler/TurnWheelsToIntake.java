@@ -14,7 +14,7 @@ public class TurnWheelsToIntake extends Command {
 	private double mySpeed;
 	private boolean currentPeakSeen;
 	private double highCurrentLimit = 10;
-	private double highCurrentTimeLimit = .5;
+	private double highCurrentTimeLimit = .25;
 	private double highCurrentTime;
 
 	private double startTime;
@@ -43,18 +43,16 @@ public class TurnWheelsToIntake extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (Timer.getFPGATimestamp() - startTime > waitForMotorStartedTime) {
-			// if ((highCurrentTime == 0) && (RobotMap.intakeLeftMotor.getOutputCurrent() >
-			// highCurrentLimit)
-			// || RobotMap.intakeRightMotor.getOutputCurrent() > highCurrentLimit)
-			// highCurrentTime = Timer.getFPGATimestamp();
-			// if (highCurrentTime != 0 && Timer.getFPGATimestamp() - highCurrentLimit >
-			// highCurrentTimeLimit)
-			// currentPeakSeen = true;
+			if ((highCurrentTime == 0) && (RobotMap.intakeLeftMotor.getOutputCurrent() > highCurrentLimit
+					|| RobotMap.intakeRightMotor.getOutputCurrent() > highCurrentLimit))
+				highCurrentTime = Timer.getFPGATimestamp();
+			if (highCurrentTime != 0 && Timer.getFPGATimestamp() - highCurrentTime > highCurrentTimeLimit)
+				currentPeakSeen = true;
 			if (Robot.createIntakeRunFile) {
 				Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime),
 						RobotMap.intakeLeftMotor.getOutputCurrent(), RobotMap.intakeLeftMotor.getMotorOutputVoltage(),
 						RobotMap.intakeRightMotor.getOutputCurrent(),
-						RobotMap.intakeRightMotor.getMotorOutputVoltage());
+						RobotMap.intakeRightMotor.getMotorOutputVoltage(), highCurrentTime);
 			}
 		}
 	}
@@ -74,5 +72,6 @@ public class TurnWheelsToIntake extends Command {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		end();
 	}
 }

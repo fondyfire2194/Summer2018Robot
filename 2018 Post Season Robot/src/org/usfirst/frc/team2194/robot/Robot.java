@@ -205,7 +205,7 @@ public class Robot extends IterativeRobot {
 			"pct", "pct" };
 
 	public static String[] intakeNames = { "Time", "Left Amps", "Left Volts", "Right Amps", "Right Volts" };
-	public static String[] intakeUnits = { "mS", "Amps", "Amps", "Volts", "Volts" };
+	public static String[] intakeUnits = { "mS", "Amps", "Volts", "Amps", "Volts" };
 
 	public static String usbFilePath = "/U";
 	public static boolean createIntakeRunFile = true;
@@ -687,7 +687,6 @@ public class Robot extends IterativeRobot {
 		 * cube and delivering it to the same destination.
 		 * 
 		 */
-		Scheduler.getInstance().run();
 
 		Scheduler.getInstance().run();
 
@@ -937,6 +936,9 @@ public class Robot extends IterativeRobot {
 						constantsFromPrefs();
 						driveTrainCanBus.resetEncoders();
 						sensors.resetGyro();
+						xPosition = Robot.activeLeftTrajectory.get(0).x;
+						yPosition = Robot.activeLeftTrajectory.get(0).y - (Robot.driveTrainCanBus.WHEELBASE_WIDTH / 2);
+
 						if (isScale || secondaryTrajectory || isSwitch && oppositeSideSwitch)
 							new PathfinderTrajectoryUsingNotifier().start();
 						else

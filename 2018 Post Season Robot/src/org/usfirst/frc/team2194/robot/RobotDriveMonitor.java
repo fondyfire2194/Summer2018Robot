@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2194.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /*The thread that starts here will monitor the robot for driving into the Power Up switch 
  * as well as looking for collisions and suddden stops.
  *  The cube elevator will also be monitored since it is a vulnerable mechanism
@@ -18,7 +20,7 @@ package org.usfirst.frc.team2194.robot;
  */
 public class RobotDriveMonitor {
 
-	public static final int UPDATE_RATE_MS = 50;
+	public static final int UPDATE_RATE_MS = 20;
 	boolean something_to_do = false;
 	private int lastLeftEncoderPosition;
 	private int lastRightEncoderPosition;
@@ -29,11 +31,12 @@ public class RobotDriveMonitor {
 	private double lastRobotPositionFt;
 	private double xLastChange;
 	private double yLastChange;
+	private double distanceChange;
 
 	public RobotDriveMonitor() {
 
 		// Reset give up flag
-		something_to_do = Robot.driveTrainCanBus.runStalledDetect;
+		something_to_do = true;//Robot.driveTrainCanBus.runStalledDetect;
 
 		// Kick off monitor in brand new thread.
 		// Thanks to Team 254 and Robot Casserole for an example of how to do this!
@@ -58,6 +61,9 @@ public class RobotDriveMonitor {
 	}
 
 	private void periodicUpdate() {
+		int testVariable = 0;
+		distanceChange++;
+		SmartDashboard.putNumber("test monitor", distanceChange);
 		if (Robot.driveTrainCanBus.runStalledDetect) {
 			if (Math.abs(RobotMap.driveLeftMotorA.getMotorOutputPercent()) > DRIVE_MOTOR_POWER_STOPPED_BAND) {
 				if (Math.abs(Robot.driveTrainCanBus.getLeftEncoder()
@@ -92,7 +98,7 @@ public class RobotDriveMonitor {
 		 * 
 		 * 
 		 */
-		double distanceChange = Robot.driveTrainCanBus.getRobotPositionFeet() - lastRobotPositionFt;
+//		distanceChange = Robot.driveTrainCanBus.getRobotPositionFeet() - lastRobotPositionFt;
 
 		xLastChange = distanceChange * Math.cos(Math.toRadians(-Robot.sensors.getGyroYaw()));
 		Robot.xPosition += xLastChange;
