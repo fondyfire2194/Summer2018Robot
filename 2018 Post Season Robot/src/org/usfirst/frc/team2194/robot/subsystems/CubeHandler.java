@@ -49,6 +49,7 @@ public class CubeHandler extends Subsystem {
 	public double elevatorTargetPosition;
 	private boolean switchWasSeen;
 	public boolean elevatorMotionDown;
+	public boolean cubePickedUp;
 
 	public enum intakeSide {
 		left, right

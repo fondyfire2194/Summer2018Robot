@@ -18,16 +18,14 @@ public class SpinCube extends InstantCommand {
 		myDirection = direction;
 	}
 
-	// Called once when the command executes
+
 	protected void initialize() {
 		if (myDirection) {
-			Robot.cubeHandler.turnOneIntakeSide(-.5, intakeSide.left);
-			Robot.cubeHandler.turnOneIntakeSide(.5, intakeSide.right);
-		}
-		else
-		{
-			Robot.cubeHandler.turnOneIntakeSide(.5, intakeSide.left);
-			Robot.cubeHandler.turnOneIntakeSide(-.5, intakeSide.right);
+			Robot.cubeHandler.turnOneIntakeSide(-.5, intakeSide.left);// out
+			Robot.cubeHandler.turnOneIntakeSide(.5, intakeSide.right);// in
+		} else {
+			Robot.cubeHandler.turnOneIntakeSide(.5, intakeSide.left);// in
+			Robot.cubeHandler.turnOneIntakeSide(-.5, intakeSide.right);// out
 		}
 	}
 

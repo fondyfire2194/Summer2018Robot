@@ -13,7 +13,6 @@ import org.usfirst.frc.team2194.robot.commands.CubeHandler.ResetElevatorEncoder;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.RunElevatorFromGamepad;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnIntakeWheels;
-import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnWheelsToIntake;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.VariableOuttake;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoRobotMagicMotion;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoRobotOrient;

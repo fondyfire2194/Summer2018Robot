@@ -35,9 +35,8 @@ public class TurnWheelsToIntake extends Command {
 		currentPeakSeen = false;
 		setTimeout(myTimeout);
 		new AlertDriver("File Started").start();
-		if (Robot.createIntakeRunFile)
-			Robot.simpleCSVLogger.init("Intake", Robot.intakeNames, Robot.intakeUnits);
 		startTime = Timer.getFPGATimestamp();
+		Robot.cubeHandler.cubePickedUp = false;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -46,13 +45,9 @@ public class TurnWheelsToIntake extends Command {
 			if ((highCurrentTime == 0) && (RobotMap.intakeLeftMotor.getOutputCurrent() > highCurrentLimit
 					|| RobotMap.intakeRightMotor.getOutputCurrent() > highCurrentLimit))
 				highCurrentTime = Timer.getFPGATimestamp();
-			if (highCurrentTime != 0 && Timer.getFPGATimestamp() - highCurrentTime > highCurrentTimeLimit)
+			if (highCurrentTime != 0 && Timer.getFPGATimestamp() - highCurrentTime > highCurrentTimeLimit) {
 				currentPeakSeen = true;
-			if (Robot.createIntakeRunFile) {
-				Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime),
-						RobotMap.intakeLeftMotor.getOutputCurrent(), RobotMap.intakeLeftMotor.getMotorOutputVoltage(),
-						RobotMap.intakeRightMotor.getOutputCurrent(),
-						RobotMap.intakeRightMotor.getMotorOutputVoltage(), highCurrentTime);
+				Robot.cubeHandler.cubePickedUp = true;
 			}
 		}
 	}
@@ -65,8 +60,6 @@ public class TurnWheelsToIntake extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.cubeHandler.intakeWheelsTurn(0);
-		if (Robot.createIntakeRunFile)
-			Robot.simpleCSVLogger.close();
 	}
 
 	// Called when another command which requires one or more of the same

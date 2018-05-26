@@ -14,13 +14,11 @@ import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoTrajectoryScale;
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoTrajectorySwitch;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftScale;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenter;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenterUsingTrajectories;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeft;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeftUsingTrajectories;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromRight;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightScale;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromCenter;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromCenterUsingTrajectories;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromLeft;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRight;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRightUsingTrajectories;
@@ -38,9 +36,9 @@ public enum PathSelectAuto {
 	 */
 
 	LEFTSWITCHFROMCENTER("LSW_C", DriveTrainCanBus.LSW_C, new DoLeftSwitchFromCenterMove(),
-			new DoLeftSwitchFromCenterUsingTrajectories(), new DoLeftSwitchFromCenter()), //
+			new DoLeftSwitchFromCenterMove(), new DoLeftSwitchFromCenter()), //
 	RIGHTSWITCHFROMCENTER("RSW_C", DriveTrainCanBus.RSW_C, new DoRightSwitchFromCenterMove(),
-			new DoRightSwitchFromCenterUsingTrajectories(), new DoRightSwitchFromCenter()), //
+			new DoRightSwitchFromCenterMove(), new DoRightSwitchFromCenter()), //
 
 	LEFTSWITCHFROMLEFT("LSW_L", DriveTrainCanBus.LSW_L, new DoLeftSwitchFromLeftMove(),
 			new DoLeftSwitchFromLeftUsingTrajectories(), new DoLeftSwitchFromLeft()), //

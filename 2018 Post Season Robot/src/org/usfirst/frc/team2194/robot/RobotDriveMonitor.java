@@ -1,11 +1,5 @@
 package org.usfirst.frc.team2194.robot;
 
-import java.util.Arrays;
-
-import org.usfirst.frc.team2194.robot.subsystems.Sensors;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /*The thread that starts here will monitor the robot for driving into the Power Up switch 
  * as well as looking for collisions and suddden stops.
  *  The cube elevator will also be monitored since it is a vulnerable mechanism
