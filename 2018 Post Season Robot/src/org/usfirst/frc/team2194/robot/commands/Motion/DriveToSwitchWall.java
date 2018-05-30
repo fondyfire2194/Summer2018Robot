@@ -42,7 +42,7 @@ public class DriveToSwitchWall extends Command {
 
 		Robot.driveTrainCanBus.leftPositionTargetFt = myTargetFt;
 		Robot.driveTrainCanBus.rightPositionTargetFt = myTargetFt;
-
+		Robot.driveTrainCanBus.runStalledDetect = true;
 		setTimeout(myTimeout);
 
 		passCount = 0;
@@ -64,13 +64,11 @@ public class DriveToSwitchWall extends Command {
 		return Robot.driveTrainCanBus.leftSideStopped || Robot.driveTrainCanBus.rightSideStopped || isTimedOut()
 				|| (Robot.driveTrainCanBus.leftSideInPosition() && Robot.driveTrainCanBus.rightSideInPosition()
 						&& passCount > 3);
-
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.driveTrainCanBus.runStalledDetect = false;
-
 		Robot.driveTrainCanBus.stopMotor(driveSide.both);
 		Robot.magicMotionRunning = false;
 	}

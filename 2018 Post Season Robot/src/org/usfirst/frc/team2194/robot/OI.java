@@ -4,6 +4,8 @@ import org.usfirst.frc.team2194.robot.commands.LowerWings;
 import org.usfirst.frc.team2194.robot.commands.OperatorAcknowledge;
 import org.usfirst.frc.team2194.robot.commands.RaiseWings;
 import org.usfirst.frc.team2194.robot.commands.ResetScanValues;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenter;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromCenter;
 import org.usfirst.frc.team2194.robot.commands.Climber.DriveClimber;
 import org.usfirst.frc.team2194.robot.commands.Climber.StopClimber;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.CloseIntakeArms;
@@ -183,6 +185,8 @@ public class OI {
 		SmartDashboard.putData("Turn To Vision Robot", new DoRobotTurnToVision());
 		SmartDashboard.putData("Reset Elevator Position", new ResetElevatorEncoder());
 		SmartDashboard.putData("Operator Acknowledge", new OperatorAcknowledge());
+		SmartDashboard.putData("Second Pickup Left", new DoLeftSwitchFromCenter());
+		SmartDashboard.putData("Second Pickup Right", new DoRightSwitchFromCenter());
 	}
 
 	public Joystick getgamepad() {

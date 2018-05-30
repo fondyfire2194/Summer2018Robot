@@ -14,6 +14,7 @@ import org.usfirst.frc.team2194.robot.commands.Motion.DriveToCubePickup;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveToPosition;
 import org.usfirst.frc.team2194.robot.commands.Motion.PositionToSwitchWall;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetEncoders;
+import org.usfirst.frc.team2194.robot.commands.Motion.ResetGyro;
 import org.usfirst.frc.team2194.robot.commands.Motion.RobotOrient;
 import org.usfirst.frc.team2194.robot.commands.Motion.SetDriveStraightAngle;
 import org.usfirst.frc.team2194.robot.subsystems.CubeHandler;
@@ -38,6 +39,7 @@ public class DoRightSwitchFromCenter extends CommandGroup {
 		// addSequential(new Command2());
 		// Command1 and Command2 will run in parallel.
 		addSequential(new ResetEncoders());
+		addSequential(new ResetGyro());
 
 		addParallel(new DriveMagicMotion(-3, motionType.absolute, driveSide.both, DistCon.SHORT_POSITION_RATE, 3));
 
@@ -51,15 +53,15 @@ public class DoRightSwitchFromCenter extends CommandGroup {
 
 		addSequential(new ResetEncoders());
 
-		addParallel(new DriveToCubePickup(4, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, 2));
+		addParallel(new DriveToCubePickup(4, motionType.absolute, DistCon.SHORT_POSITION_RATE*.75, false, 2));
 
 		addParallel(new LogIntakeData(3));
 
-		addSequential(new SpinCube(true));// spin cube right in, left out
+//		addSequential(new SpinCube(true));// spin cube right in, left out
 
-		addSequential(new TimeDelay(1.25));
+//		addSequential(new TimeDelay(1.25));
 
-		addSequential(new TurnWheelsToIntake(.5, 1));
+		addSequential(new TurnWheelsToIntake(.5, 3));
 
 		addParallel(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, 2));
 
@@ -71,7 +73,7 @@ public class DoRightSwitchFromCenter extends CommandGroup {
 
 		addSequential(new ResetEncoders());
 
-		addSequential(new PositionToSwitchWall(4.5, DistCon.SHORT_POSITION_RATE, 2));
+		addSequential(new PositionToSwitchWall(3, DistCon.SHORT_POSITION_RATE, 2));
 
 		addSequential(new OuttakeCube(.5));
 

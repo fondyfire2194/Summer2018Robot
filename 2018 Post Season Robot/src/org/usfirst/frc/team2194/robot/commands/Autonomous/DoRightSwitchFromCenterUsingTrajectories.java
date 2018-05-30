@@ -59,7 +59,7 @@ public class DoRightSwitchFromCenterUsingTrajectories extends CommandGroup {
 		addParallel(new AlertDriver("Driving to Position 3.5"));
 		addSequential(new DriveToPosition(5.5, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, 2));
 
-		addSequential(new SpinCube(true));
+//		addSequential(new SpinCube(true));
 		//
 		addSequential(new TimeDelay(1));
 		//

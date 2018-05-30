@@ -44,7 +44,7 @@ public class DoRightSwitchFromRightUsingTrajectories extends CommandGroup {
 
 //		addParallel(new DriveToVisionTarget(0, 5, 4));
 
-		addSequential(new SpinCube(false));
+//		addSequential(new SpinCube(false));
 
 		addSequential(new TimeDelay(1));
 

@@ -30,7 +30,8 @@ public class LogIntakeData extends TimedCommand {
 		if (Robot.createIntakeRunFile) {
 			Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime),
 					RobotMap.intakeLeftMotor.getOutputCurrent(), RobotMap.intakeLeftMotor.getMotorOutputVoltage(),
-					RobotMap.intakeRightMotor.getOutputCurrent(), RobotMap.intakeRightMotor.getMotorOutputVoltage());
+					RobotMap.intakeRightMotor.getOutputCurrent(), RobotMap.intakeRightMotor.getMotorOutputVoltage()
+					, Robot.driveTrainCanBus.getLeftFeet());
 		}
 	}
 

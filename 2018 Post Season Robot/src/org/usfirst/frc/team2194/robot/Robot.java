@@ -224,7 +224,7 @@ public class Robot extends IterativeRobot {
 		RobotMap.init();
 		DistCon.init();
 		// DistCon.updateStatus();
-//		loadMon = new CasseroleRIOLoadMonitor();
+		// loadMon = new CasseroleRIOLoadMonitor();
 		driveMonitor = new RobotDriveMonitor();
 		prefs = Preferences.getInstance();
 		simpleCSVLogger = new SimpleCSVLogger();
@@ -367,6 +367,7 @@ public class Robot extends IterativeRobot {
 		trajectoryRunning = false;
 		motionCommandComplete = false;
 		driveTrainCanBus.setVBus(0, driveSide.both);
+		cubeHandler.intakeWheelsTurn(0);
 	}
 
 	@Override
@@ -985,11 +986,17 @@ public class Robot extends IterativeRobot {
 
 		switch (updateStatusCounter) {
 		case 0:
-			// DistCon.updateStatus();
-//			loadMon.updateStatus();
-			
-			xPosition+=driveMonitor.updateXPosition();
-			yPosition+=driveMonitor.updateYPosition();
+			// loadMon.updateStatus();
+
+			xPosition += driveMonitor.updateXPosition();
+			yPosition += driveMonitor.updateYPosition();
+
+			if (Robot.driveTrainCanBus.runStalledDetect) {
+				{
+					driveTrainCanBus.leftSideStopped = driveMonitor.getLeftDriveStopped();
+					driveTrainCanBus.rightSideStopped = driveMonitor.getRightDriveStopped();
+				}
+			}
 			break;
 		case 1:
 			driveTrainCanBus.updateStatus();
