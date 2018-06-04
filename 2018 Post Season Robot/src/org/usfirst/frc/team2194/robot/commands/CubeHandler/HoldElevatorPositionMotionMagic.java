@@ -60,7 +60,7 @@ public class HoldElevatorPositionMotionMagic extends Command {
 		 */
 
 		if (Robot.cubeHandler.holdPositionInches != lastHoldPositionInches) {
-			
+
 			Robot.cubeHandler.elevatorMotionDown = Robot.cubeHandler.holdPositionInches < lastHoldPositionInches;
 
 			RobotMap.elevatorMotor.selectProfileSlot(0, 0);

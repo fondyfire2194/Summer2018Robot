@@ -3,11 +3,9 @@ package org.usfirst.frc.team2194.robot.commands.Autonomous;
 import org.usfirst.frc.team2194.robot.DistCon;
 import org.usfirst.frc.team2194.robot.Robot.motionType;
 import org.usfirst.frc.team2194.robot.commands.LogIntakeData;
-import org.usfirst.frc.team2194.robot.commands.TimeDelay;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.CloseIntakeArms;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.OuttakeCube;
-import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnWheelsToIntake;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveMagicMotion;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveToCubePickup;
@@ -48,27 +46,27 @@ public class DoLeftSwitchFromCenter extends CommandGroup {
 
 		addSequential(new CloseIntakeArms());
 
-		addSequential(new RobotOrient(50, DistCon.ORIENT_RATE, driveSide.both, false, 1.5));
+		addSequential(new RobotOrient(50, DistCon.ORIENT_RATE, false, 1.5));
 
 		addSequential(new SetDriveStraightAngle(50));
 
 		addSequential(new ResetEncoders());
 
-		addParallel(new DriveToCubePickup(4.5, motionType.absolute, DistCon.SHORT_POSITION_RATE*.75, 2));
+		addParallel(new DriveToCubePickup(4.5, motionType.absolute, DistCon.SHORT_POSITION_RATE * .75, 2));
 
 		addParallel(new LogIntakeData(3));
 
-//		addSequential(new SpinCube(false));//right out, left in
+		// addSequential(new SpinCube(false));//right out, left in
 
-//		addSequential(new TimeDelay(1.25));
+		// addSequential(new TimeDelay(1.25));
 
 		addSequential(new TurnWheelsToIntake(.5, 3));
 
-		addParallel(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE -1 , false, 2));
+		addParallel(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE - 1, false, 2));
 
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
 
-		addSequential(new RobotOrient(0, DistCon.ORIENT_RATE, driveSide.both, false, 2));
+		addSequential(new RobotOrient(0, DistCon.ORIENT_RATE, false, 2));
 
 		addSequential(new SetDriveStraightAngle(0));
 

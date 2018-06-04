@@ -43,18 +43,19 @@ public class DoRightSwitchFromRightWithPickup extends CommandGroup {
 
 		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_TRAVEL_POSITION_INCHES));
 		// turn ready to reverse toward scale
-		addSequential(new RobotOrient(-DistCon2.LRSW_A1, DistCon.ORIENT_RATE, driveSide.both, true, 1.5));
+		addSequential(new RobotOrient(-DistCon2.LRSW_A1, DistCon.ORIENT_RATE, true, 1.5));
 		addSequential(new ResetEncoders());
 		addSequential(new SetDriveStraightAngle(-DistCon2.LRSW_A1));
 		// back up to get angle on cube
 		addSequential(
 				new DriveToPosition(-DistCon2.LRSW_RD2, motionType.absolute, DistCon.LONG_POSITION_RATE, true, 3));
 		// turn to line up with cube
-		addSequential(new RobotOrient(-DistCon2.LRSW_A2, DistCon.ORIENT_RATE, driveSide.both, true, 1.5));
+		addSequential(new RobotOrient(-DistCon2.LRSW_A2, DistCon.ORIENT_RATE, true, 1.5));
 		addSequential(new ResetEncoders());
 		addSequential(new SetDriveStraightAngle(-DistCon2.LRSW_A2));
 		// advance behind cube
-	//	addParallel(new DriveToPosition(DistCon2.LRSW_TO_CUBE, motionType.absolute, DistCon.LONG_POSITION_RATE, true, 3));
+		// addParallel(new DriveToPosition(DistCon2.LRSW_TO_CUBE, motionType.absolute,
+		// DistCon.LONG_POSITION_RATE, true, 3));
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
 
 	}

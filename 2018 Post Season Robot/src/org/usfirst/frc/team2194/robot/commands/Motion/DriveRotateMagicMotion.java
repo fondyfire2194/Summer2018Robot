@@ -6,7 +6,7 @@ import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *Rotates angle amount using Magic Motion
+ * Rotates angle amount using Magic Motion
  */
 public class DriveRotateMagicMotion extends Command {
 	private double myTargetAngle;
@@ -31,7 +31,6 @@ public class DriveRotateMagicMotion extends Command {
 
 		setTimeout(myTimeout);
 
-		
 		Robot.magicMotionRunning = true;
 		Robot.driveTrainCanBus.magicMotionDrive(Robot.driveTrainCanBus.leftPositionTargetFt, myFtPerSec,
 				driveSide.left);

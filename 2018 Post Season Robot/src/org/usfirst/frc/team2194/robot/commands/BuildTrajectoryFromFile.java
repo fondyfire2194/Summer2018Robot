@@ -21,8 +21,8 @@ public class BuildTrajectoryFromFile extends InstantCommand {
 
 	// Called once when the command executes
 	protected void initialize() {
-    	Robot.buildTrajectory.buildFileName(myName, myGains);
-    	
-    }
+		Robot.buildTrajectory.buildFileName(myName, myGains);
+
+	}
 
 }

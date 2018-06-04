@@ -11,7 +11,6 @@ import org.usfirst.frc.team2194.robot.commands.Motion.ResetGyro;
 import org.usfirst.frc.team2194.robot.commands.Motion.RobotOrient;
 import org.usfirst.frc.team2194.robot.commands.Motion.SetDriveStraightAngle;
 import org.usfirst.frc.team2194.robot.subsystems.CubeHandler;
-import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -47,14 +46,14 @@ public class DoRightSwitchFromLeftMove extends CommandGroup {
 		addSequential(
 				new DriveToPosition(DistCon.LRSW_RL_1, motionType.absolute, DistCon.LONG_POSITION_RATE, false, 3));
 
-		addSequential(new RobotOrient(90, DistCon.ORIENT_RATE, driveSide.both, false, 2));
+		addSequential(new RobotOrient(90, DistCon.ORIENT_RATE, false, 2));
 		addSequential(new ResetEncoders());
 		addSequential(new SetDriveStraightAngle(90));
 
 		addSequential(
 				new DriveToPosition(DistCon.LRSW_RL_2, motionType.absolute, DistCon.SHORT_POSITION_RATE, true, 3));
 
-		addSequential(new RobotOrient(DistCon.LRSW_RL_A, DistCon.ORIENT_RATE, driveSide.both, true, 2));
+		addSequential(new RobotOrient(DistCon.LRSW_RL_A, DistCon.ORIENT_RATE, true, 2));
 		addSequential(new ResetEncoders());
 		addSequential(new SetDriveStraightAngle(DistCon.LRSW_RL_A));
 
@@ -63,6 +62,7 @@ public class DoRightSwitchFromLeftMove extends CommandGroup {
 
 		addSequential(new OuttakeCube(.75));
 
-		addSequential(new SetFirstAutoCommandsDone());	}
+		addSequential(new SetFirstAutoCommandsDone());
+	}
 
 }

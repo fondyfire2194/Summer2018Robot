@@ -111,7 +111,7 @@ public class Sensors extends Subsystem {
 
 		return (Math.abs(currentJerkX) > kCollisionThreshold_DeltaG) ||
 
-				(Math.abs(currentJerkY) > kCollisionThreshold_DeltaG);	 
+				(Math.abs(currentJerkY) > kCollisionThreshold_DeltaG);
 	}
 
 	public double getForwardUltrasoundVoltage() {

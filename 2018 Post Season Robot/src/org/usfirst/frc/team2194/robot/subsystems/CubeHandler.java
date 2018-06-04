@@ -72,7 +72,7 @@ public class CubeHandler extends Subsystem {
 		elevatorPrefsDefaults[2] = 0;
 		elevatorPrefsNames[3] = "ElevatorMMKd";
 		elevatorPrefsDefaults[3] = 0.;
-		//down values no longer used - same as up
+		// down values no longer used - same as up
 		elevatorPrefsNames[4] = "ElevatorDownMMKf";
 		elevatorPrefsDefaults[4] = .4;
 		elevatorPrefsNames[5] = "ElevatorDownMMKp";
@@ -160,9 +160,9 @@ public class CubeHandler extends Subsystem {
 
 		int acceleration;
 		if (elevatorMotionDown)
-			acceleration = cruiseVelocity;//1 second to soften bottom hit
+			acceleration = cruiseVelocity;// 1 second to soften bottom hit
 		else
-			acceleration = cruiseVelocity * 2;//1/2 second
+			acceleration = cruiseVelocity * 2;// 1/2 second
 
 		RobotMap.elevatorMotor.configMotionCruiseVelocity(cruiseVelocity, 0);
 
@@ -170,7 +170,6 @@ public class CubeHandler extends Subsystem {
 
 		RobotMap.elevatorMotor.set(ControlMode.MotionMagic, distance * CubeHandler.ENCODER_COUNTS_PER_INCH);
 	}
-
 
 	public boolean inPosition() {
 		return Math.abs(elevatorTargetPosition - getElevatorPositionInches()) < IN_POSITION_BAND;

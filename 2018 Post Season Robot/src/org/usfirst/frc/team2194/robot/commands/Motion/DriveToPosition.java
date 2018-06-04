@@ -71,7 +71,7 @@ public class DriveToPosition extends Command {
 					driveSide.right);
 		}
 		passCount++;
-		
+
 		if (myHighAccuracy)
 			inPosition = Robot.driveTrainCanBus.rightSideInPosition() && Robot.driveTrainCanBus.leftSideInPosition();
 		else

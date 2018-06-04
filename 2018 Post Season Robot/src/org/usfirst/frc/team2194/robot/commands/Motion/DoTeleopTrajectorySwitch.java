@@ -1,7 +1,5 @@
 package org.usfirst.frc.team2194.robot.commands.Motion;
 
-import org.usfirst.frc.team2194.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -27,6 +25,5 @@ public class DoTeleopTrajectorySwitch extends CommandGroup {
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
 		addSequential(new PathfinderTrajectoryUsingNotifier());
-		addSequential(new RobotOrient(Robot.continuingAngle, .75, Robot.continuingSide, false, 2));
 	}
 }

@@ -2,27 +2,20 @@ package org.usfirst.frc.team2194.robot.commands.Autonomous;
 
 import org.usfirst.frc.team2194.robot.DistCon;
 import org.usfirst.frc.team2194.robot.Robot.motionType;
-import org.usfirst.frc.team2194.robot.commands.AlertDriver;
-import org.usfirst.frc.team2194.robot.commands.TimeDelay;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.CloseIntakeArms;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.DelayedElevatorMove;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.OuttakeCube;
-import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnWheelsToIntake;
-import org.usfirst.frc.team2194.robot.commands.Motion.DriveMagicMotion;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveToCubePickup;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveToPosition;
 import org.usfirst.frc.team2194.robot.commands.Motion.PathfinderTrajectoryUsingNotifier;
-import org.usfirst.frc.team2194.robot.commands.Motion.PositionToSwitchWall;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetEncoders;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetGyro;
-import org.usfirst.frc.team2194.robot.commands.Motion.RobotOrient;
 import org.usfirst.frc.team2194.robot.commands.Motion.RunReverseTrajectory;
 import org.usfirst.frc.team2194.robot.commands.Motion.SetDriveStraightAngle;
 import org.usfirst.frc.team2194.robot.subsystems.CubeHandler;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
-import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

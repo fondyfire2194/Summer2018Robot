@@ -18,7 +18,6 @@ public class SpinCube extends InstantCommand {
 		myDirection = direction;
 	}
 
-
 	protected void initialize() {
 		if (myDirection) {
 			Robot.cubeHandler.turnOneIntakeSide(-.5, intakeSide.left);// out

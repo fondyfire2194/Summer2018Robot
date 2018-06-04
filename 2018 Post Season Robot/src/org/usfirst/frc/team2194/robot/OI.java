@@ -1,10 +1,6 @@
 package org.usfirst.frc.team2194.robot;
 
-import org.usfirst.frc.team2194.robot.commands.LowerWings;
-import org.usfirst.frc.team2194.robot.commands.RaiseWings;
 import org.usfirst.frc.team2194.robot.commands.ResetScanValues;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenter;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromCenter;
 import org.usfirst.frc.team2194.robot.commands.Climber.DriveClimber;
 import org.usfirst.frc.team2194.robot.commands.Climber.StopClimber;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.CloseIntakeArms;
@@ -99,18 +95,13 @@ public class OI {
 	public JoystickButton jogElevator;
 	public JoystickButton variableOut;
 
-	public JoystickButton lowerWings;
-	public JoystickButton raiseWings;
-
 	public OI() {
 		gamepad = new Gamepad(0);
 		joystick1 = new Joystick(1);
 
 		intakeCube = new JoystickButton(joystick1, 1);
-//		 intakeCube.whenPressed(new TurnWheelsToIntake(CubeHandler.INTAKE_SPEED,5));
 		intakeCube.whileHeld(new TurnIntakeWheels(CubeHandler.INTAKE_SPEED));
 		intakeCube.whenReleased(new TurnIntakeWheels(0));
-//		 SmartDashboard.putData("Intake Cube",new TurnWheelsToIntake(CubeHandler.INTAKE_SPEED,5));
 
 		variableOut = new JoystickButton(joystick1, 2);
 		variableOut.whileHeld(new VariableOuttake());
@@ -133,12 +124,6 @@ public class OI {
 		climbForward = new JoystickButton(joystick1, 7);
 		climbForward.whileHeld(new DriveClimber(.9));
 		climbForward.whenReleased(new StopClimber());
-
-		lowerWings = new JoystickButton(joystick1, 9);
-		lowerWings.whenPressed(new LowerWings());
-
-		raiseWings = new JoystickButton(joystick1, 10);
-		raiseWings.whenPressed(new RaiseWings());
 
 		elevatorToBottomPosition = gamepad.getButtonA();
 		elevatorToBottomPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));

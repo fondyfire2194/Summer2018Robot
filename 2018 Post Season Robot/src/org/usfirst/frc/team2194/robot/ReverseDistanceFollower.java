@@ -68,7 +68,7 @@ public class ReverseDistanceFollower {
 	public void reset() {
 		last_error = 0;
 		segment = trajectory.length() - 1;
-		
+
 	}
 
 	/**

@@ -14,9 +14,9 @@ import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoTrajectoryScale;
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoTrajectorySwitch;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftScale;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenter;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenterTrajectories;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeft;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeftTrajectories;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenterTrajectories;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromRight;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightScale;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromCenter;
@@ -25,7 +25,6 @@ import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromLeft;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRight;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRightTrajectories;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
-import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -83,28 +82,12 @@ public enum PathSelectAuto {
 	void build() {
 		if (Robot.checkUsbFilePath() && Robot.buildTrajectory.buildFileName(name, gains)) {
 
-			if (Robot.isSwitch) {
+			if (Robot.isSwitch)
 				Robot.firstAutonomousCommand = new DoTrajectorySwitch();
-				if (Robot.leftStartPosition) {
-					Robot.continuingSide = driveSide.left;
-					Robot.continuingAngle = 90;
-				}
-				if (Robot.rightStartPosition) {
-					Robot.continuingSide = driveSide.right;
-					Robot.continuingAngle = -90;
-				}
-				if (Robot.doLeftSwitchFromCenter) {
-					Robot.continuingSide = driveSide.left;
-					Robot.continuingAngle = 0;
-				}
-				if (Robot.doRightSwitchFromCenter) {
-					Robot.continuingSide = driveSide.right;
-					Robot.continuingAngle = 0;
-				}
-			}
 
 			if (Robot.isScale)
 				Robot.firstAutonomousCommand = new DoTrajectoryScale();
+
 			Robot.xPosition = Robot.activeLeftTrajectory.get(0).x;
 			Robot.yPosition = Robot.activeLeftTrajectory.get(0).y - (Robot.driveTrainCanBus.WHEELBASE_WIDTH / 2);
 			Robot.secondAutonomousCommand = second;

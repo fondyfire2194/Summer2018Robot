@@ -52,7 +52,7 @@ public class DriveMagicMotion extends Command {
 
 		setTimeout(myTimeout);
 
-	passCount = 0;
+		passCount = 0;
 		Robot.magicMotionRunning = true;
 		Robot.driveTrainCanBus.magicMotionDrive(myTargetFt, myFtPerSec, mySide);
 

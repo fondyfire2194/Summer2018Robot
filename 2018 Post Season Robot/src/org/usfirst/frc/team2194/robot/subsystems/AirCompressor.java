@@ -17,7 +17,7 @@ public class AirCompressor extends Subsystem {
 	public void stop() {
 		RobotMap.compressor.stop();
 	}
-	
+
 	public boolean pressureLow() {
 		return RobotMap.compressor.getPressureSwitchValue();
 	}

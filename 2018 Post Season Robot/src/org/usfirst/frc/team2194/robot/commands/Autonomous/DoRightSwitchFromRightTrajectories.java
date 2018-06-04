@@ -3,7 +3,6 @@ package org.usfirst.frc.team2194.robot.commands.Autonomous;
 import org.usfirst.frc.team2194.robot.commands.TimeDelay;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.OuttakeCube;
-import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnWheelsToIntake;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetEncoders;
 import org.usfirst.frc.team2194.robot.commands.Motion.RunReverseTrajectory;
@@ -42,25 +41,27 @@ public class DoRightSwitchFromRightTrajectories extends CommandGroup {
 
 		addSequential(new ResetEncoders());
 
-//		addParallel(new DriveToVisionTarget(0, 5, 4));
+		// addParallel(new DriveToVisionTarget(0, 5, 4));
 
-//		addSequential(new SpinCube(false));
+		// addSequential(new SpinCube(false));
 
 		addSequential(new TimeDelay(1));
 
 		addSequential(new TurnWheelsToIntake(.5, 1));
 
-//		addParallel(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, 2));
+		// addParallel(new DriveToPosition(0, motionType.absolute,
+		// DistCon.SHORT_POSITION_RATE, false, 2));
 
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
 
-//		addSequential(new PositionToSwitchWall(3, DistCon.SHORT_POSITION_RATE, 2));
+		// addSequential(new PositionToSwitchWall(3, DistCon.SHORT_POSITION_RATE, 2));
 
 		addSequential(new OuttakeCube(.5));
 
 		addSequential(new ResetEncoders());
 
-//		addSequential(new DriveMagicMotion(-2, motionType.absolute, driveSide.both, DistCon.SHORT_POSITION_RATE, 2.5));
+		// addSequential(new DriveMagicMotion(-2, motionType.absolute, driveSide.both,
+		// DistCon.SHORT_POSITION_RATE, 2.5));
 
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
 

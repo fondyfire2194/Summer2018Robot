@@ -27,13 +27,11 @@ public class DoRightScale extends CommandGroup {
 		// addSequential(new Command2());
 		// Command1 and Command2 will run in parallel.
 		addSequential(new ResetEncoders());
-		
+
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
 
-		
 		addSequential(
 				new DriveMagicMotion(-1, motionType.absolute, driveSide.both, DistCon.SHORT_POSITION_RATE / 2, 3));
 
-		
 	}
 }

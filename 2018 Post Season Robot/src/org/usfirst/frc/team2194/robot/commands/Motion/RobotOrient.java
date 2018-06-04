@@ -7,7 +7,6 @@ package org.usfirst.frc.team2194.robot.commands.Motion;
 
 import org.usfirst.frc.team2194.robot.Robot;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
-import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -20,11 +19,10 @@ public class RobotOrient extends Command {
 	private double myAngle;
 	private double myTimeout;
 	private int passCount;
-	private driveSide mySide;
 	private boolean myAccuracy;
 	private boolean inPosition;
 
-	public RobotOrient(double angle, double speed, driveSide side, boolean accuracy, double timeout) {
+	public RobotOrient(double angle, double speed, boolean accuracy, double timeout) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.robotRotate);
@@ -33,22 +31,13 @@ public class RobotOrient extends Command {
 		mySpeed = speed;
 		myAngle = angle;
 		myTimeout = timeout;
-		mySide = side;
 		myAccuracy = accuracy;
-
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		double wheelMult = 1;
-		Robot.robotRotate.useDriveSide(mySide);
-		if (mySide == driveSide.both)
-			wheelMult = 1;
-		else
-			wheelMult = 2;
-		Robot.robotRotate.setPIDF(
-				Robot.prefs.getDouble("RobotRotateKp", DriveTrainCanBus.drivePrefsDefaults[10]) * wheelMult, 0,
+		Robot.robotRotate.setPIDF(Robot.prefs.getDouble("RobotRotateKp", DriveTrainCanBus.drivePrefsDefaults[10]), 0,
 				Robot.prefs.getDouble("RobotRotateKd", DriveTrainCanBus.drivePrefsDefaults[22]), 0);
 		Robot.robotRotate.setMaxOut(mySpeed);
 		Robot.robotRotate.setSetpoint(myAngle);

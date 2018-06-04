@@ -8,7 +8,6 @@ package org.usfirst.frc.team2194.robot.subsystems;
 import org.usfirst.frc.team2194.robot.Robot;
 import org.usfirst.frc.team2194.robot.RobotMap;
 import org.usfirst.frc.team2194.robot.SD;
-import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -34,7 +33,7 @@ public class RobotRotate extends PIDSubsystem {
 	// Initialize your subsystem here
 	public RobotRotate() {
 		super("RobotRotate", Kp, Ki, Kd);
-		getPIDController().setInputRange(-180,180);
+		getPIDController().setInputRange(-180, 180);
 		getPIDController().setOutputRange(-1, 1);
 		getPIDController().setContinuous();
 		getPIDController().disable();
@@ -75,25 +74,14 @@ public class RobotRotate extends PIDSubsystem {
 		// RobotMap.driveRightMotorA.set(ControlMode.PercentOutput,-output);
 
 		if (!Robot.closeDriveSpeedLoop) {
-			if (useLeftSide)
-				RobotMap.driveLeftMotorA.set(ControlMode.PercentOutput, output);
-			if (useRightSide)
-				RobotMap.driveRightMotorA.set(ControlMode.PercentOutput, -output);
+			RobotMap.driveLeftMotorA.set(ControlMode.PercentOutput, output);
+			RobotMap.driveRightMotorA.set(ControlMode.PercentOutput, -output);
 		} else {
-			if (useLeftSide)
-				RobotMap.driveLeftMotorA.set(ControlMode.Velocity,
-						output * Robot.driveTrainCanBus.MAX_ENC_CTS_PER_100MS);
-			if (useRightSide)
-				RobotMap.driveRightMotorA.set(ControlMode.Velocity,
-						-output * Robot.driveTrainCanBus.MAX_ENC_CTS_PER_100MS);
-				}
+			RobotMap.driveLeftMotorA.set(ControlMode.Velocity, output * Robot.driveTrainCanBus.MAX_ENC_CTS_PER_100MS);
+			RobotMap.driveRightMotorA.set(ControlMode.Velocity, -output * Robot.driveTrainCanBus.MAX_ENC_CTS_PER_100MS);
+		}
 		// // Use output to drive your system, like a motor
 		// e.g. yourMotor.set(output);
-	}
-
-	public void useDriveSide(driveSide side) {
-		useLeftSide = (side != driveSide.right);
-		useRightSide = (side != driveSide.left);
 	}
 
 	public void enablePID() {

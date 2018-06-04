@@ -8,17 +8,18 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
  *
  */
 public class SetDriveBrakeOn extends InstantCommand {
-private boolean myBrakeOn;
-    public SetDriveBrakeOn(boolean on) {
-        super();
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-        myBrakeOn=on;
-    }
+	private boolean myBrakeOn;
 
-    // Called once when the command executes
-    protected void initialize() {
-    	Robot.driveTrainCanBus.setBrakeMode(myBrakeOn);
-    }
+	public SetDriveBrakeOn(boolean on) {
+		super();
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
+		myBrakeOn = on;
+	}
+
+	// Called once when the command executes
+	protected void initialize() {
+		Robot.driveTrainCanBus.setBrakeMode(myBrakeOn);
+	}
 
 }

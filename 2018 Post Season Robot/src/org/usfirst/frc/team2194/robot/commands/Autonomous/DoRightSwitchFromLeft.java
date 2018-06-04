@@ -6,7 +6,6 @@ import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveToPosition;
 import org.usfirst.frc.team2194.robot.commands.Motion.RobotOrient;
 import org.usfirst.frc.team2194.robot.subsystems.CubeHandler;
-import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -29,7 +28,7 @@ public class DoRightSwitchFromLeft extends CommandGroup {
 
 		// retract from scale and lower elevator
 		addSequential(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, 3));
-		addSequential(new RobotOrient(90, DistCon.ORIENT_RATE, driveSide.both, false, 2));
+		addSequential(new RobotOrient(90, DistCon.ORIENT_RATE, false, 2));
 		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
 
 	}

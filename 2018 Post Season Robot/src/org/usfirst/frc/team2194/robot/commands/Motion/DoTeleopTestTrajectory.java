@@ -9,16 +9,16 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
  */
 public class DoTeleopTestTrajectory extends InstantCommand {
 
-    public DoTeleopTestTrajectory() {
-        super();
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    }
+	public DoTeleopTestTrajectory() {
+		super();
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
+	}
 
-    // Called once when the command executes
-    protected void initialize() {
-    	Robot.doTeleopTrajectory = true;
-    	
-    }
+	// Called once when the command executes
+	protected void initialize() {
+		Robot.doTeleopTrajectory = true;
+
+	}
 
 }

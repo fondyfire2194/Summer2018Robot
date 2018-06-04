@@ -14,7 +14,7 @@ public class DistCon2 {
 	 * reverse distances to switch turn to 0 also
 	 */
 	public static double CSW_RD1 = 5;
-	public static double CSW_A1 = 42;//sign set in routine
+	public static double CSW_A1 = 42;// sign set in routine
 	public static double CSW_TO_CUBE = 4;
 
 	/*

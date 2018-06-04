@@ -9,15 +9,15 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
  */
 public class DoTeleopRobotVisionPosition extends InstantCommand {
 
-    public DoTeleopRobotVisionPosition() {
-        super();
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    }
+	public DoTeleopRobotVisionPosition() {
+		super();
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
+	}
 
-    // Called once when the command executes
-    protected void initialize() {
-    	Robot.doTeleopVisionMotion = true;
-    }
+	// Called once when the command executes
+	protected void initialize() {
+		Robot.doTeleopVisionMotion = true;
+	}
 
 }

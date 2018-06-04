@@ -18,7 +18,7 @@ package org.usfirst.frc.team2194.robot;
  */
 public class RobotDriveMonitor {
 
-//	public static final int UPDATE_RATE_MS = 20;
+	// public static final int UPDATE_RATE_MS = 20;
 	private int lastLeftEncoderPosition;
 	private int lastRightEncoderPosition;
 	private int DRIVE_ENCODER_STOPPED_BAND = 10;

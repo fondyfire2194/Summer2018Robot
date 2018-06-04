@@ -44,21 +44,22 @@ public class DoLeftSwitchFromCenterMove extends CommandGroup {
 		addSequential(new DriveMagicMotion(DistCon.LSWC_1, motionType.absolute, driveSide.both,
 				DistCon.SHORT_POSITION_RATE, 3));
 
-		addSequential(new RobotOrient(DistCon.LSW_CA, DistCon.LSW_C_ORIENT_RATE, driveSide.both, true, 1));
+		addSequential(new RobotOrient(DistCon.LSW_CA, DistCon.LSW_C_ORIENT_RATE, true, 1));
 
 		addSequential(new ResetEncoders());
 
 		addSequential(new SetDriveStraightAngle(DistCon.LSW_CA));
 
-		addSequential(new DriveToPosition(DistCon.LSWC_2, motionType.absolute, DistCon.SHORT_POSITION_RATE+1, false, 2));
+		addSequential(
+				new DriveToPosition(DistCon.LSWC_2, motionType.absolute, DistCon.SHORT_POSITION_RATE + 1, false, 2));
 
-		addSequential(new RobotOrient(0, DistCon.LSW_C_ORIENT_RATE, driveSide.both, true, 1.5));
+		addSequential(new RobotOrient(0, DistCon.LSW_C_ORIENT_RATE, true, 1.5));
 
 		addSequential(new ResetEncoders());
 
 		addSequential(new SetDriveStraightAngle(0));
 
-		addSequential(new PositionToSwitchWall(DistCon.LSWC_3 +1, DistCon.SHORT_POSITION_RATE, 2));
+		addSequential(new PositionToSwitchWall(DistCon.LSWC_3 + 1, DistCon.SHORT_POSITION_RATE, 2));
 
 		addSequential(new OuttakeCube(.5));
 

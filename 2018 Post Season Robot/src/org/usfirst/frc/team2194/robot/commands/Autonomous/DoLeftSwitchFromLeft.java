@@ -37,7 +37,7 @@ public class DoLeftSwitchFromLeft extends CommandGroup {
 
 		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_TRAVEL_POSITION_INCHES));
 
-		addSequential(new RobotOrient(0, DistCon.ORIENT_RATE, driveSide.both, true, 3));
+		addSequential(new RobotOrient(0, DistCon.ORIENT_RATE, true, 3));
 
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
 

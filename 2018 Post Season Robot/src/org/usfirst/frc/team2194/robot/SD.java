@@ -7,6 +7,7 @@ public class SD {
 	public SD() {
 
 	}
+
 	public static void putN(String name, double value) {
 
 		SmartDashboard.putNumber(name, value);

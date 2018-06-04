@@ -3,6 +3,7 @@ package org.usfirst.frc.team2194.robot;
 
 import java.io.File;
 
+import org.usfirst.frc.team2194.robot.commands.LogOrientData;
 import org.usfirst.frc.team2194.robot.commands.TimeDelay;
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoCrossLineMove;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeft;
@@ -74,7 +75,6 @@ public class Robot extends IterativeRobot {
 
 	public static double topEncoderSpeed = 700;
 	public static boolean doMMMove;
-	public static boolean endCommand;
 
 	// Command firstAutonomousCommand;
 	public static Command firstAutonomousCommand;
@@ -165,8 +165,6 @@ public class Robot extends IterativeRobot {
 	public static boolean doTeleopRotateToVision;
 	private Integer testTrajectory;
 	private String trajFileName;
-	public static driveSide continuingSide;
-	public static double continuingAngle;;
 
 	public static boolean cancelGamepad;
 	public static boolean isInHighGear;
@@ -204,13 +202,9 @@ public class Robot extends IterativeRobot {
 	public static String[] units = { "Number", "FT", "FT", "FT", "FT", "Deg", "Deg", "pct", "pct", "pct", "pct", "pct",
 			"pct", "pct" };
 
-	public static String[] intakeNames = { "Time", "Left Amps", "Left Volts", "Right Amps", "Right Volts" };
-	public static String[] intakeUnits = { "mS", "Amps", "Volts", "Amps", "Volts" };
-
 	public static String usbFilePath = "/U";
 	public static boolean createIntakeRunFile = true;
-	public static boolean singleStep;
-	public static boolean operatorAcknowledge;
+	public static boolean createOrientRunFile = true;
 	public static boolean useVision = true;
 	public static double xPosition;
 	public static double yPosition;
@@ -274,7 +268,6 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putNumber("XPixelTarget", 5);
 
-		SmartDashboard.putBoolean("Single Step", singleStep);
 		if (!RobotMap.elevatorSwitch.get() && cubeHandler.holdPositionInches != 0
 				&& cubeHandler.getElevatorEncoderPosition() != 0) {
 			cubeHandler.resetElevatorPosition();
@@ -299,7 +292,6 @@ public class Robot extends IterativeRobot {
 
 		testTrajectoryChooser.addObject("LSW_C", 2);
 		testTrajectoryChooser.addObject("LSW_C1 REV", 21);
-		testTrajectoryChooser.addObject("LSW_C2 REV", 22);
 
 		testTrajectoryChooser.addObject("LSW_R", 3);
 
@@ -309,7 +301,6 @@ public class Robot extends IterativeRobot {
 
 		testTrajectoryChooser.addObject("RSW_C", 5);
 		testTrajectoryChooser.addObject("RSW_C1 REV", 51);
-		testTrajectoryChooser.addObject("RSW_C2 REV", 52);
 
 		testTrajectoryChooser.addObject("RSW_L", 6);
 
@@ -584,8 +575,6 @@ public class Robot extends IterativeRobot {
 
 		startTime = Timer.getFPGATimestamp();
 
-		startTime = Timer.getFPGATimestamp();
-
 		doMotionOption = true;// will be turned to false if files found
 
 		if (doLeftSwitchFromLeft) {
@@ -780,23 +769,8 @@ public class Robot extends IterativeRobot {
 		if (doTeleopOrient) {
 			angleTarget = SmartDashboard.getNumber("Target Angle", 90);
 			orientRate = SmartDashboard.getNumber("Orient Rate", .25);
-			int driveWheelMode = (int) SmartDashboard.getNumber("Wheel Mode", 0);
-
-			switch (driveWheelMode) {
-			case 0:
-				new RobotOrient(angleTarget, orientRate, driveSide.both, true, 5).start();
-				break;
-			case 1:
-				new RobotOrient(angleTarget, orientRate, driveSide.left, true, 10).start();
-				break;
-			case 2:
-				new RobotOrient(angleTarget, orientRate, driveSide.right, true, 10).start();
-				break;
-			default:
-				new RobotOrient(angleTarget, orientRate, driveSide.both, true, 10).start();
-				break;
-
-			}
+			new LogOrientData(5).start();
+			new RobotOrient(angleTarget, orientRate, true, 5).start();
 			doTeleopOrient = false;
 		}
 		if ((doTeleopTrajectory || doTeleopRevTrajectory) && !trajectoryRunning) {
@@ -817,8 +791,6 @@ public class Robot extends IterativeRobot {
 				break;
 			case 1:
 				trajFileName = "LSW_L";
-				continuingAngle = 90;
-				continuingSide = driveSide.left;
 				leftStartPosition = true;
 				isSwitch = true;
 				oppositeSideSwitch = false;
@@ -837,19 +809,12 @@ public class Robot extends IterativeRobot {
 
 			case 2:
 				trajFileName = "LSW_C";
-				continuingAngle = 0;
-				continuingSide = driveSide.left;
 				centerStartPosition = true;
 				isSwitch = true;
 				oppositeSideSwitch = false;
 				break;
 			case 21:
 				trajFileName = "LSW_C1";
-				centerStartPosition = true;
-				isSwitch = true;
-				break;
-			case 22:
-				trajFileName = "LSW_C2";
 				centerStartPosition = true;
 				isSwitch = true;
 				break;
@@ -863,8 +828,6 @@ public class Robot extends IterativeRobot {
 				break;
 			case 4:
 				trajFileName = "RSW_R";
-				continuingAngle = -90;
-				continuingSide = driveSide.right;
 				rightStartPosition = true;
 				isSwitch = true;
 				oppositeSideSwitch = false;
@@ -881,8 +844,6 @@ public class Robot extends IterativeRobot {
 
 			case 5:
 				trajFileName = "RSW_C";
-				continuingAngle = 0;
-				continuingSide = driveSide.right;
 				centerStartPosition = true;
 				isSwitch = true;
 				oppositeSideSwitch = false;
@@ -890,11 +851,6 @@ public class Robot extends IterativeRobot {
 			case 51:
 				trajFileName = "RSW_C1";
 				centerStartPosition = true;
-				isSwitch = true;
-				break;
-			case 52:
-				trajFileName = "RSW_C2";
-				rightStartPosition = true;
 				isSwitch = true;
 				break;
 

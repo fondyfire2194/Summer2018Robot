@@ -151,8 +151,7 @@ public class DistCon {
 
 		/*
 		 * forward_distance_in_cross_move = 114 / sin15 = 30" required forward distance
-		 * = 140 - robot_length = 100" 
-		 * 100 - 12 - 30 = 48
+		 * = 140 - robot_length = 100" 100 - 12 - 30 = 48
 		 * 
 		 * 
 		 */

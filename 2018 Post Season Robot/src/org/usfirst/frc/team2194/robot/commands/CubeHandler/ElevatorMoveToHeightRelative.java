@@ -27,17 +27,17 @@ public class ElevatorMoveToHeightRelative extends Command {
 	protected void initialize() {
 		moveIsUp = myHeight > Robot.cubeHandler.holdPositionInches;
 		moveIsDown = myHeight < Robot.cubeHandler.holdPositionInches;
-		//TODO: Add down to switch command
-		//		if(myHeight == Robot.cubeHandler.ELEVATOR_PICKUP_POSITION_INCHES) {
-//			DownToSwitch.start;
-//		}
-//		
+		// TODO: Add down to switch command
+		// if(myHeight == Robot.cubeHandler.ELEVATOR_PICKUP_POSITION_INCHES) {
+		// DownToSwitch.start;
+		// }
+		//
 		Robot.cubeHandler.holdPositionInches = myHeight;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		
+
 		atPosition = (!moveIsUp && !moveIsDown)
 				|| moveIsUp && Robot.cubeHandler.getElevatorPositionInches() > myHeight - atPositionBand
 				|| moveIsDown && Robot.cubeHandler.getElevatorPositionInches() < myHeight + atPositionBand;

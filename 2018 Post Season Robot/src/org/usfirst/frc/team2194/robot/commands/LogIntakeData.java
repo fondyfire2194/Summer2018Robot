@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
  */
 public class LogIntakeData extends TimedCommand {
 	private double startTime;
+	private String[] names = { "Time", "Left Amps", "Left Volts", "Right Amps", "Right Volts" };
+	private String[] units = { "mS", "Amps", "Volts", "Amps", "Volts" };
 
 	public LogIntakeData(double timeout) {
 		super(timeout);
@@ -21,7 +23,7 @@ public class LogIntakeData extends TimedCommand {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		if (Robot.createIntakeRunFile)
-			Robot.simpleCSVLogger.init("Intake", Robot.intakeNames, Robot.intakeUnits);
+			Robot.simpleCSVLogger.init("Intake", names, units);
 		startTime = Timer.getFPGATimestamp();
 	}
 
@@ -30,8 +32,8 @@ public class LogIntakeData extends TimedCommand {
 		if (Robot.createIntakeRunFile) {
 			Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime),
 					RobotMap.intakeLeftMotor.getOutputCurrent(), RobotMap.intakeLeftMotor.getMotorOutputVoltage(),
-					RobotMap.intakeRightMotor.getOutputCurrent(), RobotMap.intakeRightMotor.getMotorOutputVoltage()
-					, Robot.driveTrainCanBus.getLeftFeet());
+					RobotMap.intakeRightMotor.getOutputCurrent(), RobotMap.intakeRightMotor.getMotorOutputVoltage(),
+					Robot.driveTrainCanBus.getLeftFeet());
 		}
 	}
 

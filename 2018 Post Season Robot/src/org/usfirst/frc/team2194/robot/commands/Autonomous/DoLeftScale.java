@@ -36,7 +36,8 @@ public class DoLeftScale extends CommandGroup {
 
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
 
-		addSequential(new DriveMagicMotion(-1, motionType.absolute, driveSide.both, DistCon.SHORT_POSITION_RATE/2, 3));
+		addSequential(
+				new DriveMagicMotion(-1, motionType.absolute, driveSide.both, DistCon.SHORT_POSITION_RATE / 2, 3));
 
 	}
 }
