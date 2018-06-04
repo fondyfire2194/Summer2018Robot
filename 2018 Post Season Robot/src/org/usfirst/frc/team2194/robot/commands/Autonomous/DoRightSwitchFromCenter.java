@@ -53,7 +53,7 @@ public class DoRightSwitchFromCenter extends CommandGroup {
 
 		addSequential(new ResetEncoders());
 
-		addParallel(new DriveToCubePickup(4, motionType.absolute, DistCon.SHORT_POSITION_RATE*.75, false, 2));
+		addParallel(new DriveToCubePickup(4, motionType.absolute, DistCon.SHORT_POSITION_RATE*.75, 2));
 
 		addParallel(new LogIntakeData(3));
 

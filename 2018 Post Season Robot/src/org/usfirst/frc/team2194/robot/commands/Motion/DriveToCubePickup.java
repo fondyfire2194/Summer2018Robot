@@ -19,13 +19,11 @@ public class DriveToCubePickup extends Command {
 	private double myTimeout;
 	private motionType myType;
 	private int passCount;
-	private boolean myHighAccuracy;
 	private boolean inPosition;
 	private int inPositionCount;
 	private boolean inPositionSeen;
 
-	public DriveToCubePickup(double targetPositionFt, motionType type, double ftPerSecond, boolean highAccuracy,
-			double timeout) {
+	public DriveToCubePickup(double targetPositionFt, motionType type, double ftPerSecond, double timeout) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.driveTrainCanBus);
@@ -35,7 +33,6 @@ public class DriveToCubePickup extends Command {
 		myTimeout = timeout;
 		myType = type;
 		passCount = 0;
-		myHighAccuracy = highAccuracy;
 	}
 
 	// Called just before this Command runs the first time
@@ -60,7 +57,6 @@ public class DriveToCubePickup extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (RobotMap.driveLeftMotorA.getClosedLoopError(0) > 0) {
-
 			Robot.driveTrainCanBus.configDrivePeakout(myFtPerSec - Robot.sensors.getGyroPositionStraightComp(),
 					driveSide.left);
 			Robot.driveTrainCanBus.configDrivePeakout(myFtPerSec + Robot.sensors.getGyroPositionStraightComp(),
@@ -73,10 +69,7 @@ public class DriveToCubePickup extends Command {
 		}
 		passCount++;
 
-		if (myHighAccuracy)
-			inPosition = Robot.driveTrainCanBus.rightSideInPosition() && Robot.driveTrainCanBus.leftSideInPosition();
-		else
-			inPosition = Robot.driveTrainCanBus.closeToPosition();
+		inPosition = Robot.driveTrainCanBus.closeToPosition();
 
 		if (inPosition && passCount > 10)
 			inPositionSeen = true;
@@ -87,7 +80,6 @@ public class DriveToCubePickup extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		return isTimedOut() || Robot.cubeHandler.cubePickedUp || inPosition && inPositionCount > 10;
-
 	}
 
 	// Called once after isFinished returns true

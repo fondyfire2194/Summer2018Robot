@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
 
 public class AllCameras {
 	public static UsbCamera cubeCamera;
-	public static UsbCamera driverCamera;
 	public static CubePipeline cubePipeline;
 	private final Object imgLock = new Object();
 	private VisionThread cubeVisionThread;
@@ -24,18 +23,17 @@ public class AllCameras {
 	public static final int IMG_WIDTH = 320;
 	public static final int IMG_HEIGHT = 240;
 	public static int cubeNumberImages;// amt of images KW
-	public boolean cubeVisionTurnedOn = false;
+	public boolean cubeVisionTurnedOn = true;// looking for cubes in auto
 	public static int cubeThreadCounter;
 	private static int cubeImagesAllowed = 4;
 
-	public static boolean cubeVisionTargetingOn = false;
+	public static boolean cubeVisionTargetingOn = true;// show cubes with targeting lines
 
 	public static Scalar yellow = new Scalar(60, 100, 100, 0);
 	public static Scalar red = new Scalar(0, 0, 255, 0);
 	public static Scalar green = new Scalar(0, 255, 0, 0);
 	public static Scalar blue = new Scalar(255, 0, 0, 0);
 	public int boxAddition = 4;
-	private boolean cubeVisionStreamOn = true;
 	public int xVisionTarget = 0;
 	Rect[] rect = new Rect[cubeImagesAllowed - 1];
 	public static int x;
@@ -51,18 +49,10 @@ public class AllCameras {
 
 	public AllCameras() {
 
-		// driverCamera = CameraServer.getInstance().startAutomaticCapture("DriverCam",
-		// 1);
-
-//		if (cubeVisionStreamOn)
-			cubeCamera = CameraServer.getInstance().startAutomaticCapture("CubeCam", 0);
-//		else
-//			cubeCamera = new UsbCamera("CubeCam", 0);
+		cubeCamera = CameraServer.getInstance().startAutomaticCapture("CubeCam", 0);
 		cubeCamera.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		cubeCamera.setBrightness(25);
+		cubeCamera.setBrightness(50);
 
-		// cubeCamera.setExposureManual(8);
-		// cubeCamera.setWhiteBalanceManual(8);
 		cubeCamera.setFPS(30);
 		cubeCamera.setExposureAuto();
 		cubeCamera.setWhiteBalanceAuto();
@@ -96,8 +86,6 @@ public class AllCameras {
 							 * get largest of multiple images if any to eliminate any small spurious false
 							 * indications
 							 * 
-							 * When turning from scale, there may well be multiple valid cubes seen and we
-							 * probably want to pick up the outside one. Need to evaluate when testing.
 							 */
 							if (rect[i].height * rect[i].width > largestArea) {
 								height = rect[i].height;
@@ -241,6 +229,10 @@ public class AllCameras {
 
 	public void updateStatus() {
 
+		if (cubeVisionTurnedOn && cubeVisionThread.getState() == Thread.State.TIMED_WAITING)
+			cubeVisionThread.interrupt();
+
+		SD.putN("CubeThreadCtr", cubeThreadCounter);
 		SD.putN0("Camera X", getX());
 		SD.putN0("Camera Y", getY());
 		SD.putN0("Camera Width", getWidth());
@@ -250,6 +242,8 @@ public class AllCameras {
 		SD.putN0("Cube NumImg", cubeNumberImages);
 		SD.putN0("Camera X Normal", getXNormal());
 		SmartDashboard.putBoolean("TargetsPresent", targetsPresent());
+		SmartDashboard.putBoolean("Cube Vision Targetting On", cubeVisionTargetingOn);
+		SmartDashboard.putBoolean("Cube Vision On", cubeVisionTurnedOn);
 
 	}
 }

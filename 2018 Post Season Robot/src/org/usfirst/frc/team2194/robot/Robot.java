@@ -211,7 +211,7 @@ public class Robot extends IterativeRobot {
 	public static boolean createIntakeRunFile = true;
 	public static boolean singleStep;
 	public static boolean operatorAcknowledge;
-	public static boolean useVision = false;
+	public static boolean useVision = true;
 	public static double xPosition;
 	public static double yPosition;
 

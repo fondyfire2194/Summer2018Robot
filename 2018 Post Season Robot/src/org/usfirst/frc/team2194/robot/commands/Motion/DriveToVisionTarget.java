@@ -34,6 +34,7 @@ public class DriveToVisionTarget extends Command {
 		Robot.driveTrainCanBus.setVBus(myFtPerSec * DriveTrainCanBus.FT_PER_SEC_TO_PCT_OUT, driveSide.both);
 		Robot.allCameras.targetOffsetMultiplier = myTargetOffsetMultiplier;
 		Robot.visionMotionRunning = true;
+		Robot.cubeHandler.cubePickedUp = false;
 		initialTargetAngle = Robot.driveTrainCanBus.driveStraightAngle;
 		setTimeout(myTimeout);
 	}
@@ -59,15 +60,11 @@ public class DriveToVisionTarget extends Command {
 			Robot.driveTrainCanBus.configDrivePeakout(myFtPerSec - activeComp, driveSide.right);
 		}
 
-
 	}
-
-	boolean robotHasCube = false;
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return isTimedOut() || robotHasCube;
-
+		return isTimedOut() || Robot.cubeHandler.cubePickedUp;
 	}
 
 	// Called once after isFinished returns true
@@ -76,6 +73,7 @@ public class DriveToVisionTarget extends Command {
 		Robot.driveTrainCanBus.configDrivePeakout(DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, driveSide.both);
 		Robot.visionMotionRunning = false;
 		Robot.driveTrainCanBus.driveStraightAngle = initialTargetAngle;
+		Robot.cubeHandler.cubePickedUp = false;
 	}
 
 	// Called when another command which requires one or more of the same

@@ -39,19 +39,22 @@ public class DoLeftSwitchFromCenter extends CommandGroup {
 		// addSequential(new Command2());
 		// Command1 and Command2 will run in parallel.
 		addSequential(new ResetEncoders());
+
 		addSequential(new ResetGyro());
 
 		addParallel(new DriveMagicMotion(-2.5, motionType.absolute, driveSide.both, DistCon.SHORT_POSITION_RATE, 3));
 
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
+
 		addSequential(new CloseIntakeArms());
+
 		addSequential(new RobotOrient(50, DistCon.ORIENT_RATE, driveSide.both, false, 1.5));
 
 		addSequential(new SetDriveStraightAngle(50));
 
 		addSequential(new ResetEncoders());
 
-		addParallel(new DriveToCubePickup(4.5, motionType.absolute, DistCon.SHORT_POSITION_RATE*.75, false, 2));
+		addParallel(new DriveToCubePickup(4.5, motionType.absolute, DistCon.SHORT_POSITION_RATE*.75, 2));
 
 		addParallel(new LogIntakeData(3));
 

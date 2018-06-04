@@ -15,13 +15,15 @@ import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoTrajectorySwitch;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftScale;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenter;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeft;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeftUsingTrajectories;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeftTrajectories;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenterTrajectories;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromRight;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightScale;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromCenter;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromCenterTrajectories;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromLeft;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRight;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRightUsingTrajectories;
+import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRightTrajectories;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
@@ -36,14 +38,14 @@ public enum PathSelectAuto {
 	 */
 
 	LEFTSWITCHFROMCENTER("LSW_C", DriveTrainCanBus.LSW_C, new DoLeftSwitchFromCenterMove(),
-			new DoLeftSwitchFromCenter(), new DoLeftSwitchFromCenter()), //
+			new DoLeftSwitchFromCenterTrajectories(), new DoLeftSwitchFromCenter()), //
 	RIGHTSWITCHFROMCENTER("RSW_C", DriveTrainCanBus.RSW_C, new DoRightSwitchFromCenterMove(),
-			new DoRightSwitchFromCenter(), new DoRightSwitchFromCenter()), //
+			new DoRightSwitchFromCenterTrajectories(), new DoRightSwitchFromCenter()), //
 
 	LEFTSWITCHFROMLEFT("LSW_L", DriveTrainCanBus.LSW_L, new DoLeftSwitchFromLeftMove(),
-			new DoLeftSwitchFromLeftUsingTrajectories(), new DoLeftSwitchFromLeft()), //
+			new DoLeftSwitchFromLeftTrajectories(), new DoLeftSwitchFromLeft()), //
 	RIGHTSWITCHFROMRIGHT("RSW_R", DriveTrainCanBus.RSW_R, new DoRightSwitchFromRightMove(),
-			new DoRightSwitchFromRightUsingTrajectories(), new DoRightSwitchFromRight()), //
+			new DoRightSwitchFromRightTrajectories(), new DoRightSwitchFromRight()), //
 
 	LEFTSWITCHFROMRIGHT("LSW_R", DriveTrainCanBus.LSW_R, new DoLeftSwitchFromRightMove(), new DoLeftSwitchFromRight(),
 			new DoLeftSwitchFromRight()), //

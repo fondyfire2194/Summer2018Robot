@@ -1,7 +1,6 @@
 package org.usfirst.frc.team2194.robot;
 
 import org.usfirst.frc.team2194.robot.commands.LowerWings;
-import org.usfirst.frc.team2194.robot.commands.OperatorAcknowledge;
 import org.usfirst.frc.team2194.robot.commands.RaiseWings;
 import org.usfirst.frc.team2194.robot.commands.ResetScanValues;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenter;
@@ -16,13 +15,13 @@ import org.usfirst.frc.team2194.robot.commands.CubeHandler.RunElevatorFromGamepa
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnIntakeWheels;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.VariableOuttake;
-import org.usfirst.frc.team2194.robot.commands.Motion.DoRobotMagicMotion;
-import org.usfirst.frc.team2194.robot.commands.Motion.DoRobotOrient;
-import org.usfirst.frc.team2194.robot.commands.Motion.DoRobotPosition;
-import org.usfirst.frc.team2194.robot.commands.Motion.DoRobotTurnToVision;
-import org.usfirst.frc.team2194.robot.commands.Motion.DoRobotVisionPosition;
-import org.usfirst.frc.team2194.robot.commands.Motion.DoTestReverseTrajectory;
-import org.usfirst.frc.team2194.robot.commands.Motion.DoTestTrajectory;
+import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotMagicMotion;
+import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotOrient;
+import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotPosition;
+import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotTurnToVision;
+import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotVisionPosition;
+import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopTestReverseTrajectory;
+import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopTestTrajectory;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetEncoders;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetGyro;
 import org.usfirst.frc.team2194.robot.commands.Motion.ToggleCloseDriveSpeedLoop;
@@ -176,17 +175,14 @@ public class OI {
 
 		SmartDashboard.putData("Reset Values", new ResetScanValues());
 
-		SmartDashboard.putData("Position Robot", new DoRobotPosition());
-		SmartDashboard.putData("Orient Robot", new DoRobotOrient());
-		SmartDashboard.putData("Test Trajectory", new DoTestTrajectory());
-		SmartDashboard.putData("Test Rev Trajectory", new DoTestReverseTrajectory());
-		SmartDashboard.putData("Magic Motion Robot", new DoRobotMagicMotion());
-		SmartDashboard.putData("Vision Motion Robot", new DoRobotVisionPosition());
-		SmartDashboard.putData("Turn To Vision Robot", new DoRobotTurnToVision());
+		SmartDashboard.putData("Position Robot", new DoTeleopRobotPosition());
+		SmartDashboard.putData("Orient Robot", new DoTeleopRobotOrient());
+		SmartDashboard.putData("Test Trajectory", new DoTeleopTestTrajectory());
+		SmartDashboard.putData("Test Rev Trajectory", new DoTeleopTestReverseTrajectory());
+		SmartDashboard.putData("Magic Motion Robot", new DoTeleopRobotMagicMotion());
+		SmartDashboard.putData("Vision Motion Robot", new DoTeleopRobotVisionPosition());
+		SmartDashboard.putData("Turn To Vision Robot", new DoTeleopRobotTurnToVision());
 		SmartDashboard.putData("Reset Elevator Position", new ResetElevatorEncoder());
-		SmartDashboard.putData("Operator Acknowledge", new OperatorAcknowledge());
-		SmartDashboard.putData("Second Pickup Left", new DoLeftSwitchFromCenter());
-		SmartDashboard.putData("Second Pickup Right", new DoRightSwitchFromCenter());
 	}
 
 	public Joystick getgamepad() {
