@@ -186,6 +186,7 @@ public class CubeHandler extends Subsystem {
 
 	public void resetElevatorPosition() {
 		RobotMap.elevatorMotor.setSelectedSensorPosition(0, 0, 0);
+		holdPositionInches = getElevatorPositionInches();
 	}
 
 	public void updateStatus() {

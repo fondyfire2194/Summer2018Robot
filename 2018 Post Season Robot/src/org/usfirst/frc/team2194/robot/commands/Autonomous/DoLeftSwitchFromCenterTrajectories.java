@@ -59,7 +59,7 @@ public class DoLeftSwitchFromCenterTrajectories extends CommandGroup {
 
 		addSequential(new TurnWheelsToIntake(.5, 3));
 
-		addSequential(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, 2));
+		addSequential(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, false, 2));
 
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
 

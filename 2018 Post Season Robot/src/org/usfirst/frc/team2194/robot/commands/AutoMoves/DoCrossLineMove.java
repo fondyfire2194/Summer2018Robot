@@ -37,7 +37,8 @@ public class DoCrossLineMove extends CommandGroup {
 		// arm.
 		addSequential(new SetDriveStraightAngle(0));
 		addSequential(new ResetEncoders());
-		addParallel(new DriveToPosition(DistCon.CROSS_LINE, motionType.absolute, DistCon.LONG_POSITION_RATE, false, 8));
+		addParallel(new DriveToPosition(DistCon.CROSS_LINE, motionType.absolute, DistCon.LONG_POSITION_RATE, false,
+				false, 8));
 		// addSequential(new ElevatorToSwitch());
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_TRAVEL_POSITION_INCHES));
 		addSequential(new TimeDelay(2));

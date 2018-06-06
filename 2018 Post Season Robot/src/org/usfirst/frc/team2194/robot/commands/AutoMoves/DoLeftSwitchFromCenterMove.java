@@ -50,8 +50,8 @@ public class DoLeftSwitchFromCenterMove extends CommandGroup {
 
 		addSequential(new SetDriveStraightAngle(DistCon.LSW_CA));
 
-		addSequential(
-				new DriveToPosition(DistCon.LSWC_2, motionType.absolute, DistCon.SHORT_POSITION_RATE + 1, false, 2));
+		addSequential(new DriveToPosition(DistCon.LSWC_2, motionType.absolute, DistCon.SHORT_POSITION_RATE + 1, false,
+				false, 2));
 
 		addSequential(new RobotOrient(0, DistCon.LSW_C_ORIENT_RATE, true, 1.5));
 

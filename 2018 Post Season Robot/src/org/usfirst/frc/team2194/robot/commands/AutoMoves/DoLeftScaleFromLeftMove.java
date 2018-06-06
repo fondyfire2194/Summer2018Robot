@@ -42,12 +42,12 @@ public class DoLeftScaleFromLeftMove extends CommandGroup {
 
 		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
 
-		addSequential(
-				new DriveToPosition(DistCon.LR_SC_2 - 1, motionType.absolute, DistCon.LONG_POSITION_RATE, false, 4.5)); // Subtracted
-																														// for
-																														// Neutral
-																														// zone
-																														// cable
+		addSequential(new DriveToPosition(DistCon.LR_SC_2 - 1, motionType.absolute, DistCon.LONG_POSITION_RATE, false,
+				false, 4.5)); // Subtracted
+		// for
+		// Neutral
+		// zone
+		// cable
 
 		addSequential(new RobotOrient(70, DistCon.ORIENT_RATE, true, 2));
 

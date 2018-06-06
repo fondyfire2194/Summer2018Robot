@@ -6,7 +6,7 @@ import org.usfirst.frc.team2194.robot.commands.Climber.StopClimber;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.CloseIntakeArms;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.OpenIntakeArms;
-import org.usfirst.frc.team2194.robot.commands.CubeHandler.ResetElevatorEncoder;
+import org.usfirst.frc.team2194.robot.commands.CubeHandler.ResetElevatorPosition;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.RunElevatorFromGamepad;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnIntakeWheels;
@@ -163,7 +163,7 @@ public class OI {
 		SmartDashboard.putData("Test Rev Trajectory", new DoTeleopTestReverseTrajectory());
 		SmartDashboard.putData("Magic Motion Robot", new DoTeleopRobotMagicMotion());
 		SmartDashboard.putData("Vision Motion Robot", new DoTeleopRobotVisionPosition());
-		SmartDashboard.putData("Reset Elevator Position", new ResetElevatorEncoder());
+		SmartDashboard.putData("Reset Elevator Position", new ResetElevatorPosition());
 	}
 
 	public Joystick getgamepad() {

@@ -28,7 +28,6 @@ import org.usfirst.frc.team2194.robot.subsystems.Sensors;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -225,7 +224,7 @@ public class Robot extends IterativeRobot {
 
 		// freeMemory = Runtime.getRuntime().freeMemory();
 
-		// powerPanel = new PowerPanel();
+		 powerPanel = new PowerPanel();
 		airCompressor = new AirCompressor();
 
 		driveTrainCanBus = new DriveTrainCanBus();
@@ -743,7 +742,7 @@ public class Robot extends IterativeRobot {
 		if (doTeleopPosition) {
 			positionTarget = SmartDashboard.getNumber("Target Feet", 5);
 			positionFPS = SmartDashboard.getNumber("Position FPS", 12);
-			new DriveToPosition(positionTarget, motionType.absolute, positionFPS, true, 8).start();
+			new DriveToPosition(positionTarget, motionType.absolute, positionFPS, true, false, 8).start();
 			doTeleopPosition = false;
 		}
 

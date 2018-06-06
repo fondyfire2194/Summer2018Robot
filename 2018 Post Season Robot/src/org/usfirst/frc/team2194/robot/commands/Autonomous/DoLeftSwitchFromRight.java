@@ -28,7 +28,7 @@ public class DoLeftSwitchFromRight extends CommandGroup {
 
 		// retract from switch and lower elevator
 
-		addSequential(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, 3));
+		addSequential(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, false, 3));
 		addSequential(new RobotOrient(-90, DistCon.ORIENT_RATE, false, 2));
 		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
 

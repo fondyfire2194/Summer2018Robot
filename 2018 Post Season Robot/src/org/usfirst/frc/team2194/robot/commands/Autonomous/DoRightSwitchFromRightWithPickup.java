@@ -47,8 +47,8 @@ public class DoRightSwitchFromRightWithPickup extends CommandGroup {
 		addSequential(new ResetEncoders());
 		addSequential(new SetDriveStraightAngle(-DistCon2.LRSW_A1));
 		// back up to get angle on cube
-		addSequential(
-				new DriveToPosition(-DistCon2.LRSW_RD2, motionType.absolute, DistCon.LONG_POSITION_RATE, true, 3));
+		addSequential(new DriveToPosition(-DistCon2.LRSW_RD2, motionType.absolute, DistCon.LONG_POSITION_RATE, true,
+				false, 3));
 		// turn to line up with cube
 		addSequential(new RobotOrient(-DistCon2.LRSW_A2, DistCon.ORIENT_RATE, true, 1.5));
 		addSequential(new ResetEncoders());

@@ -59,7 +59,7 @@ public class DoRightSwitchFromCenterTrajectories extends CommandGroup {
 
 		addSequential(new TurnWheelsToIntake(.5, 1));
 
-		addParallel(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, 2));
+		addParallel(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, false, 2));
 
 		addSequential(new ResetEncoders());
 

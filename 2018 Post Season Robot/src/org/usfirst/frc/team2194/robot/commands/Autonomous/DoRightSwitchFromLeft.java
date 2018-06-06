@@ -27,7 +27,7 @@ public class DoRightSwitchFromLeft extends CommandGroup {
 		// Command1 and Command2 will run in parallel.
 
 		// retract from scale and lower elevator
-		addSequential(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, 3));
+		addSequential(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, false, 3));
 		addSequential(new RobotOrient(90, DistCon.ORIENT_RATE, false, 2));
 		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
 

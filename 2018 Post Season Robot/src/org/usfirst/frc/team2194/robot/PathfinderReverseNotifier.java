@@ -84,13 +84,12 @@ public class PathfinderReverseNotifier {
 			Robot.simpleCSVLogger.writeData((double) passCounter,
 					Robot.driveTrainCanBus.revLeftDf.getSegment().position, -Robot.driveTrainCanBus.getLeftFeet(),
 					Robot.driveTrainCanBus.revRightDf.getSegment().position, -Robot.driveTrainCanBus.getRightFeet(),
-					desired_heading, -Robot.sensors.getGyroYaw(),
+					Pathfinder.boundHalfDegrees(desired_heading), -Robot.sensors.getGyroYaw(),
 					Robot.driveTrainCanBus.revLeftDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					left, Robot.driveTrainCanBus.getLeftFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					Robot.driveTrainCanBus.revRightDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					right, Robot.driveTrainCanBus.getRightFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					turn);
 		}
-
 	}
 }

@@ -37,22 +37,22 @@ public class DoLeftSwitchFromRightMove extends CommandGroup {
 		addSequential(new SetDriveStraightAngle(0));
 		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
 
-		addSequential(
-				new DriveToPosition(DistCon.LRSW_RL_1, motionType.absolute, DistCon.LONG_POSITION_RATE, false, 3));
+		addSequential(new DriveToPosition(DistCon.LRSW_RL_1, motionType.absolute, DistCon.LONG_POSITION_RATE, false,
+				false, 3));
 
 		addSequential(new RobotOrient(-90, DistCon.ORIENT_RATE, false, 2));
 		addSequential(new ResetEncoders());
 		addSequential(new SetDriveStraightAngle(-90));
 
-		addSequential(
-				new DriveToPosition(DistCon.LRSW_RL_2, motionType.absolute, DistCon.SHORT_POSITION_RATE, true, 3));
+		addSequential(new DriveToPosition(DistCon.LRSW_RL_2, motionType.absolute, DistCon.SHORT_POSITION_RATE, true,
+				false, 3));
 
 		addSequential(new RobotOrient(-DistCon.LRSW_RL_A, DistCon.ORIENT_RATE, true, 2));
 		addSequential(new ResetEncoders());
 		addSequential(new SetDriveStraightAngle(-DistCon.LRSW_RL_A));
 
-		addSequential(
-				new DriveToPosition(DistCon.LRSW_RL_3, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, 3));
+		addSequential(new DriveToPosition(DistCon.LRSW_RL_3, motionType.absolute, DistCon.SHORT_POSITION_RATE, false,
+				false, 3));
 
 		addSequential(new OuttakeCube(.75));
 

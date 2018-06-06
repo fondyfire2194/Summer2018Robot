@@ -15,7 +15,8 @@ public class LogOrientData extends TimedCommand {
 			"LeftB Volts", "LeftC Amps", "LeftC Volts", "RightA Amps", "RightA Volts", "RightB Amps", "RightB Volts",
 			"RightC Amps", "RightC Volts", "Left Ft", "Right Ft" };
 	private String[] units = { "mS", "Degrees", "PU", "Amps", "Volts", "Amps", "Volts", "Amps", "Volts", "Amps",
-			"Volts", "Amps", "Volts", "Amps", "Volts", "Ft", "Ft" };
+			"Volts", "Amps", "Volts", "Amps", "Volts", "Ft", "Ft", "EncCts", "EncCtsPer100ms", "EncCts",
+			"EncCtsPer100ms" };
 
 	public LogOrientData(double timeout) {
 		super(timeout);
@@ -33,7 +34,7 @@ public class LogOrientData extends TimedCommand {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (Robot.createOrientRunFile) {
-			Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime), Robot.sensors.getGyroYaw(),
+			Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime) * 1000, Robot.sensors.getGyroYaw(),
 					RobotMap.driveLeftMotorA.getMotorOutputPercent(), RobotMap.driveLeftMotorA.getOutputCurrent(),
 					RobotMap.driveLeftMotorA.getMotorOutputVoltage(), RobotMap.driveLeftMotorB.getOutputCurrent(),
 					RobotMap.driveLeftMotorB.getMotorOutputVoltage(), RobotMap.driveLeftMotorC.getOutputCurrent(),
@@ -41,7 +42,10 @@ public class LogOrientData extends TimedCommand {
 					RobotMap.driveRightMotorA.getMotorOutputVoltage(), RobotMap.driveRightMotorB.getOutputCurrent(),
 					RobotMap.driveRightMotorB.getMotorOutputVoltage(), RobotMap.driveRightMotorC.getOutputCurrent(),
 					RobotMap.driveRightMotorC.getMotorOutputVoltage(), Robot.driveTrainCanBus.getLeftFeet(),
-					Robot.driveTrainCanBus.getLeftFeet());
+					Robot.driveTrainCanBus.getRightFeet(), RobotMap.driveLeftMotorA.getClosedLoopError(0),
+					RobotMap.driveLeftMotorA.getSelectedSensorVelocity(0),
+					RobotMap.driveRightMotorA.getClosedLoopError(0),
+					RobotMap.driveRightMotorA.getSelectedSensorVelocity(0));
 		}
 	}
 

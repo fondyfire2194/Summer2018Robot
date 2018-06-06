@@ -17,6 +17,7 @@ public class DriveToPosition extends Command {
 	private double rightTargetFt;
 	private double myFtPerSec;
 	private double myTimeout;
+	private boolean myStop;
 	private motionType myType;
 	private int passCount;
 	private boolean myHighAccuracy;
@@ -25,7 +26,7 @@ public class DriveToPosition extends Command {
 	private boolean inPositionSeen;
 
 	public DriveToPosition(double targetPositionFt, motionType type, double ftPerSecond, boolean highAccuracy,
-			double timeout) {
+			boolean stop, double timeout) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.driveTrainCanBus);
@@ -34,6 +35,7 @@ public class DriveToPosition extends Command {
 		myFtPerSec = ftPerSecond;
 		myTimeout = timeout;
 		myType = type;
+		myStop = stop;
 		passCount = 0;
 		myHighAccuracy = highAccuracy;
 	}
@@ -85,7 +87,7 @@ public class DriveToPosition extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return isTimedOut() || inPosition && inPositionCount > 10;
+		return isTimedOut() || myStop || inPosition && inPositionCount > 10;
 
 	}
 
