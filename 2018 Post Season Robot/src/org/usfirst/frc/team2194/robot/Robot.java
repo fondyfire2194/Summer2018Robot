@@ -12,7 +12,6 @@ import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopTrajectorySwitch;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveMagicMotion;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveToPosition;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveToVisionTarget;
-import org.usfirst.frc.team2194.robot.commands.Motion.MMRotateToVision;
 import org.usfirst.frc.team2194.robot.commands.Motion.PathfinderReverseTrajectoryUsingNotifier;
 import org.usfirst.frc.team2194.robot.commands.Motion.PathfinderTrajectoryUsingNotifier;
 import org.usfirst.frc.team2194.robot.commands.Motion.RobotOrient;
@@ -29,6 +28,7 @@ import org.usfirst.frc.team2194.robot.subsystems.Sensors;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -759,12 +759,6 @@ public class Robot extends IterativeRobot {
 			visionTarget = (int) SmartDashboard.getNumber("XPixelTarget", 0);
 			new DriveToVisionTarget(visionTarget, positionFPS, 8).start();
 			doTeleopVisionMotion = false;
-		}
-		if (doTeleopRotateToVision) {
-			angleTarget = SmartDashboard.getNumber("Target Angle", 0);
-			positionFPS = SmartDashboard.getNumber("Position FPS", 8);
-			new MMRotateToVision(angleTarget, positionFPS, 3).start();
-			doTeleopRotateToVision = false;
 		}
 		if (doTeleopOrient) {
 			angleTarget = SmartDashboard.getNumber("Target Angle", 90);

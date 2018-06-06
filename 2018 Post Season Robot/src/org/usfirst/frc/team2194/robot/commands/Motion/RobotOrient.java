@@ -6,7 +6,10 @@
 package org.usfirst.frc.team2194.robot.commands.Motion;
 
 import org.usfirst.frc.team2194.robot.Robot;
+import org.usfirst.frc.team2194.robot.RobotMap;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
+
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -45,6 +48,9 @@ public class RobotOrient extends Command {
 		Robot.orientRunning = true;
 		setTimeout(myTimeout);
 		passCount = 0;
+		RobotMap.driveLeftMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 2, 0);
+		RobotMap.driveRightMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 2, 0);
+		Robot.closeDriveSpeedLoop = true;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -73,6 +79,9 @@ public class RobotOrient extends Command {
 	protected void end() {
 		Robot.robotRotate.disable();
 		Robot.orientRunning = false;
+		RobotMap.driveRightMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20, 0);
+		Robot.driveTrainCanBus.configOpenLoopAcceleration(.5);
+		Robot.closeDriveSpeedLoop = false;
 	}
 
 	// Called when another command which requires one or more of the same

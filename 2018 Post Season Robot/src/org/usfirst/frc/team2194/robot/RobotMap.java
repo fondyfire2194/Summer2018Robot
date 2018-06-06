@@ -70,7 +70,7 @@ public class RobotMap {
 		driveLeftMotorA.setInverted(true);
 		driveLeftMotorA.setNeutralMode(NeutralMode.Brake);
 		driveLeftMotorA.configVoltageCompSaturation(12, 0);
-		driveLeftMotorA.enableVoltageCompensation(true);
+		driveLeftMotorA.enableVoltageCompensation(false);
 		driveLeftMotorA.setSensorPhase(true);
 
 		driveLeftMotorB = new TalonSRX(4);
@@ -92,7 +92,7 @@ public class RobotMap {
 		driveRightMotorA.configClosedloopRamp(1, 0);
 		driveRightMotorA.setNeutralMode(NeutralMode.Brake);
 		driveRightMotorA.configVoltageCompSaturation(12, 0);
-		driveRightMotorA.enableVoltageCompensation(true);
+		driveRightMotorA.enableVoltageCompensation(false);
 		driveRightMotorA.setSensorPhase(true);
 
 		driveRightMotorB = new TalonSRX(7);

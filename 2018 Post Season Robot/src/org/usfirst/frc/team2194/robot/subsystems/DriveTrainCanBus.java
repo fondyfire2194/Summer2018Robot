@@ -291,19 +291,20 @@ public class DriveTrainCanBus extends Subsystem {
 		}
 	}
 
+	/*Slot 0 is used for velocity gains
+	 * for 1000% speed feed forward
+	 * F-gain = ([Percent Output] x 1023) / [Velocity]
+	 *max enc cts per 100ms = (10 * 12 * 403)/100 = 1.2 * 403 = 484
+	 *so Kf = (1 * 1023) / 484 = 2.11
+	 * Kp is in output per unit of error
+	 * Start with Kp at .15
+	 */
 	public void setVelocityGains() {
 		RobotMap.driveLeftMotorA.selectProfileSlot(0, 0);
 		RobotMap.driveRightMotorA.selectProfileSlot(0, 0);
 
-		RobotMap.driveLeftMotorA.config_kP(0, Robot.prefs.getDouble("VKp", .015), 0);
-		RobotMap.driveRightMotorA.config_kP(0, Robot.prefs.getDouble("VKp", .015), 0);
-
-		RobotMap.driveLeftMotorA.config_kI(0, Robot.prefs.getDouble("Ki", 0.00004), 0);
-		RobotMap.driveRightMotorA.config_kI(0, Robot.prefs.getDouble("Ki", 0.00004), 0);
-
-		RobotMap.driveLeftMotorA.config_IntegralZone(0, Robot.prefs.getInt("Izone", 0), 0);
-		RobotMap.driveRightMotorA.config_IntegralZone(0, Robot.prefs.getInt("Izone", 0), 0);
-
+		RobotMap.driveLeftMotorA.config_kP(0, .15, 0);
+		RobotMap.driveRightMotorA.config_kP(0, .15, 0);
 	}
 
 	public void setBrakeMode(boolean brakeOn) {
