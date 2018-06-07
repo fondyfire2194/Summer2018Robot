@@ -19,6 +19,7 @@ import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopTestReverseTraject
 import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopTestTrajectory;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetEncoders;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetGyro;
+import org.usfirst.frc.team2194.robot.commands.Motion.ToggleCloseDriveSpeedLoop;
 import org.usfirst.frc.team2194.robot.subsystems.CubeHandler;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -154,11 +155,13 @@ public class OI {
 
 		SmartDashboard.putData("Reset Encoders", new ResetEncoders());
 		SmartDashboard.putData("Reset Gyro", new ResetGyro());
+		SmartDashboard.putData("Toggle Closed Loop", new ToggleCloseDriveSpeedLoop());
 
 		SmartDashboard.putData("Reset Values", new ResetScanValues());
 
 		SmartDashboard.putData("Position Robot", new DoTeleopRobotPosition());
 		SmartDashboard.putData("Orient Robot", new DoTeleopRobotOrient());
+		SmartDashboard.putData("Orient Reverse", new DoTeleopReverseOrient());
 		SmartDashboard.putData("Test Trajectory", new DoTeleopTestTrajectory());
 		SmartDashboard.putData("Test Rev Trajectory", new DoTeleopTestReverseTrajectory());
 		SmartDashboard.putData("Magic Motion Robot", new DoTeleopRobotMagicMotion());

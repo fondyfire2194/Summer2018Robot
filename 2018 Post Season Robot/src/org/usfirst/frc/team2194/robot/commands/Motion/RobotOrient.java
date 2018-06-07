@@ -45,7 +45,7 @@ public class RobotOrient extends Command {
 		Robot.orientRunning = true;
 		setTimeout(myTimeout);
 		passCount = 0;
-		Robot.closeDriveSpeedLoop = true;
+		// Robot.closeDriveSpeedLoop = true;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -54,9 +54,8 @@ public class RobotOrient extends Command {
 		passCount++;
 		if (passCount > 5 && Math.abs(Robot.robotRotate.getError()) < Robot.prefs.getDouble("RobotRotateIzone",
 				DriveTrainCanBus.drivePrefsDefaults[12]))
-			Robot.robotRotate.setPIDF(Robot.robotRotate.getKp(),
-					Robot.prefs.getDouble("RobotRotateKi", DriveTrainCanBus.drivePrefsDefaults[11]),
-					Robot.prefs.getDouble("RobotRotateKd", DriveTrainCanBus.drivePrefsDefaults[22]), 0);
+			Robot.robotRotate.getPIDController()
+					.setI(Robot.prefs.getDouble("RobotRotateKi", DriveTrainCanBus.drivePrefsDefaults[11]));
 		if (myAccuracy)
 			inPosition = Robot.robotRotate.inPosition();
 		else
@@ -75,7 +74,7 @@ public class RobotOrient extends Command {
 		Robot.robotRotate.disable();
 		Robot.orientRunning = false;
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(.5);
-		Robot.closeDriveSpeedLoop = false;
+		// Robot.closeDriveSpeedLoop = false;
 	}
 
 	// Called when another command which requires one or more of the same

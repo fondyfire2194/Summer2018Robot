@@ -294,14 +294,18 @@ public class DriveTrainCanBus extends Subsystem {
 	/*Slot 0 is used for velocity gains
 	 * for 1000% speed feed forward
 	 * F-gain = ([Percent Output] x 1023) / [Velocity]
-	 *max enc cts per 100ms = (10 * 12 * 403)/100 = 1.2 * 403 = 484
-	 *so Kf = (1 * 1023) / 484 = 2.11
+	 *max enc cts per 100ms = (10 * 12 * 403)/10 = 12 * 403 = 4840
+	 *so Kf = (1 * 1023) / 4840 = .211
+	 *Check Kf 50% speed. Command = 2420. Output = .211 * 2420 = 
 	 * Kp is in output per unit of error
 	 * Start with Kp at .15
 	 */
 	public void setVelocityGains() {
 		RobotMap.driveLeftMotorA.selectProfileSlot(0, 0);
 		RobotMap.driveRightMotorA.selectProfileSlot(0, 0);
+
+		RobotMap.driveLeftMotorA.config_kF(0, .21, 0);
+		RobotMap.driveRightMotorA.config_kF(0, .21, 0);
 
 		RobotMap.driveLeftMotorA.config_kP(0, .15, 0);
 		RobotMap.driveRightMotorA.config_kP(0, .15, 0);
@@ -513,9 +517,7 @@ public class DriveTrainCanBus extends Subsystem {
 			leftMotorA.setSelectedSensorPosition((int) (value * 12 * DRIVE_ENCODER_COUNTS_PER_INCH), 0, 0);
 			rightMotorA.setSelectedSensorPosition((int) (value * 12 * DRIVE_ENCODER_COUNTS_PER_INCH), 0, 0);
 			break;
-
 		}
-
 	}
 
 	public void stopMotor(driveSide side) {

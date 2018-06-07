@@ -35,7 +35,6 @@ public class LogOrientData extends TimedCommand {
 	protected void execute() {
 		if (Robot.createOrientRunFile) {
 			Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime) * 1000, Robot.sensors.getGyroYaw(),
-					RobotMap.driveLeftMotorA.getMotorOutputPercent(), RobotMap.driveLeftMotorA.getOutputCurrent(),
 					RobotMap.driveLeftMotorA.getMotorOutputVoltage(), RobotMap.driveLeftMotorB.getOutputCurrent(),
 					RobotMap.driveLeftMotorB.getMotorOutputVoltage(), RobotMap.driveLeftMotorC.getOutputCurrent(),
 					RobotMap.driveLeftMotorC.getMotorOutputVoltage(), RobotMap.driveRightMotorA.getOutputCurrent(),

@@ -155,6 +155,7 @@ public class Robot extends IterativeRobot {
 
 	public static int stoppedValue = 50;
 	public static boolean doTeleopOrient;
+	public static boolean doTeleopReverseOrient;
 	public static boolean doTeleopPosition;
 	public static boolean doVelocity;
 	public static boolean doTeleopTrajectory;
@@ -224,7 +225,7 @@ public class Robot extends IterativeRobot {
 
 		// freeMemory = Runtime.getRuntime().freeMemory();
 
-		 powerPanel = new PowerPanel();
+		powerPanel = new PowerPanel();
 		airCompressor = new AirCompressor();
 
 		driveTrainCanBus = new DriveTrainCanBus();
@@ -760,11 +761,22 @@ public class Robot extends IterativeRobot {
 			doTeleopVisionMotion = false;
 		}
 		if (doTeleopOrient) {
+			sensors.resetGyro();
+			driveTrainCanBus.resetEncoders();
 			angleTarget = SmartDashboard.getNumber("Target Angle", 90);
 			orientRate = SmartDashboard.getNumber("Orient Rate", .25);
 			new LogOrientData(5).start();
 			new RobotOrient(angleTarget, orientRate, true, 5).start();
 			doTeleopOrient = false;
+		}
+		if (doTeleopReverseOrient) {
+			sensors.resetGyro();
+			driveTrainCanBus.resetEncoders();
+			angleTarget = SmartDashboard.getNumber("Target Angle", 90);
+			orientRate = SmartDashboard.getNumber("Orient Rate", .25);
+			new LogOrientData(5).start();
+			new RobotOrient(-angleTarget, orientRate, true, 5).start();
+			doTeleopReverseOrient = false;
 		}
 		if ((doTeleopTrajectory || doTeleopRevTrajectory) && !trajectoryRunning) {
 			leftStartPosition = false;
