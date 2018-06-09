@@ -93,8 +93,11 @@ public class PathfinderNotifier {
 		 * 
 		 * 
 		 */
-		double leftPct = DriveTrainCanBus.MINIMUM_START_PCT + (left + turn);
-		double rightPct = DriveTrainCanBus.MINIMUM_START_PCT + (right - turn);
+		double leftPct = DriveTrainCanBus.MINIMUM_START_PCT + left + turn;
+		double rightPct = DriveTrainCanBus.MINIMUM_START_PCT + right - turn;
+
+		Robot.driveTrainCanBus.leftDriveOut(leftPct);
+		Robot.driveTrainCanBus.rightDriveOut(rightPct);
 
 		if (segmentCounter < activeTrajectoryLength - 1) {
 			/*
@@ -115,9 +118,6 @@ public class PathfinderNotifier {
 					Robot.driveTrainCanBus.rightDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, right,
 					Robot.driveTrainCanBus.getRightFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, turn);
 		}
-
-		Robot.driveTrainCanBus.leftDrivePctOut(leftPct);
-		Robot.driveTrainCanBus.rightDrivePctOut(rightPct);
 
 		thisTime = Timer.getFPGATimestamp();
 		timeDifference = thisTime - lastTime;

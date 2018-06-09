@@ -152,7 +152,7 @@ public class ReverseDistanceFollower {
 	 * @return whether we have finished tracking this trajectory or not.
 	 */
 	public boolean isFinished() {
-		return segment <= 0;
+		return segment < 0;
 	}
 
 }

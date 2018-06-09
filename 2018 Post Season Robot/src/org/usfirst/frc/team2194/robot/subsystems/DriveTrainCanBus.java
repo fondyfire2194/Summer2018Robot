@@ -6,8 +6,10 @@ import org.usfirst.frc.team2194.robot.RobotMap;
 import org.usfirst.frc.team2194.robot.SD;
 import org.usfirst.frc.team2194.robot.commands.Motion.RunFromGamepadCanBus;
 
+import com.ctre.phoenix.motorcontrol.ControlFrame;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -22,6 +24,10 @@ public class DriveTrainCanBus extends Subsystem {
 
 	private TalonSRX leftMotorA = RobotMap.driveLeftMotorA;
 	private TalonSRX rightMotorA = RobotMap.driveRightMotorA;
+	private TalonSRX leftMotorB = RobotMap.driveLeftMotorB;
+	private TalonSRX rightMotorB = RobotMap.driveRightMotorB;
+	private TalonSRX leftMotorC = RobotMap.driveLeftMotorC;
+	private TalonSRX rightMotorC = RobotMap.driveRightMotorC;
 	public double driveStraightAngle;
 	public double leftPositionTargetFt;
 	public double rightPositionTargetFt;
@@ -107,6 +113,8 @@ public class DriveTrainCanBus extends Subsystem {
 	public static double[] RevTest = { .8, 0, 0, .1 };
 
 	private int test;
+	public double leftSpeedForDebug;
+	public double rightSpeedForDebug;
 
 	@Override
 	public void initDefaultCommand() {
@@ -273,14 +281,16 @@ public class DriveTrainCanBus extends Subsystem {
 		return work / JOYSTICK_TURN_CONSTANT;
 	}
 
-	public void leftDrivePctOut(double speed) {
+	public void leftDriveOut(double speed) {
+		leftSpeedForDebug = speed;
 		if (!Robot.closeDriveSpeedLoop)
 			leftMotorA.set(ControlMode.PercentOutput, speed);
 		else
 			leftMotorA.set(ControlMode.Velocity, speed * MAX_ENC_CTS_PER_100MS);
 	}
 
-	public void rightDrivePctOut(double speed) {
+	public void rightDriveOut(double speed) {
+		rightSpeedForDebug = speed;
 		if (!Robot.closeDriveSpeedLoop)
 			rightMotorA.set(ControlMode.PercentOutput, speed);
 		else
@@ -288,13 +298,13 @@ public class DriveTrainCanBus extends Subsystem {
 	}
 
 	public void tankDrive(double leftValue, double rightValue, double comp) {
-		leftDrivePctOut(leftValue - comp);
-		rightDrivePctOut(rightValue + comp);
+		leftDriveOut(leftValue - comp);
+		rightDriveOut(rightValue + comp);
 	}
 
 	public void arcadeDrive(double throttleValue, double turnValue, double comp) {
-		leftDrivePctOut(throttleValue + turnValue - comp);
-		rightDrivePctOut(throttleValue - turnValue + comp);
+		leftDriveOut(throttleValue + turnValue - comp);
+		rightDriveOut(throttleValue - turnValue + comp);
 	}
 
 	/*
@@ -336,57 +346,33 @@ public class DriveTrainCanBus extends Subsystem {
 		}
 	}
 
-	public void setVBus(double pct, driveSide side) {
-		switch (side) {
-		case left:
-			leftMotorA.set(ControlMode.PercentOutput, pct);
-			break;
-		case right:
-			rightMotorA.set(ControlMode.PercentOutput, pct);
-			break;
-		case both:
-			leftMotorA.set(ControlMode.PercentOutput, pct);
-			rightMotorA.set(ControlMode.PercentOutput, pct);
-			break;
-		}
-
-	}
-
 	public void configDrivePeakout(double feetPerSecond, driveSide side) {
-		switch (side) {
-		case left:
+		if (side != driveSide.right) {
 			leftMotorA.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
 			leftMotorA.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			break;
-		case right:
+			leftMotorB.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
+			leftMotorB.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
+			leftMotorC.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
+			leftMotorC.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
+		}
+		if (side != driveSide.left) {
 			rightMotorA.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
 			rightMotorA.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			break;
-		case both:
-			leftMotorA.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			leftMotorA.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			rightMotorA.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			rightMotorA.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			break;
+			rightMotorB.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
+			rightMotorB.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
+			rightMotorC.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
+			rightMotorC.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
 		}
 	}
 
 	public void configDriveNominalOut(double feetPerSecond, driveSide side) {
-		switch (side) {
-		case left:
+		if (side != driveSide.right) {
 			leftMotorA.configNominalOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
 			leftMotorA.configNominalOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			break;
-		case right:
+		}
+		if (side != driveSide.left) {
 			rightMotorA.configNominalOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
 			rightMotorA.configNominalOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			break;
-		case both:
-			leftMotorA.configNominalOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			leftMotorA.configNominalOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			rightMotorA.configNominalOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			rightMotorA.configNominalOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			break;
 		}
 	}
 
@@ -398,6 +384,10 @@ public class DriveTrainCanBus extends Subsystem {
 	public void configOpenLoopAcceleration(double seconds) {
 		leftMotorA.configOpenloopRamp(seconds, 0);
 		rightMotorA.configOpenloopRamp(seconds, 0);
+		leftMotorB.configOpenloopRamp(seconds, 0);
+		rightMotorB.configOpenloopRamp(seconds, 0);
+		leftMotorC.configOpenloopRamp(seconds, 0);
+		rightMotorC.configOpenloopRamp(seconds, 0);
 	}
 
 	public void setPosition(double positionFt, driveSide side, double feetPerSecond) {
@@ -510,34 +500,17 @@ public class DriveTrainCanBus extends Subsystem {
 	}
 
 	public void setEncoderPosition(driveSide side, double value) {
-		switch (side) {
-		case left:
+		if (side != driveSide.right)
 			leftMotorA.setSelectedSensorPosition((int) (value * 12 * DRIVE_ENCODER_COUNTS_PER_INCH), 0, 0);
-			break;
-		case right:
+		if (side != driveSide.left)
 			rightMotorA.setSelectedSensorPosition((int) (value * 12 * DRIVE_ENCODER_COUNTS_PER_INCH), 0, 0);
-			break;
-		case both:
-			leftMotorA.setSelectedSensorPosition((int) (value * 12 * DRIVE_ENCODER_COUNTS_PER_INCH), 0, 0);
-			rightMotorA.setSelectedSensorPosition((int) (value * 12 * DRIVE_ENCODER_COUNTS_PER_INCH), 0, 0);
-			break;
-		}
 	}
 
 	public void stopMotor(driveSide side) {
-		switch (side) {
-		case left:
+		if (side != driveSide.right)
 			leftMotorA.set(ControlMode.Disabled, 0);
-			break;
-		case right:
+		if (side != driveSide.left)
 			rightMotorA.set(ControlMode.Disabled, 0);
-			break;
-		case both:
-			leftMotorA.set(ControlMode.Disabled, 0);
-			rightMotorA.set(ControlMode.Disabled, 0);
-			break;
-
-		}
 	}
 
 	public void motionMagic(double targetPosition, double ftPerSec, double acceleration) {
@@ -559,6 +532,24 @@ public class DriveTrainCanBus extends Subsystem {
 
 		leftMotorA.set(ControlMode.MotionMagic, targetPosition * DRIVE_ENCODER_COUNTS_PER_INCH);
 		rightMotorA.set(ControlMode.MotionMagic, targetPosition * DRIVE_ENCODER_COUNTS_PER_INCH);
+	}
+	
+	public void setStatusFramePeriod(int period) {
+		RobotMap.driveLeftMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
+		RobotMap.driveRightMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
+		RobotMap.driveLeftMotorB.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
+		RobotMap.driveRightMotorB.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
+		RobotMap.driveLeftMotorC.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
+		RobotMap.driveRightMotorC.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
+	}
+	
+	public void setControlFramePeriod(int period) {
+		RobotMap.driveLeftMotorA.setControlFramePeriod(ControlFrame.Control_3_General, period);
+		RobotMap.driveRightMotorA.setControlFramePeriod(ControlFrame.Control_3_General, period);
+		RobotMap.driveLeftMotorB.setControlFramePeriod(ControlFrame.Control_3_General, period);
+		RobotMap.driveRightMotorB.setControlFramePeriod(ControlFrame.Control_3_General, period);
+		RobotMap.driveLeftMotorC.setControlFramePeriod(ControlFrame.Control_3_General, period);
+		RobotMap.driveRightMotorC.setControlFramePeriod(ControlFrame.Control_3_General, period);
 	}
 
 	public void updateStatus() {
@@ -596,6 +587,8 @@ public class DriveTrainCanBus extends Subsystem {
 		SD.putN1("LeftEncoderCount", leftMotorA.getSelectedSensorPosition(0));
 		SD.putN1("LeftVelocity", leftMotorA.getSelectedSensorVelocity(0));
 		SD.putN("TEST", test);
+		SD.putN3("LeftSpeedSet", leftSpeedForDebug);
+		SD.putN3("RightSpeedSet", rightSpeedForDebug);
 	}
 
 }

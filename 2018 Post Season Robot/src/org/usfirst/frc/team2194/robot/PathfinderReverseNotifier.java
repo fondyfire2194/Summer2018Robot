@@ -33,33 +33,25 @@ public class PathfinderReverseNotifier {
 	}
 
 	/*
-	 * Look at trying to run a trajectory with the robot moving in reverse from the
-	 * finishing robot location of the same trajectory run forward. The normal
-	 * forward equations are derived from
+	 * Fwd math
 	 * 
-	 * angle difference = desired heading - gyroYaw
+	 * leftPct = DriveTrainCanBus.MINIMUM_START_PCT + left + turn;
 	 * 
-	 * and turn = turn gain * (- angle) difference
+	 * rightPct = DriveTrainCanBus.MINIMUM_START_PCT + right - turn;
 	 * 
-	 * Pathfinder has the robot turning left as positive which results in a - yaw in
-	 * navX. So angle difference will be + for a left turn but the turn value will
-	 * be a - value (because of the - sign in the gain multiplication) when the
-	 * robot needs to turn more left which means speeding up the right side and
-	 * slowing down the left.
+	 * a + turn reading means robot is turned cw so need to speed up right and slow
+	 * down left
 	 * 
-	 * leftPct = left + turn and rightPct = right - turn
+	 * Rev math
 	 * 
-	 * So moving in a forward direction, a - turn value (+ angle difference) speeds
-	 * up the right and slows down the left.
+	 * in reverse a + turn still means robot is turned cw but now we need to speed
+	 * up left and slow down right so turn needs to be negated in equations Also
+	 * output pct needs to be negated as does position feedback reading.
 	 * 
-	 * Now look at the robot running backwards. The left and right drives are
-	 * receiving negative values so if we keep the same equations as forward, adding
-	 * a - turn value will speed up that side and subtracting it will slow it down.
+	 * leftPct = -(DriveTrainCanBus.MINIMUM_START_PCT + left - turn);
 	 * 
-	 * So running backwards, a -turn value will speed up the left and slow down the
-	 * right. This will cause the robot to turn in the correct direction.
+	 * rightPct = -(DriveTrainCanBus.MINIMUM_START_PCT + right + turn);
 	 * 
-	 * The equations for drive output remain the same in both directions.
 	 */
 	private static void runReverseTrajectory() {
 		passCounter--;
@@ -71,12 +63,11 @@ public class PathfinderReverseNotifier {
 		double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - (-Robot.sensors.getGyroYaw()));
 		double turn = Robot.activeTrajectoryGains[3] * (-1.0 / 80.0) * angleDifference;
 
-		double leftPct = DriveTrainCanBus.MINIMUM_START_PCT - left + turn);
-		double rightPct = DriveTrainCanBus.MINIMUM_START_PCT -right - turn);
+		double leftPct = DriveTrainCanBus.MINIMUM_START_PCT + left - turn;
+		double rightPct = DriveTrainCanBus.MINIMUM_START_PCT + right + turn;
 
-
-		Robot.driveTrainCanBus.leftDrivePctOut(-leftPct);
-		Robot.driveTrainCanBus.rightDrivePctOut(-rightPct);
+		Robot.driveTrainCanBus.leftDriveOut(-leftPct);
+		Robot.driveTrainCanBus.rightDriveOut(-rightPct);
 
 		if (passCounter > 1) {
 			/*

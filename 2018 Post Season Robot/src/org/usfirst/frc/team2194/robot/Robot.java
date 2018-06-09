@@ -3,7 +3,7 @@ package org.usfirst.frc.team2194.robot;
 
 import java.io.File;
 
-import org.usfirst.frc.team2194.robot.commands.LogOrientData;
+import org.usfirst.frc.team2194.robot.commands.LogDriveData;
 import org.usfirst.frc.team2194.robot.commands.TimeDelay;
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoCrossLineMove;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeft;
@@ -205,7 +205,7 @@ public class Robot extends IterativeRobot {
 
 	public static String usbFilePath = "/U";
 	public static boolean createIntakeRunFile = true;
-	public static boolean createOrientRunFile = true;
+	public static boolean createDriveRunFile = true;
 	public static boolean useVision = true;
 	public static double xPosition;
 	public static double yPosition;
@@ -359,7 +359,8 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 		trajectoryRunning = false;
 		motionCommandComplete = false;
-		driveTrainCanBus.setVBus(0, driveSide.both);
+		driveTrainCanBus.leftDriveOut(0);
+		driveTrainCanBus.rightDriveOut(0);
 		cubeHandler.intakeWheelsTurn(0);
 	}
 
@@ -718,7 +719,8 @@ public class Robot extends IterativeRobot {
 		firstAutonomousCommandDone = false;
 		secondAutonomousCommandsDone = false;
 		motionCommandRunning = false;
-		driveTrainCanBus.setVBus(0, driveSide.both);
+		driveTrainCanBus.leftDriveOut(0);
+		driveTrainCanBus.rightDriveOut(0);
 		cubeHandler.holdPositionInches = cubeHandler.getElevatorPositionInches();
 		Robot.cubeHandler.closeIntakeArms();
 
@@ -766,7 +768,6 @@ public class Robot extends IterativeRobot {
 			driveTrainCanBus.resetEncoders();
 			angleTarget = SmartDashboard.getNumber("Target Angle", 90);
 			orientRate = SmartDashboard.getNumber("Orient Rate", .25);
-			new LogOrientData(5).start();
 			new RobotOrient(angleTarget, orientRate, true, 5).start();
 			doTeleopOrient = false;
 		}
@@ -775,7 +776,6 @@ public class Robot extends IterativeRobot {
 			driveTrainCanBus.resetEncoders();
 			angleTarget = SmartDashboard.getNumber("Target Angle", 90);
 			orientRate = SmartDashboard.getNumber("Orient Rate", .25);
-			new LogOrientData(5).start();
 			new RobotOrient(-angleTarget, orientRate, true, 5).start();
 			doTeleopReverseOrient = false;
 		}

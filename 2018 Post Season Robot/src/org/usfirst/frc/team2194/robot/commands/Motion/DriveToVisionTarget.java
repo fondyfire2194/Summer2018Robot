@@ -31,7 +31,8 @@ public class DriveToVisionTarget extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.driveTrainCanBus.setVBus(myFtPerSec * DriveTrainCanBus.FT_PER_SEC_TO_PCT_OUT, driveSide.both);
+		Robot.driveTrainCanBus.leftDriveOut(myFtPerSec * DriveTrainCanBus.FT_PER_SEC_TO_PCT_OUT);
+		Robot.driveTrainCanBus.rightDriveOut(myFtPerSec * DriveTrainCanBus.FT_PER_SEC_TO_PCT_OUT);
 		Robot.allCameras.targetOffsetMultiplier = myTargetOffsetMultiplier;
 		Robot.visionMotionRunning = true;
 		Robot.cubeHandler.cubePickedUp = false;

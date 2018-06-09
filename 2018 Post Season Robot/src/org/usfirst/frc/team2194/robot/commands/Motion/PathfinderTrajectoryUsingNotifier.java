@@ -34,9 +34,8 @@ public class PathfinderTrajectoryUsingNotifier extends Command {
 		Robot.driveTrainCanBus.rightSideStopped = false;
 		Robot.driveTrainCanBus.configDriveNominalOut(0, driveSide.both);
 		Robot.driveTrainCanBus.configDrivePeakout(DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, driveSide.both);
-
-		RobotMap.driveLeftMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 2, 0);
-		RobotMap.driveRightMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 2, 0);
+		Robot.driveTrainCanBus.setStatusFramePeriod(2);
+		Robot.driveTrainCanBus.setControlFramePeriod(2);
 		double P = Robot.activeTrajectoryGains[0];
 		double I = 0;
 		double D = Robot.activeTrajectoryGains[1];
@@ -78,9 +77,10 @@ public class PathfinderTrajectoryUsingNotifier extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.trajectoryRunning = false;
-		Robot.driveTrainCanBus.setVBus(0, driveSide.both);
-		RobotMap.driveLeftMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20, 0);
-		RobotMap.driveRightMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20, 0);
+		Robot.driveTrainCanBus.leftDriveOut(0);
+		Robot.driveTrainCanBus.rightDriveOut(0);
+		Robot.driveTrainCanBus.setStatusFramePeriod(20);
+		Robot.driveTrainCanBus.setControlFramePeriod(10);
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(.5);
 		SmartDashboard.putNumber("Trajectory Time", Timer.getFPGATimestamp() - startTime);
 		PathfinderNotifier.stopNotfier();

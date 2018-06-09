@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2194.robot;
 
+import org.usfirst.frc.team2194.robot.commands.LogDriveData;
 import org.usfirst.frc.team2194.robot.commands.ResetScanValues;
 import org.usfirst.frc.team2194.robot.commands.Climber.DriveClimber;
 import org.usfirst.frc.team2194.robot.commands.Climber.StopClimber;
@@ -11,7 +12,7 @@ import org.usfirst.frc.team2194.robot.commands.CubeHandler.RunElevatorFromGamepa
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnIntakeWheels;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.VariableOuttake;
-import org.usfirst.frc.team2194.robot.commands.Motion.ContinuousPcOutDrive;
+import org.usfirst.frc.team2194.robot.commands.Motion.ContinuousOutDrive;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopReverseOrient;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotMagicMotion;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotOrient;
@@ -96,6 +97,8 @@ public class OI {
 	public JoystickButton jogElevator;
 	public JoystickButton variableOut;
 
+	public JoystickButton runDrives;
+
 	public OI() {
 		gamepad = new Gamepad(0);
 		joystick1 = new Joystick(1);
@@ -155,6 +158,9 @@ public class OI {
 		jogElevator = gamepad.getStartButton();
 		jogElevator.whileHeld(new RunElevatorFromGamepad());
 
+		runDrives = new JoystickButton(joystick1, 6);
+		runDrives.whileHeld(new ContinuousOutDrive(.25));
+
 		SmartDashboard.putData("Reset Encoders", new ResetEncoders());
 		SmartDashboard.putData("Reset Gyro", new ResetGyro());
 		SmartDashboard.putData("Toggle Closed Loop", new ToggleCloseDriveSpeedLoop());
@@ -169,7 +175,7 @@ public class OI {
 		SmartDashboard.putData("Magic Motion Robot", new DoTeleopRobotMagicMotion());
 		SmartDashboard.putData("Vision Motion Robot", new DoTeleopRobotVisionPosition());
 		SmartDashboard.putData("Reset Elevator Position", new ResetElevatorPosition());
-		SmartDashboard.putData("Run Tank Continuous", new ContinuousPcOutDrive(.5));
+		SmartDashboard.putData("Log Drive", new LogDriveData(10));
 	}
 
 	public Joystick getgamepad() {

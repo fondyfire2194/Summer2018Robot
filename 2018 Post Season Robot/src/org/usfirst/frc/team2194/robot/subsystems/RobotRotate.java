@@ -70,8 +70,8 @@ public class RobotRotate extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		Robot.driveTrainCanBus.leftDrivePctOut(output);
-		Robot.driveTrainCanBus.rightDrivePctOut(-output);
+		Robot.driveTrainCanBus.leftDriveOut(output);
+		Robot.driveTrainCanBus.rightDriveOut(-output);
 	}
 
 	public void enablePID() {
