@@ -71,8 +71,12 @@ public class PathfinderReverseNotifier {
 		double angleDifference = Pathfinder.boundHalfDegrees(desired_heading - (-Robot.sensors.getGyroYaw()));
 		double turn = Robot.activeTrajectoryGains[3] * (-1.0 / 80.0) * angleDifference;
 
-		RobotMap.driveLeftMotorA.set(ControlMode.PercentOutput, -DriveTrainCanBus.MINIMUM_START_PCT - left + turn);
-		RobotMap.driveRightMotorA.set(ControlMode.PercentOutput, -DriveTrainCanBus.MINIMUM_START_PCT - right - turn);
+		double leftPct = DriveTrainCanBus.MINIMUM_START_PCT - left + turn);
+		double rightPct = DriveTrainCanBus.MINIMUM_START_PCT -right - turn);
+
+
+		Robot.driveTrainCanBus.leftDrivePctOut(-leftPct);
+		Robot.driveTrainCanBus.rightDrivePctOut(-rightPct);
 
 		if (passCounter > 1) {
 			/*

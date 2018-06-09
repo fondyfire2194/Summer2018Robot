@@ -56,7 +56,7 @@ public class RunFromGamepadCanBus extends Command {
 			xValue = 0;
 		} else
 			straightComp = 0;
-		if (!DriverStation.getInstance().isAutonomous())
+		if (!DriverStation.getInstance().isAutonomous() && !Robot.teleopAutoRunning)
 			Robot.driveTrainCanBus.arcadeDrive(-yValue, xValue, straightComp);
 	}
 

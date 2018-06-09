@@ -11,6 +11,8 @@ import org.usfirst.frc.team2194.robot.commands.CubeHandler.RunElevatorFromGamepa
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnIntakeWheels;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.VariableOuttake;
+import org.usfirst.frc.team2194.robot.commands.Motion.ContinuousPcOutDrive;
+import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopReverseOrient;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotMagicMotion;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotOrient;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotPosition;
@@ -167,6 +169,7 @@ public class OI {
 		SmartDashboard.putData("Magic Motion Robot", new DoTeleopRobotMagicMotion());
 		SmartDashboard.putData("Vision Motion Robot", new DoTeleopRobotVisionPosition());
 		SmartDashboard.putData("Reset Elevator Position", new ResetElevatorPosition());
+		SmartDashboard.putData("Run Tank Continuous", new ContinuousPcOutDrive(.5));
 	}
 
 	public Joystick getgamepad() {

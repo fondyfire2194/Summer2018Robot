@@ -194,6 +194,7 @@ public class Robot extends IterativeRobot {
 
 	private int updateStatusCounter;
 	private boolean autonomousSequenceStarted;
+	public static boolean teleopAutoRunning;
 	private static boolean oppositeSideSwitch;
 	private static boolean secondaryTrajectory;
 
@@ -257,8 +258,9 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putData(driveTrainCanBus);
 		SmartDashboard.putData(cubeHandler);
+		SmartDashboard.putData(robotRotate);
 
-		SmartDashboard.putData(Scheduler.getInstance());
+//		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putNumber("Target Feet", positionTarget);
 		SmartDashboard.putNumber("Position FPS", positionFPS);
 
@@ -698,7 +700,6 @@ public class Robot extends IterativeRobot {
 		// secondAutonomousCommand.cancel();
 
 		updateStatus();
-
 	}
 
 	@Override
@@ -721,7 +722,7 @@ public class Robot extends IterativeRobot {
 		cubeHandler.holdPositionInches = cubeHandler.getElevatorPositionInches();
 		Robot.cubeHandler.closeIntakeArms();
 
-		new RunFromGamepadCanBus().start();
+		// new RunFromGamepadCanBus().start();
 		isSwitch = false;
 		isScale = false;
 
@@ -927,6 +928,8 @@ public class Robot extends IterativeRobot {
 			doTeleopRevTrajectory = false;
 			doTeleopTrajectory = false;
 		}
+		teleopAutoRunning = doTeleopMagicMotion || doTeleopOrient || doTeleopPosition || doTeleopReverseOrient
+				|| doTeleopRevTrajectory || doTeleopRotateToVision || doTeleopTrajectory || doTeleopVisionMotion;
 
 		updateStatus();
 	}
@@ -940,7 +943,7 @@ public class Robot extends IterativeRobot {
 
 	public void updateStatus() {
 		SD.putN0("Match Time", DriverStation.getInstance().getMatchTime());
-
+//		SmartDashboard.putData(Scheduler.getInstance());
 		updateStatusCounter++;
 		if (updateStatusCounter > 6)
 			updateStatusCounter = 0;
@@ -987,6 +990,7 @@ public class Robot extends IterativeRobot {
 			break;
 
 		case 5:
+			SmartDashboard.putBoolean("Loop Closed", closeDriveSpeedLoop);
 			SmartDashboard.putBoolean("Prox", RobotMap.testProx.get());
 			SmartDashboard.putBoolean("PositionRunning", positionRunning);
 			SmartDashboard.putBoolean("MagicMotionRunning", magicMotionRunning);

@@ -106,6 +106,8 @@ public class DriveTrainCanBus extends Subsystem {
 	public static double[] Test = { .8, 0, 0, .1 };
 	public static double[] RevTest = { .8, 0, 0, .1 };
 
+	private int test;
+
 	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
@@ -271,34 +273,36 @@ public class DriveTrainCanBus extends Subsystem {
 		return work / JOYSTICK_TURN_CONSTANT;
 	}
 
+	public void leftDrivePctOut(double speed) {
+		if (!Robot.closeDriveSpeedLoop)
+			leftMotorA.set(ControlMode.PercentOutput, speed);
+		else
+			leftMotorA.set(ControlMode.Velocity, speed * MAX_ENC_CTS_PER_100MS);
+	}
+
+	public void rightDrivePctOut(double speed) {
+		if (!Robot.closeDriveSpeedLoop)
+			rightMotorA.set(ControlMode.PercentOutput, speed);
+		else
+			rightMotorA.set(ControlMode.Velocity, speed * MAX_ENC_CTS_PER_100MS);
+	}
+
 	public void tankDrive(double leftValue, double rightValue, double comp) {
-		if (!Robot.closeDriveSpeedLoop) {
-			leftMotorA.set(ControlMode.PercentOutput, leftValue);
-			rightMotorA.set(ControlMode.PercentOutput, rightValue);
-		} else {
-			leftMotorA.set(ControlMode.Velocity, leftValue * MAX_ENC_CTS_PER_100MS);
-			rightMotorA.set(ControlMode.Velocity, rightValue * MAX_ENC_CTS_PER_100MS);
-		}
+		leftDrivePctOut(leftValue - comp);
+		rightDrivePctOut(rightValue + comp);
 	}
 
 	public void arcadeDrive(double throttleValue, double turnValue, double comp) {
-		if (!Robot.closeDriveSpeedLoop) {
-			leftMotorA.set(ControlMode.PercentOutput, throttleValue + turnValue - comp);
-			rightMotorA.set(ControlMode.PercentOutput, throttleValue - turnValue + comp);
-		} else {
-			leftMotorA.set(ControlMode.Velocity, (throttleValue + turnValue - comp) * MAX_ENC_CTS_PER_100MS);
-			rightMotorA.set(ControlMode.Velocity, (throttleValue - turnValue + comp) * MAX_ENC_CTS_PER_100MS);
-		}
+		leftDrivePctOut(throttleValue + turnValue - comp);
+		rightDrivePctOut(throttleValue - turnValue + comp);
 	}
 
-	/*Slot 0 is used for velocity gains
-	 * for 1000% speed feed forward
-	 * F-gain = ([Percent Output] x 1023) / [Velocity]
-	 *max enc cts per 100ms = (10 * 12 * 403)/10 = 12 * 403 = 4840
-	 *so Kf = (1 * 1023) / 4840 = .211
-	 *Check Kf 50% speed. Command = 2420. Output = .211 * 2420 = 
-	 * Kp is in output per unit of error
-	 * Start with Kp at .15
+	/*
+	 * Slot 0 is used for velocity gains for 100% speed feed forward F-gain =
+	 * ([Percent Output] x 1023) / [Velocity enc cts per 100ms] max enc cts per
+	 * 100ms = (10 * 12 * 403)/10 = 12 * 403 = 4840 so Kf = (1 * 1023) / 4840 = .211
+	 * Check Kf 50% speed. Command = 2420. Output = .211 * 2420 = Kp is in output
+	 * per unit of error Start with Kp at .15
 	 */
 	public void setVelocityGains() {
 		RobotMap.driveLeftMotorA.selectProfileSlot(0, 0);
@@ -591,7 +595,7 @@ public class DriveTrainCanBus extends Subsystem {
 		SD.putN1("RightVelocity", rightMotorA.getSelectedSensorVelocity(0));
 		SD.putN1("LeftEncoderCount", leftMotorA.getSelectedSensorPosition(0));
 		SD.putN1("LeftVelocity", leftMotorA.getSelectedSensorVelocity(0));
-
+		SD.putN("TEST", test);
 	}
 
 }

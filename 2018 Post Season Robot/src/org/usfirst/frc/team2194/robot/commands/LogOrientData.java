@@ -11,12 +11,13 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
  */
 public class LogOrientData extends TimedCommand {
 	private double startTime;
-	private String[] names = { "Time", "Gyro Yaw", "Speed Output", "LeftA Amps", "LeftA Volts", "LeftB Amps",
-			"LeftB Volts", "LeftC Amps", "LeftC Volts", "RightA Amps", "RightA Volts", "RightB Amps", "RightB Volts",
-			"RightC Amps", "RightC Volts", "Left Ft", "Right Ft" };
-	private String[] units = { "mS", "Degrees", "PU", "Amps", "Volts", "Amps", "Volts", "Amps", "Volts", "Amps",
+	private String[] names = { "Time", "Loop Output", "Left Speed Output", "Right Speed Output", "LeftA Amps",
+			"LeftA Volts", "LeftB Amps", "LeftB Volts", "LeftC Amps", "LeftC Volts", "RightA Amps", "RightA Volts",
+			"RightB Amps", "RightB Volts", "RightC Amps", "RightC Volts", "Left Ft", "Right Ft", "Left Error",
+			"Left Vel", "Right Error", "Right Vel", "Gyro Yaw" };
+	private String[] units = { "mS", "PU", "PU", "PU", "Amps", "Volts", "Amps", "Volts", "Amps", "Volts", "Amps",
 			"Volts", "Amps", "Volts", "Amps", "Volts", "Ft", "Ft", "EncCts", "EncCtsPer100ms", "EncCts",
-			"EncCtsPer100ms" };
+			"EncCtsPer100ms", "Degrees" };
 
 	public LogOrientData(double timeout) {
 		super(timeout);
@@ -34,17 +35,19 @@ public class LogOrientData extends TimedCommand {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (Robot.createOrientRunFile) {
-			Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime) * 1000, Robot.sensors.getGyroYaw(),
-					RobotMap.driveLeftMotorA.getMotorOutputVoltage(), RobotMap.driveLeftMotorB.getOutputCurrent(),
-					RobotMap.driveLeftMotorB.getMotorOutputVoltage(), RobotMap.driveLeftMotorC.getOutputCurrent(),
-					RobotMap.driveLeftMotorC.getMotorOutputVoltage(), RobotMap.driveRightMotorA.getOutputCurrent(),
-					RobotMap.driveRightMotorA.getMotorOutputVoltage(), RobotMap.driveRightMotorB.getOutputCurrent(),
-					RobotMap.driveRightMotorB.getMotorOutputVoltage(), RobotMap.driveRightMotorC.getOutputCurrent(),
-					RobotMap.driveRightMotorC.getMotorOutputVoltage(), Robot.driveTrainCanBus.getLeftFeet(),
-					Robot.driveTrainCanBus.getRightFeet(), RobotMap.driveLeftMotorA.getClosedLoopError(0),
+			Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime) * 1000, Robot.robotRotate.loopOutput,
+					RobotMap.driveLeftMotorA.getMotorOutputPercent(), RobotMap.driveRightMotorA.getMotorOutputPercent(),
+					RobotMap.driveLeftMotorA.getOutputCurrent(), RobotMap.driveLeftMotorA.getMotorOutputVoltage(),
+					RobotMap.driveLeftMotorB.getOutputCurrent(), RobotMap.driveLeftMotorB.getMotorOutputVoltage(),
+					RobotMap.driveLeftMotorC.getOutputCurrent(), RobotMap.driveLeftMotorC.getMotorOutputVoltage(),
+					RobotMap.driveRightMotorA.getOutputCurrent(), RobotMap.driveRightMotorA.getMotorOutputVoltage(),
+					RobotMap.driveRightMotorB.getOutputCurrent(), RobotMap.driveRightMotorB.getMotorOutputVoltage(),
+					RobotMap.driveRightMotorC.getOutputCurrent(), RobotMap.driveRightMotorC.getMotorOutputVoltage(),
+					Robot.driveTrainCanBus.getLeftFeet(), Robot.driveTrainCanBus.getRightFeet(),
+					RobotMap.driveLeftMotorA.getClosedLoopError(0),
 					RobotMap.driveLeftMotorA.getSelectedSensorVelocity(0),
 					RobotMap.driveRightMotorA.getClosedLoopError(0),
-					RobotMap.driveRightMotorA.getSelectedSensorVelocity(0));
+					RobotMap.driveRightMotorA.getSelectedSensorVelocity(0), Robot.sensors.getGyroYaw());
 		}
 	}
 

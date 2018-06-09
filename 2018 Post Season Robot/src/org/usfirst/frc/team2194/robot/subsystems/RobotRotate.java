@@ -27,8 +27,8 @@ public class RobotRotate extends PIDSubsystem {
 
 	private static final double toleranceAngle = 2;
 	private static final int toleranceBuffer = 5;
-	private boolean useLeftSide;
-	private boolean useRightSide;
+
+	public double loopOutput;
 
 	// Initialize your subsystem here
 	public RobotRotate() {
@@ -70,18 +70,8 @@ public class RobotRotate extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		// RobotMap.driveLeftMotorA.set(ControlMode.PercentOutput,output);
-		// RobotMap.driveRightMotorA.set(ControlMode.PercentOutput,-output);
-
-		if (!Robot.closeDriveSpeedLoop) {
-			RobotMap.driveLeftMotorA.set(ControlMode.PercentOutput, output);
-			RobotMap.driveRightMotorA.set(ControlMode.PercentOutput, -output);
-		} else {
-			RobotMap.driveLeftMotorA.set(ControlMode.Velocity, output * Robot.driveTrainCanBus.MAX_ENC_CTS_PER_100MS);
-			RobotMap.driveRightMotorA.set(ControlMode.Velocity, -output * Robot.driveTrainCanBus.MAX_ENC_CTS_PER_100MS);
-		}
-		// // Use output to drive your system, like a motor
-		// e.g. yourMotor.set(output);
+		Robot.driveTrainCanBus.leftDrivePctOut(output);
+		Robot.driveTrainCanBus.rightDrivePctOut(-output);
 	}
 
 	public void enablePID() {
@@ -123,11 +113,11 @@ public class RobotRotate extends PIDSubsystem {
 
 	public void updateStatus() {
 		SmartDashboard.putBoolean("RotateInPos", inPosition());
-		SmartDashboard.putBoolean("LeftSide", useLeftSide);
-		SmartDashboard.putBoolean("RightSide", useRightSide);
 		SD.putN1("Setpoint", getSetpoint());
 		SmartDashboard.putBoolean("Rotate Enabled?", isEnabled());
 		SD.putN1("Orient Error", getError());
+
+		SD.putN("Rot Output", loopOutput);
 
 	}
 }

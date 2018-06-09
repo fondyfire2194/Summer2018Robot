@@ -116,8 +116,8 @@ public class PathfinderNotifier {
 					Robot.driveTrainCanBus.getRightFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, turn);
 		}
 
-		RobotMap.driveLeftMotorA.set(ControlMode.PercentOutput, leftPct);
-		RobotMap.driveRightMotorA.set(ControlMode.PercentOutput, rightPct);
+		Robot.driveTrainCanBus.leftDrivePctOut(leftPct);
+		Robot.driveTrainCanBus.rightDrivePctOut(rightPct);
 
 		thisTime = Timer.getFPGATimestamp();
 		timeDifference = thisTime - lastTime;

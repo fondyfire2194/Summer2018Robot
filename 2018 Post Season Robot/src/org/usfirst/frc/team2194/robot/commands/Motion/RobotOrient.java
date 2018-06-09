@@ -6,6 +6,7 @@
 package org.usfirst.frc.team2194.robot.commands.Motion;
 
 import org.usfirst.frc.team2194.robot.Robot;
+import org.usfirst.frc.team2194.robot.RobotMap;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -37,6 +38,10 @@ public class RobotOrient extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		if (Robot.closeDriveSpeedLoop) {
+			RobotMap.driveLeftMotorA.selectProfileSlot(0, 0);
+			RobotMap.driveRightMotorA.selectProfileSlot(0, 0);
+		}
 		Robot.robotRotate.setPIDF(Robot.prefs.getDouble("RobotRotateKp", DriveTrainCanBus.drivePrefsDefaults[10]), 0,
 				Robot.prefs.getDouble("RobotRotateKd", DriveTrainCanBus.drivePrefsDefaults[22]), 0);
 		Robot.robotRotate.setMaxOut(mySpeed);
