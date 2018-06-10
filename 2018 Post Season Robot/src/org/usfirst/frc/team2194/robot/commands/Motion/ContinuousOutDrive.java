@@ -19,6 +19,7 @@ public class ContinuousOutDrive extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		setTimeout(5);
 		Robot.driveTrainCanBus.leftDriveOut(mySpeed);
 		Robot.driveTrainCanBus.rightDriveOut(mySpeed);
 	}
@@ -29,7 +30,7 @@ public class ContinuousOutDrive extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return isTimedOut();
 	}
 
 	// Called once after isFinished returns true

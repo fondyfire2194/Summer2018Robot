@@ -4,13 +4,13 @@ import org.usfirst.frc.team2194.robot.Robot;
 import org.usfirst.frc.team2194.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * TUning file for robot orient
+ * 
  */
-public class LogDriveData extends TimedCommand {
-	private double startTime;
+public class LogDriveData extends Command {
+	private double startTime, myTimeout;
 	private String[] names = { "Time", "Gyro Yaw", "LeftSpeed", "RightSpeed", "Left Speed Output", "Right Speed Output",
 			"LeftA Amps", "LeftA Volts", "LeftB Amps", "LeftB Volts", "LeftC Amps", "LeftC Volts", "RightA Amps",
 			"RightA Volts", "RightB Amps", "RightB Volts", "RightC Amps", "RightC Volts", "Left Ft", "Right Ft",
@@ -20,15 +20,17 @@ public class LogDriveData extends TimedCommand {
 			"EncCts", "EncCtsPer100ms" };
 
 	public LogDriveData(double timeout) {
-		super(timeout);
+		myTimeout = timeout;
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if (Robot.createDriveRunFile)
-			Robot.simpleCSVLogger.init("Drive", names, units);
+		setTimeout(myTimeout);
+		Robot.createTrajectoryRunFile = false;
+		Robot.createDriveRunFile = false;
+		Robot.simpleCSVLogger.init("Drive", names, units);
 		startTime = Timer.getFPGATimestamp();
 	}
 
@@ -52,14 +54,22 @@ public class LogDriveData extends TimedCommand {
 		}
 	}
 
+	@Override
+	protected boolean isFinished() {
+		return isTimedOut() || !Robot.createDriveRunFile;
+	}
+
 	// Called once after timeout
 	protected void end() {
-		if (Robot.createDriveRunFile)
+		if (Robot.createDriveRunFile) {
 			Robot.simpleCSVLogger.close();
+			Robot.createDriveRunFile = false;
+		}
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		end();
 	}
 }

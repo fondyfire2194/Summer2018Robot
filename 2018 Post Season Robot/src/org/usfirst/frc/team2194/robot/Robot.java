@@ -2,6 +2,9 @@
 package org.usfirst.frc.team2194.robot;
 
 import java.io.File;
+import java.util.Vector;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
 
 import org.usfirst.frc.team2194.robot.commands.LogDriveData;
 import org.usfirst.frc.team2194.robot.commands.TimeDelay;
@@ -97,7 +100,7 @@ public class Robot extends IterativeRobot {
 	public static boolean trajectoryRunning;
 	public static Trajectory activeLeftTrajectory;
 	public static Trajectory activeRightTrajectory;
-	public static boolean createTrajectoryRunFile = true;
+	public static boolean createTrajectoryRunFile;
 	public static String chosenFile = "None Chosen";
 
 	private Integer startPosition = 0;
@@ -197,15 +200,15 @@ public class Robot extends IterativeRobot {
 	public static boolean teleopAutoRunning;
 	private static boolean oppositeSideSwitch;
 	private static boolean secondaryTrajectory;
-
+	// Trajectory log data headers
 	public static String[] names = { "Step", "Left Cmd", "Left Ft", "Right Cmd ", "Right Ft", "Angle Cmd", "Angle",
 			"LeftSegVel", "left", "ActLeftVel", "RightSegVel", "right", "ActRightVel", "turn" };
 	public static String[] units = { "Number", "FT", "FT", "FT", "FT", "Deg", "Deg", "pct", "pct", "pct", "pct", "pct",
 			"pct", "pct" };
 
 	public static String usbFilePath = "/U";
-	public static boolean createIntakeRunFile = true;
-	public static boolean createDriveRunFile = true;
+	public static boolean createIntakeRunFile;
+	public static boolean createDriveRunFile;
 	public static boolean useVision = true;
 	public static double xPosition;
 	public static double yPosition;
@@ -260,7 +263,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(cubeHandler);
 		SmartDashboard.putData(robotRotate);
 
-//		SmartDashboard.putData(Scheduler.getInstance());
+		// SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putNumber("Target Feet", positionTarget);
 		SmartDashboard.putNumber("Position FPS", positionFPS);
 
@@ -943,7 +946,7 @@ public class Robot extends IterativeRobot {
 
 	public void updateStatus() {
 		SD.putN0("Match Time", DriverStation.getInstance().getMatchTime());
-//		SmartDashboard.putData(Scheduler.getInstance());
+		// SmartDashboard.putData(Scheduler.getInstance());
 		updateStatusCounter++;
 		if (updateStatusCounter > 6)
 			updateStatusCounter = 0;
@@ -991,7 +994,7 @@ public class Robot extends IterativeRobot {
 
 		case 5:
 			SmartDashboard.putBoolean("Loop Closed", closeDriveSpeedLoop);
-			SmartDashboard.putBoolean("Prox", RobotMap.testProx.get());
+			SmartDashboard.putBoolean("Log Trajectory", createTrajectoryRunFile);
 			SmartDashboard.putBoolean("PositionRunning", positionRunning);
 			SmartDashboard.putBoolean("MagicMotionRunning", magicMotionRunning);
 			SmartDashboard.putBoolean("OrientRunning", orientRunning);
@@ -1033,6 +1036,7 @@ public class Robot extends IterativeRobot {
 		} else
 			DriverStation.reportError("Prefs Array Mismatch" + names, false);
 	}
+
 
 	private void constantsFromPrefs() {
 		activeTrajectoryGains[0] = prefs.getDouble("PathP", DriveTrainCanBus.drivePrefsDefaults[14]);

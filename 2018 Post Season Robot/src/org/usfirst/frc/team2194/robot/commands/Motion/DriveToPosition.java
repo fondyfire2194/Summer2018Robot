@@ -88,7 +88,6 @@ public class DriveToPosition extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		return isTimedOut() || myStop || inPosition && inPositionCount > 10;
-
 	}
 
 	// Called once after isFinished returns true
@@ -96,8 +95,8 @@ public class DriveToPosition extends Command {
 		Robot.driveTrainCanBus.stopMotor(driveSide.both);
 		Robot.driveTrainCanBus.configDrivePeakout(DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, driveSide.both);
 		Robot.positionRunning = false;
-		;
-
+		RobotMap.driveLeftMotorA.selectProfileSlot(0, 0);
+		RobotMap.driveLeftMotorB.selectProfileSlot(0, 0);		
 	}
 
 	// Called when another command which requires one or more of the same

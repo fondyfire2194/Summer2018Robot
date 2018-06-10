@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2194.robot.commands.Motion;
 
 import org.usfirst.frc.team2194.robot.Robot;
+import org.usfirst.frc.team2194.robot.RobotMap;
 import org.usfirst.frc.team2194.robot.Robot.motionType;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
@@ -71,6 +72,8 @@ public class DriveToSwitchWall extends Command {
 		Robot.driveTrainCanBus.runStalledDetect = false;
 		Robot.driveTrainCanBus.stopMotor(driveSide.both);
 		Robot.magicMotionRunning = false;
+		RobotMap.driveLeftMotorA.selectProfileSlot(0, 0);
+		RobotMap.driveLeftMotorB.selectProfileSlot(0, 0);		
 	}
 
 	// Called when another command which requires one or more of the same
