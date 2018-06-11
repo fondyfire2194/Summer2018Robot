@@ -26,6 +26,7 @@ public class PathfinderReverseTrajectoryUsingNotifier extends Command {
 	protected void initialize() {
 		Robot.driveTrainCanBus.resetEncoders();
 		// Robot.sensors.resetGyro();
+		Robot.driveTrainCanBus.configOpenLoopAcceleration(0);
 		Robot.driveTrainCanBus.configDriveNominalOut(0, driveSide.both);
 		Robot.driveTrainCanBus.configDrivePeakout(DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, driveSide.both);
 		Robot.driveTrainCanBus.setStatusFramePeriod(2);

@@ -32,6 +32,7 @@ public class PathfinderTrajectoryUsingNotifier extends Command {
 		// Robot.sensors.resetGyro();
 		Robot.driveTrainCanBus.leftSideStopped = false;
 		Robot.driveTrainCanBus.rightSideStopped = false;
+		Robot.driveTrainCanBus.configOpenLoopAcceleration(0);
 		Robot.driveTrainCanBus.configDriveNominalOut(0, driveSide.both);
 		Robot.driveTrainCanBus.configDrivePeakout(DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, driveSide.both);
 		Robot.driveTrainCanBus.setStatusFramePeriod(2);

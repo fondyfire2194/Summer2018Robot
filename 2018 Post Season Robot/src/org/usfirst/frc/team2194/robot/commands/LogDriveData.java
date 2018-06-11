@@ -11,13 +11,12 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class LogDriveData extends Command {
 	private double startTime, myTimeout;
-	private String[] names = { "Time", "Gyro Yaw", "LeftSpeed", "RightSpeed", "Left Speed Output", "Right Speed Output",
-			"LeftA Amps", "LeftA Volts", "LeftB Amps", "LeftB Volts", "LeftC Amps", "LeftC Volts", "RightA Amps",
-			"RightA Volts", "RightB Amps", "RightB Volts", "RightC Amps", "RightC Volts", "Left Ft", "Right Ft",
-			"Left Error", "Left Vel", "Right Error", "Right Vel" };
-	private String[] units = { "mS", "Degrees", "PU", "PU", "PU", "PU", "Amps", "Volts", "Amps", "Volts", "Amps",
-			"Volts", "Amps", "Volts", "Amps", "Volts", "Amps", "Volts", "Ft", "Ft", "EncCts", "EncCtsPer100ms",
-			"EncCts", "EncCtsPer100ms" };
+	private String[] names = { "Time", "Gyro Yaw", "LeftSpeed", "RightSpeed", "LeftA Amps", "LeftA Volts", "LeftB Amps",
+			"LeftB Volts", "LeftC Amps", "LeftC Volts", "RightA Amps", "RightA Volts", "RightB Amps", "RightB Volts",
+			"RightC Amps", "RightC Volts", "Left Ft", "Right Ft", "Left Error", "Left Vel", "Right Error",
+			"Right Vel" };
+	private String[] units = { "mS", "Degrees", "PU", "PU", "Amps", "Volts", "Amps", "Volts", "Amps", "Volts", "Amps",
+			"Volts", "Amps", "Volts", "Amps", "Volts", "Ft", "Ft", "EncCts", "Ft/sec", "EncCts", "Ft/sec" };
 
 	public LogDriveData(double timeout) {
 		myTimeout = timeout;
@@ -29,7 +28,7 @@ public class LogDriveData extends Command {
 	protected void initialize() {
 		setTimeout(myTimeout);
 		Robot.createTrajectoryRunFile = false;
-		Robot.createDriveRunFile = false;
+		Robot.createDriveRunFile = true;
 		Robot.simpleCSVLogger.init("Drive", names, units);
 		startTime = Timer.getFPGATimestamp();
 	}
@@ -39,7 +38,6 @@ public class LogDriveData extends Command {
 		if (Robot.createDriveRunFile) {
 			Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime) * 1000, Robot.sensors.getGyroYaw(),
 					Robot.driveTrainCanBus.leftSpeedForDebug, Robot.driveTrainCanBus.rightSpeedForDebug,
-					RobotMap.driveLeftMotorA.getMotorOutputPercent(), RobotMap.driveRightMotorA.getMotorOutputPercent(),
 					RobotMap.driveLeftMotorA.getOutputCurrent(), RobotMap.driveLeftMotorA.getMotorOutputVoltage(),
 					RobotMap.driveLeftMotorB.getOutputCurrent(), RobotMap.driveLeftMotorB.getMotorOutputVoltage(),
 					RobotMap.driveLeftMotorC.getOutputCurrent(), RobotMap.driveLeftMotorC.getMotorOutputVoltage(),
@@ -47,10 +45,10 @@ public class LogDriveData extends Command {
 					RobotMap.driveRightMotorB.getOutputCurrent(), RobotMap.driveRightMotorB.getMotorOutputVoltage(),
 					RobotMap.driveRightMotorC.getOutputCurrent(), RobotMap.driveRightMotorC.getMotorOutputVoltage(),
 					Robot.driveTrainCanBus.getLeftFeet(), Robot.driveTrainCanBus.getRightFeet(),
-					RobotMap.driveLeftMotorA.getClosedLoopError(0),
-					RobotMap.driveLeftMotorA.getSelectedSensorVelocity(0),
-					RobotMap.driveRightMotorA.getClosedLoopError(0),
-					RobotMap.driveRightMotorA.getSelectedSensorVelocity(0));
+					((double) RobotMap.driveLeftMotorA.getClosedLoopError(0)),
+					Robot.driveTrainCanBus.getLeftFeetPerSecond(),
+					(double) RobotMap.driveRightMotorA.getClosedLoopError(0),
+					Robot.driveTrainCanBus.getRightFeetPerSecond());
 		}
 	}
 

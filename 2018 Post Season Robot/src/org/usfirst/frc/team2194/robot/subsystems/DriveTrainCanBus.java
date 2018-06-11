@@ -384,10 +384,6 @@ public class DriveTrainCanBus extends Subsystem {
 	public void configOpenLoopAcceleration(double seconds) {
 		leftMotorA.configOpenloopRamp(seconds, 0);
 		rightMotorA.configOpenloopRamp(seconds, 0);
-		leftMotorB.configOpenloopRamp(seconds, 0);
-		rightMotorB.configOpenloopRamp(seconds, 0);
-		leftMotorC.configOpenloopRamp(seconds, 0);
-		rightMotorC.configOpenloopRamp(seconds, 0);
 	}
 
 	public void setPosition(double positionFt, driveSide side, double feetPerSecond) {

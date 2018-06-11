@@ -42,6 +42,7 @@ public class RobotOrient extends Command {
 			RobotMap.driveLeftMotorA.selectProfileSlot(0, 0);
 			RobotMap.driveRightMotorA.selectProfileSlot(0, 0);
 		}
+		Robot.driveTrainCanBus.configOpenLoopAcceleration(1 / mySpeed);// 1 second to programmed speed
 		Robot.robotRotate.setPIDF(Robot.prefs.getDouble("RobotRotateKp", DriveTrainCanBus.drivePrefsDefaults[10]), 0,
 				Robot.prefs.getDouble("RobotRotateKd", DriveTrainCanBus.drivePrefsDefaults[22]), 0);
 		Robot.robotRotate.setMaxOut(mySpeed);
@@ -57,6 +58,8 @@ public class RobotOrient extends Command {
 	@Override
 	protected void execute() {
 		passCount++;
+		if (passCount > 50)
+			Robot.driveTrainCanBus.configOpenLoopAcceleration(0);
 		if (passCount > 5 && Math.abs(Robot.robotRotate.getError()) < Robot.prefs.getDouble("RobotRotateIzone",
 				DriveTrainCanBus.drivePrefsDefaults[12]))
 			Robot.robotRotate.getPIDController()
@@ -79,6 +82,8 @@ public class RobotOrient extends Command {
 		Robot.robotRotate.disable();
 		Robot.orientRunning = false;
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(.5);
+		Robot.driveTrainCanBus.setBrakeMode(false);
+
 		// Robot.closeDriveSpeedLoop = false;
 	}
 
