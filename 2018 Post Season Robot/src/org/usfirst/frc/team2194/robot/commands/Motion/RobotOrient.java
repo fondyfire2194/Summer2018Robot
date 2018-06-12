@@ -22,6 +22,9 @@ public class RobotOrient extends Command {
 	private int passCount;
 	private boolean myAccuracy;
 	private boolean inPosition;
+	private boolean doneAccelerating;
+	public static double currentMaxSpeed;
+	private double rampIncrement;
 
 	public RobotOrient(double angle, double speed, boolean accuracy, double timeout) {
 		// Use requires() here to declare subsystem dependencies
@@ -42,14 +45,16 @@ public class RobotOrient extends Command {
 			RobotMap.driveLeftMotorA.selectProfileSlot(0, 0);
 			RobotMap.driveRightMotorA.selectProfileSlot(0, 0);
 		}
-		Robot.driveTrainCanBus.configOpenLoopAcceleration(1 / mySpeed);// 1 second to programmed speed
+		Robot.driveTrainCanBus.configOpenLoopAcceleration(0);
+		rampIncrement = mySpeed / 25;
 		Robot.robotRotate.setPIDF(Robot.prefs.getDouble("RobotRotateKp", DriveTrainCanBus.drivePrefsDefaults[10]), 0,
 				Robot.prefs.getDouble("RobotRotateKd", DriveTrainCanBus.drivePrefsDefaults[22]), 0);
-		Robot.robotRotate.setMaxOut(mySpeed);
+		Robot.robotRotate.setMaxOut(DriveTrainCanBus.MINIMUM_START_PCT);
 		Robot.robotRotate.setSetpoint(myAngle);
 		Robot.robotRotate.enablePID();
 		Robot.orientRunning = true;
 		setTimeout(myTimeout);
+		currentMaxSpeed = DriveTrainCanBus.MINIMUM_START_PCT;
 		passCount = 0;
 		// Robot.closeDriveSpeedLoop = true;
 	}
@@ -58,8 +63,15 @@ public class RobotOrient extends Command {
 	@Override
 	protected void execute() {
 		passCount++;
-		if (passCount > 50)
-			Robot.driveTrainCanBus.configOpenLoopAcceleration(0);
+		if (!doneAccelerating) {
+			currentMaxSpeed = currentMaxSpeed + rampIncrement;
+			if (currentMaxSpeed >= mySpeed) {
+				currentMaxSpeed = mySpeed;
+				doneAccelerating = true;
+			}
+		}
+		Robot.robotRotate.setMaxOut(currentMaxSpeed);
+
 		if (passCount > 5 && Math.abs(Robot.robotRotate.getError()) < Robot.prefs.getDouble("RobotRotateIzone",
 				DriveTrainCanBus.drivePrefsDefaults[12]))
 			Robot.robotRotate.getPIDController()
@@ -82,8 +94,6 @@ public class RobotOrient extends Command {
 		Robot.robotRotate.disable();
 		Robot.orientRunning = false;
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(.5);
-		Robot.driveTrainCanBus.setBrakeMode(false);
-
 		// Robot.closeDriveSpeedLoop = false;
 	}
 
