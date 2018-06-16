@@ -73,7 +73,7 @@ public class DriveTrainCanBus extends Subsystem {
 	public double ROBOT_LENGTH = 3.25;
 	public double WHEELBASE_WIDTH = 2.17;// ft
 
-	public double MM_FT_PER_DEGREE = Math.PI * WHEELBASE_WIDTH / 360;
+	public double ORIENT_FT_PER_DEGREE = Math.PI * WHEELBASE_WIDTH / 360;
 
 	public boolean leftSideStopped;
 	public boolean rightSideStopped;
@@ -86,23 +86,38 @@ public class DriveTrainCanBus extends Subsystem {
 		left, right, both
 	}
 
-	// order is Kp, Kd, Ka and Kturn
-	public static double[] LSW_L = { .4, 0, 0.02, 1 };
+	/*
+	 * Gains for switch profiles - order is Kp, Kd, Ka and Kturn.
+	 * 
+	 * Center starts both have 2 profiles. One of them is run both forward and
+	 * reverse. Separate forward and reverse run gains are used
+	 * 
+	 * Left and right starts have 3 profiles. The second is a reverse profile.
+	 * 
+	 */
+	// Center Start
 	public static double[] LSW_C = { .4, 0, 0.02, 1 };
+	public static double[] LSW_C1 = { .4, 0, 0.02, 1 };
+	public static double[] LSW_C1Rev = { .4, 0, 0.02, 1 };
+
 	public static double[] RSW_C = { .4, 0, 0.02, 1 };
-	public static double[] RSW_R = { .4, 0, 0.02, 1 };
+	public static double[] RSW_C1 = { .8, .5, .06, .8 };
+	public static double[] RSW_C1Rev = { .8, .5, .06, .8 };
 
-	public static double[] LSW_L2 = { .8, 1.2, 0, .6 };
-	public static double[] LSW_C2 = { .5, 0, 0, .8 };
-	public static double[] LSW_R = { .8, 0, 0, .1 };
-	public static double[] LSW_R2 = { .8, 0, 0, .1 };
+	// Left Start Switch
+	public static double[] LSW_L = { .4, 0, 0.02, 1 };
+	public static double[] LSW_L1 = { .8, 1.2, 0, .6 };// reverse
+	public static double[] LSW_L2 = { .5, 0, 0, .8 };
 
+	// Right Start Switch
 	// order is Kp, Kd, Ka and Kturn
-
-	public static double[] RSW_C2 = { .8, .5, .06, .8 };
+	public static double[] RSW_R = { .4, 0, 0.02, 1 };
+	public static double[] RSW_R1 = { .8, 0, 0, .1 };// reverse
 	public static double[] RSW_R2 = { .8, 0, 0, .1 };
+
+	public static double[] LSW_R = { .8, 0, 0, .1 };
+
 	public static double[] RSW_L = { .8, .5, .06, .8 };
-	public static double[] RSW_L2 = { .8, .5, .06, .8 };
 
 	// order is Kp, Kd, Ka and Kturn
 	public static double[] LSC_L = { .8, 0, 0, .8 };
@@ -325,21 +340,29 @@ public class DriveTrainCanBus extends Subsystem {
 		RobotMap.driveRightMotorA.config_kP(0, .15, 0);
 	}
 
-	public void setBrakeMode(boolean brakeOn) {
+	public void setLeftBrakeMode(boolean brakeOn) {
 
 		if (brakeOn) {
 			RobotMap.driveLeftMotorA.setNeutralMode(NeutralMode.Brake);
 			RobotMap.driveLeftMotorB.setNeutralMode(NeutralMode.Brake);
 			RobotMap.driveLeftMotorC.setNeutralMode(NeutralMode.Brake);
-			RobotMap.driveRightMotorA.setNeutralMode(NeutralMode.Brake);
-			RobotMap.driveRightMotorB.setNeutralMode(NeutralMode.Brake);
-			RobotMap.driveRightMotorC.setNeutralMode(NeutralMode.Brake);
 		}
 
 		else {
 			RobotMap.driveLeftMotorA.setNeutralMode(NeutralMode.Coast);
 			RobotMap.driveLeftMotorB.setNeutralMode(NeutralMode.Coast);
 			RobotMap.driveLeftMotorC.setNeutralMode(NeutralMode.Coast);
+		}
+	}
+	public void setRightBrakeMode(boolean brakeOn) {
+
+		if (brakeOn) {
+			RobotMap.driveRightMotorA.setNeutralMode(NeutralMode.Brake);
+			RobotMap.driveRightMotorB.setNeutralMode(NeutralMode.Brake);
+			RobotMap.driveRightMotorC.setNeutralMode(NeutralMode.Brake);
+		}
+
+		else {
 			RobotMap.driveRightMotorA.setNeutralMode(NeutralMode.Coast);
 			RobotMap.driveRightMotorB.setNeutralMode(NeutralMode.Coast);
 			RobotMap.driveRightMotorC.setNeutralMode(NeutralMode.Coast);
@@ -529,7 +552,7 @@ public class DriveTrainCanBus extends Subsystem {
 		leftMotorA.set(ControlMode.MotionMagic, targetPosition * DRIVE_ENCODER_COUNTS_PER_INCH);
 		rightMotorA.set(ControlMode.MotionMagic, targetPosition * DRIVE_ENCODER_COUNTS_PER_INCH);
 	}
-	
+
 	public void setStatusFramePeriod(int period) {
 		RobotMap.driveLeftMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
 		RobotMap.driveRightMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
@@ -538,7 +561,7 @@ public class DriveTrainCanBus extends Subsystem {
 		RobotMap.driveLeftMotorC.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
 		RobotMap.driveRightMotorC.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
 	}
-	
+
 	public void setControlFramePeriod(int period) {
 		RobotMap.driveLeftMotorA.setControlFramePeriod(ControlFrame.Control_3_General, period);
 		RobotMap.driveRightMotorA.setControlFramePeriod(ControlFrame.Control_3_General, period);

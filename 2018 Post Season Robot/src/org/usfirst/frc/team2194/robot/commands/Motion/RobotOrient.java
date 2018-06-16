@@ -9,7 +9,9 @@ import org.usfirst.frc.team2194.robot.Robot;
 import org.usfirst.frc.team2194.robot.RobotMap;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -25,6 +27,8 @@ public class RobotOrient extends Command {
 	private boolean doneAccelerating;
 	public static double currentMaxSpeed;
 	private double rampIncrement;
+	private double startTime;
+	private double rampTime;
 
 	public RobotOrient(double angle, double speed, boolean accuracy, double timeout) {
 		// Use requires() here to declare subsystem dependencies
@@ -46,7 +50,7 @@ public class RobotOrient extends Command {
 			RobotMap.driveRightMotorA.selectProfileSlot(0, 0);
 		}
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(0);
-		rampIncrement = mySpeed / 25;
+		rampIncrement = mySpeed / 20;
 		Robot.robotRotate.setPIDF(Robot.prefs.getDouble("RobotRotateKp", DriveTrainCanBus.drivePrefsDefaults[10]), 0,
 				Robot.prefs.getDouble("RobotRotateKd", DriveTrainCanBus.drivePrefsDefaults[22]), 0);
 		Robot.robotRotate.setMaxOut(DriveTrainCanBus.MINIMUM_START_PCT);
@@ -57,20 +61,23 @@ public class RobotOrient extends Command {
 		currentMaxSpeed = DriveTrainCanBus.MINIMUM_START_PCT;
 		passCount = 0;
 		// Robot.closeDriveSpeedLoop = true;
+		startTime = Timer.getFPGATimestamp();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
 		passCount++;
+		Robot.robotRotate.setMaxOut(currentMaxSpeed);
 		if (!doneAccelerating) {
 			currentMaxSpeed = currentMaxSpeed + rampIncrement;
 			if (currentMaxSpeed >= mySpeed) {
 				currentMaxSpeed = mySpeed;
 				doneAccelerating = true;
+				rampTime = Timer.getFPGATimestamp() - startTime;
+				SmartDashboard.putNumber("Ramptime", rampTime);
 			}
 		}
-		Robot.robotRotate.setMaxOut(currentMaxSpeed);
 
 		if (passCount > 5 && Math.abs(Robot.robotRotate.getError()) < Robot.prefs.getDouble("RobotRotateIzone",
 				DriveTrainCanBus.drivePrefsDefaults[12]))

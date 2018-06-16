@@ -27,7 +27,7 @@ public class CubeHandler extends Subsystem {
 	public double holdPositionInches;
 	public static double ELEVATOR_PICKUP_POSITION_INCHES = .5;
 	public static double ELEVATOR_EXCHANGE_POSITION_INCHES = 3.5;
-	public static double ELEVATOR_TRAVEL_POSITION_INCHES = 12;
+	public static double ELEVATOR_TRAVEL_POSITION_INCHES = 10;
 	public static double ELEVATOR_SWITCH_POSITION_INCHES = 26;
 	public static double ELEVATOR_SWITCH_HIGH_POSITION_INCHES = 34;
 	public static double ELEVATOR_SCALE_LOW_POSITION_INCHES = 65;

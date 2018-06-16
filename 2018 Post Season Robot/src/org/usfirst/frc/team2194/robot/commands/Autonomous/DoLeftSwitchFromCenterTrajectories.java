@@ -2,6 +2,7 @@ package org.usfirst.frc.team2194.robot.commands.Autonomous;
 
 import org.usfirst.frc.team2194.robot.DistCon;
 import org.usfirst.frc.team2194.robot.Robot.motionType;
+import org.usfirst.frc.team2194.robot.commands.SetTrajectoryGains;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.CloseIntakeArms;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.DelayedElevatorMove;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
@@ -9,10 +10,12 @@ import org.usfirst.frc.team2194.robot.commands.CubeHandler.OuttakeCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnWheelsToIntake;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveToCubePickup;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveToPosition;
+import org.usfirst.frc.team2194.robot.commands.Motion.PathfinderReverseTrajectoryUsingNotifier;
 import org.usfirst.frc.team2194.robot.commands.Motion.PathfinderTrajectoryUsingNotifier;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetEncoders;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetGyro;
 import org.usfirst.frc.team2194.robot.commands.Motion.RunReverseTrajectory;
+import org.usfirst.frc.team2194.robot.commands.Motion.RunTrajectory;
 import org.usfirst.frc.team2194.robot.commands.Motion.SetDriveStraightAngle;
 import org.usfirst.frc.team2194.robot.subsystems.CubeHandler;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
@@ -49,13 +52,13 @@ public class DoLeftSwitchFromCenterTrajectories extends CommandGroup {
 
 		addParallel(new DelayedElevatorMove(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
 
-		addSequential(new RunReverseTrajectory("LSW_C1", DriveTrainCanBus.LSW_C));
+		addSequential(new RunReverseTrajectory("LSW_C1", DriveTrainCanBus.LSW_C1Rev));
 
 		addSequential(new SetDriveStraightAngle(0));
 
 		addSequential(new ResetEncoders());
 
-		addParallel(new DriveToCubePickup(5, motionType.absolute, DistCon.SHORT_POSITION_RATE, 2));
+		addParallel(new DriveToCubePickup(5.5, motionType.absolute, DistCon.SHORT_POSITION_RATE, 2));
 
 		addSequential(new TurnWheelsToIntake(.5, 3));
 
@@ -64,6 +67,8 @@ public class DoLeftSwitchFromCenterTrajectories extends CommandGroup {
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
 
 		addSequential(new ResetEncoders());
+
+		addSequential(new SetTrajectoryGains(DriveTrainCanBus.RSW_C1));
 
 		addSequential(new PathfinderTrajectoryUsingNotifier());
 

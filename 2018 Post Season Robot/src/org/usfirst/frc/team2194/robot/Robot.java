@@ -31,6 +31,7 @@ import org.usfirst.frc.team2194.robot.subsystems.Sensors;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -112,8 +113,8 @@ public class Robot extends IterativeRobot {
 	public boolean sameSideSwitchHasPriority;
 	public Integer sameSidePriority;
 
-	public boolean leftSwitchActive;
-	public boolean rightSwitchActive;
+	public static boolean leftSwitchActive;
+	public static boolean rightSwitchActive;
 	public boolean leftScaleActive;
 
 	public boolean rightScaleActive;
@@ -151,7 +152,7 @@ public class Robot extends IterativeRobot {
 	private double positionTarget = 6.;
 	private double positionFPS = 5;
 	private double angleTarget = 90;
-	private double orientRate = 0.5;
+	private double orientRate = 0.25;
 	private int visionTarget;
 	public static boolean motionCommandRunning;
 	public static boolean motionCommandComplete;
@@ -240,7 +241,8 @@ public class Robot extends IterativeRobot {
 		if (prefs.containsKey("Robot Rotate Kp"))
 			prefs.remove("Robot Rotate Kp");
 
-		driveTrainCanBus.setBrakeMode(true);
+		driveTrainCanBus.setLeftBrakeMode(true);
+		driveTrainCanBus.setRightBrakeMode(true);
 
 		cubeHandler = new CubeHandler();
 		cubeHandler.initPrefs();
@@ -393,7 +395,8 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		firstAutonomousCommandStarted = false;
 		cubeHandler.closeIntakeArms();
-		driveTrainCanBus.setBrakeMode(true);
+		driveTrainCanBus.setLeftBrakeMode(true);
+		driveTrainCanBus.setRightBrakeMode(true);
 		startPosition = startPositionChooser.getSelected();
 
 		switch (startPosition) {
@@ -812,6 +815,7 @@ public class Robot extends IterativeRobot {
 			case 11:
 				trajFileName = "LSW_L1";
 				leftStartPosition = true;
+				secondaryTrajectory = true;
 				isSwitch = true;
 				break;
 			case 12:
@@ -849,9 +853,12 @@ public class Robot extends IterativeRobot {
 			case 41:
 				trajFileName = "RSW_R1";
 				rightStartPosition = true;
+				isSwitch=true;
+				secondaryTrajectory = true;
 				break;
 			case 42:
 				trajFileName = "RSW_R2";
+				isSwitch=true;
 				rightStartPosition = true;
 				secondaryTrajectory = true;
 				break;
@@ -926,6 +933,7 @@ public class Robot extends IterativeRobot {
 				if (!Robot.doMotionOption) {
 					constantsFromPrefs();
 					driveTrainCanBus.resetEncoders();
+					sensors.resetGyro();
 					new PathfinderReverseTrajectoryUsingNotifier().start();
 					trajectoryRunning = true;
 				}

@@ -37,7 +37,8 @@ public class PositionToSwitchWall extends Command {
 		Robot.driveTrainCanBus.setPosition(rightTargetFt, driveSide.right, myFtPerSec);
 		Robot.driveTrainCanBus.setPosition(leftTargetFt, driveSide.left, myFtPerSec);
 		Robot.positionRunning = true;
-		Robot.driveTrainCanBus.setBrakeMode(false);
+		Robot.driveTrainCanBus.setLeftBrakeMode(false);
+		Robot.driveTrainCanBus.setRightBrakeMode(false);
 		setTimeout(myTimeout);
 		passCount = 0;
 	}
@@ -77,7 +78,8 @@ public class PositionToSwitchWall extends Command {
 		Robot.driveTrainCanBus.configDrivePeakout(DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, driveSide.both);
 		Robot.positionRunning = false;
 		Robot.driveTrainCanBus.runStalledDetect = false;
-		Robot.driveTrainCanBus.setBrakeMode(true);
+		Robot.driveTrainCanBus.setLeftBrakeMode(true);
+		Robot.driveTrainCanBus.setRightBrakeMode(true);
 	}
 
 	// Called when another command which requires one or more of the same

@@ -1,12 +1,14 @@
 package org.usfirst.frc.team2194.robot.commands.AutoMoves;
 
+import org.usfirst.frc.team2194.robot.Robot;
 import org.usfirst.frc.team2194.robot.commands.SetFirstAutoCommandsDone;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.OuttakeCube;
 import org.usfirst.frc.team2194.robot.commands.Motion.PathfinderTrajectoryUsingNotifier;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetEncoders;
 import org.usfirst.frc.team2194.robot.commands.Motion.ResetGyro;
-import org.usfirst.frc.team2194.robot.commands.Motion.SetDriveBrakeOn;
+import org.usfirst.frc.team2194.robot.commands.Motion.SetLeftDriveBrakeOn;
+import org.usfirst.frc.team2194.robot.commands.Motion.SetRightDriveBrakeOn;
 import org.usfirst.frc.team2194.robot.subsystems.CubeHandler;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -35,10 +37,13 @@ public class DoTrajectorySwitch extends CommandGroup {
 		// arm.
 		addSequential(new ResetGyro());
 		addSequential(new ResetEncoders());
-		addSequential(new SetDriveBrakeOn(false));
+		addSequential(new SetLeftDriveBrakeOn(Robot.rightSwitchActive));
+		addSequential(new SetRightDriveBrakeOn(Robot.leftSwitchActive));
 		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
 		addSequential(new PathfinderTrajectoryUsingNotifier());
-		addSequential(new SetDriveBrakeOn(true));
+		addSequential(new SetLeftDriveBrakeOn(true));
+		addSequential(new SetRightDriveBrakeOn(true));
+
 		addSequential(new OuttakeCube(.5));
 		addSequential(new SetFirstAutoCommandsDone());
 	}

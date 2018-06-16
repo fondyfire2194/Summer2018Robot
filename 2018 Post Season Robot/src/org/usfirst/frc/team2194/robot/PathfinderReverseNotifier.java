@@ -20,9 +20,11 @@ public class PathfinderReverseNotifier {
 	}
 
 	static Notifier _notifier = new Notifier(new PeriodicRunnable());
+	private static double lastSegmentPosition;
 
 	public static void startNotifier() {
 		activeTrajectoryLength = Robot.activeLeftTrajectory.length();
+		lastSegmentPosition = Robot.activeLeftTrajectory.get(activeTrajectoryLength - 1).position;
 		passCounter = activeTrajectoryLength - 1;
 		periodic_time = Robot.driveTrainCanBus.revLeftDf.getSegment().dt;
 		_notifier.startPeriodic(periodic_time);
@@ -77,9 +79,11 @@ public class PathfinderReverseNotifier {
 			 * 
 			 */
 			Robot.simpleCSVLogger.writeData((double) passCounter,
-					Robot.driveTrainCanBus.revLeftDf.getSegment().position, -Robot.driveTrainCanBus.getLeftFeet(),
-					Robot.driveTrainCanBus.revRightDf.getSegment().position, -Robot.driveTrainCanBus.getRightFeet(),
-					Pathfinder.boundHalfDegrees(desired_heading), -Robot.sensors.getGyroYaw(),
+					lastSegmentPosition - Robot.driveTrainCanBus.revLeftDf.getSegment().position,
+					-Robot.driveTrainCanBus.getLeftFeet(),
+					lastSegmentPosition - Robot.driveTrainCanBus.revRightDf.getSegment().position,
+					-Robot.driveTrainCanBus.getRightFeet(), Pathfinder.boundHalfDegrees(desired_heading),
+					-Robot.sensors.getGyroYaw(),
 					Robot.driveTrainCanBus.revLeftDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					left, Robot.driveTrainCanBus.getLeftFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					Robot.driveTrainCanBus.revRightDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
