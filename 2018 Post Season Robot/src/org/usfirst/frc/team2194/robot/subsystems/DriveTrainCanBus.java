@@ -101,18 +101,18 @@ public class DriveTrainCanBus extends Subsystem {
 	public static double[] LSW_C1Rev = { .4, 0, 0.02, 1 };
 
 	public static double[] RSW_C = { .4, 0, 0.02, 1 };
-	public static double[] RSW_C1 = { .8, .5, .06, .8 };
+	public static double[] RSW_C1 = { .4, .5, .06, .8 };
 	public static double[] RSW_C1Rev = { .8, .5, .06, .8 };
 
 	// Left Start Switch
 	public static double[] LSW_L = { .4, 0, 0.02, 1 };
-	public static double[] LSW_L1 = { .8, 1.2, 0, .6 };// reverse
-	public static double[] LSW_L2 = { .5, 0, 0, .8 };
+	public static double[] LSW_L1Rev = { .4, 1.2, 0, .6 };// reverse
+	public static double[] LSW_L2 = { .4, 0, 0, .8 };
 
 	// Right Start Switch
 	// order is Kp, Kd, Ka and Kturn
 	public static double[] RSW_R = { .4, 0, 0.02, 1 };
-	public static double[] RSW_R1 = { .8, 0, 0, .1 };// reverse
+	public static double[] RSW_R1Rev = { .8, 0, 0, .1 };// reverse
 	public static double[] RSW_R2 = { .8, 0, 0, .1 };
 
 	public static double[] LSW_R = { .8, 0, 0, .1 };
@@ -194,17 +194,17 @@ public class DriveTrainCanBus extends Subsystem {
 		drivePrefsNames[17] = "PathTurn ";
 		drivePrefsDefaults[17] = .1;
 
-		drivePrefsNames[18] = "PathP2";
+		drivePrefsNames[18] = "RevPathP";
 		drivePrefsDefaults[18] = .4;
 
-		drivePrefsNames[19] = "PathD2";
+		drivePrefsNames[19] = "RevPathD";
 		drivePrefsDefaults[19] = .0;
 
-		drivePrefsNames[20] = "PathA2";
+		drivePrefsNames[20] = "RevPathA";
 		drivePrefsDefaults[20] = .0;
 
-		drivePrefsNames[21] = "PathTurn2 ";
-		drivePrefsDefaults[21] = .1;
+		drivePrefsNames[21] = "RevPathTurn";
+		drivePrefsDefaults[21] = .5;
 
 		drivePrefsNames[22] = "RobotRotateKd";
 		drivePrefsDefaults[22] = .03;

@@ -68,7 +68,7 @@ public class DoLeftSwitchFromCenterTrajectories extends CommandGroup {
 
 		addSequential(new ResetEncoders());
 
-		addSequential(new SetTrajectoryGains(DriveTrainCanBus.RSW_C1));
+		addSequential(new SetTrajectoryGains(DriveTrainCanBus.LSW_C1));
 
 		addSequential(new PathfinderTrajectoryUsingNotifier());
 

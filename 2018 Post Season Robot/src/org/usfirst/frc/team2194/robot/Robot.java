@@ -853,12 +853,12 @@ public class Robot extends IterativeRobot {
 			case 41:
 				trajFileName = "RSW_R1";
 				rightStartPosition = true;
-				isSwitch=true;
+				isSwitch = true;
 				secondaryTrajectory = true;
 				break;
 			case 42:
 				trajFileName = "RSW_R2";
-				isSwitch=true;
+				isSwitch = true;
 				rightStartPosition = true;
 				secondaryTrajectory = true;
 				break;
@@ -931,7 +931,7 @@ public class Robot extends IterativeRobot {
 			doMotionOption = !checkUsbFilePath();
 			if (buildTrajectory.buildFileName(trajFileName, DriveTrainCanBus.Test)) {
 				if (!Robot.doMotionOption) {
-					constantsFromPrefs();
+					revConstantsFromPrefs();
 					driveTrainCanBus.resetEncoders();
 					sensors.resetGyro();
 					new PathfinderReverseTrajectoryUsingNotifier().start();
@@ -1050,7 +1050,6 @@ public class Robot extends IterativeRobot {
 			DriverStation.reportError("Prefs Array Mismatch" + names, false);
 	}
 
-
 	private void constantsFromPrefs() {
 		activeTrajectoryGains[0] = prefs.getDouble("PathP", DriveTrainCanBus.drivePrefsDefaults[14]);
 		activeTrajectoryGains[1] = prefs.getDouble("PathD", DriveTrainCanBus.drivePrefsDefaults[15]);
@@ -1058,25 +1057,16 @@ public class Robot extends IterativeRobot {
 		activeTrajectoryGains[3] = prefs.getDouble("PathTurn", DriveTrainCanBus.drivePrefsDefaults[17]);
 	}
 
+	private void revConstantsFromPrefs() {
+		activeTrajectoryGains[0] = prefs.getDouble("RevPathP", DriveTrainCanBus.drivePrefsDefaults[18]);
+		activeTrajectoryGains[1] = prefs.getDouble("RevPathD", DriveTrainCanBus.drivePrefsDefaults[19]);
+		activeTrajectoryGains[2] = prefs.getDouble("RevPathA", DriveTrainCanBus.drivePrefsDefaults[20]);
+		activeTrajectoryGains[3] = prefs.getDouble("RevPathTurn", DriveTrainCanBus.drivePrefsDefaults[21]);
+	}
+
 	public static boolean checkUsbFilePath() {
-		boolean temp = false;
-		File usbFile = new File("/media/sda1/TrajCSV/");
-		if (usbFile.exists()) {
-			temp = true;
-			usbFilePath = "/media/sda1/TrajCSV/";
-		}
-		if (!temp) {
-			usbFile = new File("/media/sdb1/TrajCSV/");
-			if (usbFile.exists()) {
-				usbFilePath = "/media/sdb1/TrajCSV/";
-				temp = true;
-			}
-		}
-		if (temp)
-			SmartDashboard.putString("USB Path", usbFilePath);
-		else
-			SmartDashboard.putString("USB ", "Not Found");
-		return temp;
+		File usbFile = new File("/U/TrajCSV/");
+		return usbFile.exists();
 	}
 
 }

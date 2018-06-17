@@ -19,7 +19,8 @@ public class BuildTrajectory {
 		Robot.doMotionOption = true;
 
 		String tempPath = null;
-		String filePath = "/home/lvuser/TrajCSV/";
+		// String filePath = "/home/lvuser/TrajCSV/";
+		String filePath = "/U/TrajCSV/";
 		String testPath = "Test/";
 		String switchPath = "Switch/";
 		String scalePath = "Scale/";
