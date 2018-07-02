@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2194.robot.subsystems;
 
+import org.usfirst.frc.team2194.robot.Robot;
 import org.usfirst.frc.team2194.robot.RobotMap;
 import org.usfirst.frc.team2194.robot.SD;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.HoldElevatorPositionMotionMagic;
@@ -45,10 +46,12 @@ public class CubeHandler extends Subsystem {
 
 	public boolean elevatorTooHigh;
 	public boolean elevatorTooLow;
+	public boolean moveIsUp;
+	public boolean moveIsDown;
 
 	public double elevatorTargetPosition;
 	private boolean switchWasSeen;
-	public boolean elevatorMotionDown;
+	// public boolean elevatorMotionDown;
 	public boolean cubePickedUp;
 
 	public enum intakeSide {
@@ -137,6 +140,9 @@ public class CubeHandler extends Subsystem {
 	public void magicMotionElevator(double distance, double speedIPS) {
 		// elevator motor 775 Pro with 70:1 gear reduction and a 4096 count encoder
 		//
+		// Motor data 18000 rpm = 300 rps = 30 revs/100ms
+		//
+		//
 		// measured rate at 100% was 1500
 		//
 		// Use measured rate not theoretical so 100% Kf would be 1023/1500 =.7
@@ -159,15 +165,15 @@ public class CubeHandler extends Subsystem {
 		int cruiseVelocity = (int) (speedIPS * IN_PER_SEC_TO_ENC_CTS_PER_100MS);
 
 		int acceleration;
-		if (elevatorMotionDown)
+
+		if (Robot.cubeHandler.moveIsDown) {
+			cruiseVelocity = cruiseVelocity / 2;
 			acceleration = cruiseVelocity;// 1 second to soften bottom hit
-		else
+		} else
 			acceleration = cruiseVelocity * 2;// 1/2 second
 
 		RobotMap.elevatorMotor.configMotionCruiseVelocity(cruiseVelocity, 0);
-
 		RobotMap.elevatorMotor.configMotionAcceleration(acceleration, 0);
-
 		RobotMap.elevatorMotor.set(ControlMode.MotionMagic, distance * CubeHandler.ENCODER_COUNTS_PER_INCH);
 	}
 
@@ -190,11 +196,12 @@ public class CubeHandler extends Subsystem {
 	}
 
 	public void updateStatus() {
+		elevatorTooLow = getElevatorPositionInches() <= ELEVATOR_MIN_HEIGHT;
+		elevatorTooHigh = getElevatorPositionInches() >= ELEVATOR_MAX_HEIGHT;
+
 		SD.putN1("Elevator Amps", RobotMap.elevatorMotor.getOutputCurrent());
 		SD.putN1("Elevator Inches", getElevatorPositionInches());
 
-		elevatorTooLow = getElevatorPositionInches() <= ELEVATOR_MIN_HEIGHT;
-		elevatorTooHigh = getElevatorPositionInches() >= ELEVATOR_MAX_HEIGHT;
 		SmartDashboard.putBoolean("Elevator Too Low", elevatorTooLow);
 		SmartDashboard.putBoolean("Elevator Too High", elevatorTooHigh);
 		SmartDashboard.putBoolean("Elev In Pos", inPosition());
@@ -203,7 +210,6 @@ public class CubeHandler extends Subsystem {
 		SD.putN1("Elevator Target", elevatorTargetPosition);
 		SD.putN1("Elevator Hold", holdPositionInches);
 		SD.putN1("Elevator Pct V", RobotMap.elevatorMotor.getMotorOutputPercent());
-
 		SD.putN1("Elevator Speed IPS", getElevatorSpeedInchesPerSecond());
 		SD.putN1("Intake Amps Left", RobotMap.intakeLeftMotor.getOutputCurrent());
 		SD.putN1("Intake Amps Right", RobotMap.intakeRightMotor.getOutputCurrent());
@@ -212,14 +218,11 @@ public class CubeHandler extends Subsystem {
 		SmartDashboard.putBoolean("Elevator Switch", RobotMap.elevatorSwitch.get());
 
 		if (!RobotMap.elevatorSwitch.get() && !switchWasSeen) {
-
 			resetElevatorPosition();
 			holdPositionInches = getElevatorPositionInches();
 			switchWasSeen = true;
-			//
 		}
 		if (switchWasSeen)
 			switchWasSeen = !RobotMap.elevatorSwitch.get();
-
 	}
 }

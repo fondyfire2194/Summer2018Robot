@@ -120,7 +120,7 @@ public class AllCameras {
 			// This cannot be 'true'. The program will never exit if it is. This
 			// lets the robot stop this thread when restarting robot code or
 			// deploying.
-			while (!Thread.interrupted() && cubeVisionTargetingOn) {
+			while (!Thread.interrupted()) {
 				// Tell the CvSink to grab a frame from the camera and put it
 				// in the source mat. If there is an error notify the output.
 				if (cvSink.grabFrame(mat) == 0) {

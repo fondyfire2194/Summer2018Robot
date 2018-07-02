@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class LogDriveData extends Command {
 	private double startTime, myTimeout;
+	private String myTypeName;
+
 	private String[] names = { "Time", "Gyro Yaw", "LeftSpeed", "RightSpeed", "LeftA Amps", "LeftA Volts", "LeftB Amps",
 			"LeftB Volts", "LeftC Amps", "LeftC Volts", "RightA Amps", "RightA Volts", "RightB Amps", "RightB Volts",
 			"RightC Amps", "RightC Volts", "Left Ft", "Right Ft", "Left Error", "Left Vel", "Right Error",
@@ -18,8 +20,9 @@ public class LogDriveData extends Command {
 	private String[] units = { "mS", "Degrees", "PU", "PU", "Amps", "Volts", "Amps", "Volts", "Amps", "Volts", "Amps",
 			"Volts", "Amps", "Volts", "Amps", "Volts", "Ft", "Ft", "EncCts", "Ft/sec", "EncCts", "Ft/sec" };
 
-	public LogDriveData(double timeout) {
+	public LogDriveData(String typeName, double timeout) {
 		myTimeout = timeout;
+		myTypeName = typeName;
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
@@ -29,7 +32,7 @@ public class LogDriveData extends Command {
 		setTimeout(myTimeout);
 		Robot.createTrajectoryRunFile = false;
 		Robot.createDriveRunFile = true;
-		Robot.simpleCSVLogger.init("Drive", names, units);
+		Robot.simpleCSVLogger.init(myTypeName, names, units);
 		startTime = Timer.getFPGATimestamp();
 	}
 

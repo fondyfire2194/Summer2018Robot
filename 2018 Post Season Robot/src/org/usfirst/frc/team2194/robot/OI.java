@@ -71,8 +71,8 @@ public class OI {
 
 	public JoystickButton endCommand;
 
-	public JoystickButton climbForward;
-	public JoystickButton climbBackward;
+	public JoystickButton climbRobot;
+	public JoystickButton climbHookRaise;
 	public JoystickButton stopClimb;
 
 	public JoystickButton intakeCube;
@@ -84,7 +84,7 @@ public class OI {
 
 	public JoystickButton startIntakeWheels;
 	public JoystickButton reverseIntakeWheels;
-	public JoystickButton stopIntakeWheels;
+	public JoystickButton raiseClimbHook;
 
 	public JoystickButton elevatorToBottomPosition;
 	public JoystickButton elevatorToTravelPosition;
@@ -121,13 +121,13 @@ public class OI {
 		openIntakeArms = new JoystickButton(joystick1, 5);
 		openIntakeArms.whenPressed(new OpenIntakeArms());
 
-		climbBackward = new JoystickButton(joystick1, 8);
-		climbBackward.whileHeld(new DriveClimber(-.9));
-		climbBackward.whenReleased(new StopClimber());
+		climbHookRaise = new JoystickButton(joystick1, 8);
+		climbHookRaise.whileHeld(new DriveClimber(-.9));
+		climbHookRaise.whenReleased(new StopClimber());
 
-		climbForward = new JoystickButton(joystick1, 7);
-		climbForward.whileHeld(new DriveClimber(.9));
-		climbForward.whenReleased(new StopClimber());
+		climbRobot = new JoystickButton(joystick1, 7);
+		climbRobot.whileHeld(new DriveClimber(.9));
+		climbRobot.whenReleased(new StopClimber());
 
 		elevatorToBottomPosition = gamepad.getButtonA();
 		elevatorToBottomPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
@@ -148,10 +148,10 @@ public class OI {
 		elevatorToPortalPosition = gamepad.getRightShoulder();
 		elevatorToPortalPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PORTAL_POSITION_INCHES));
 
-		stopIntakeWheels = gamepad.getLeftTriggerClick();
+		raiseClimbHook = gamepad.getLeftTriggerClick();
 		// stopIntakeWheels.whenPressed(new TurnIntakeWheels(0));
-		stopIntakeWheels.whileHeld(new DriveClimber(-.9));
-		stopIntakeWheels.whenReleased(new StopClimber());
+		raiseClimbHook.whileHeld(new DriveClimber(-.9));
+		raiseClimbHook.whenReleased(new StopClimber());
 
 		elevatorToExchange = gamepad.getRightTriggerClick();
 		elevatorToExchange.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_EXCHANGE_POSITION_INCHES));
@@ -159,8 +159,8 @@ public class OI {
 		jogElevator = gamepad.getStartButton();
 		jogElevator.whileHeld(new RunElevatorFromGamepad());
 
-		runDrives = new JoystickButton(joystick1, 6);
-		runDrives.whileHeld(new ContinuousOutDrive(.25));
+		// runDrives = new JoystickButton(joystick1, 6);
+		// runDrives.whileHeld(new ContinuousOutDrive(.25));
 
 		SmartDashboard.putData("Reset Encoders", new ResetEncoders());
 		SmartDashboard.putData("Reset Gyro", new ResetGyro());
@@ -169,14 +169,16 @@ public class OI {
 		SmartDashboard.putData("Reset Values", new ResetScanValues());
 
 		SmartDashboard.putData("Position Robot", new DoTeleopRobotPosition());
+		
 		SmartDashboard.putData("Orient Robot", new DoTeleopRobotOrient());
+
 		SmartDashboard.putData("Orient Reverse", new DoTeleopReverseOrient());
 		SmartDashboard.putData("Test Trajectory", new DoTeleopTestTrajectory());
 		SmartDashboard.putData("Test Rev Trajectory", new DoTeleopTestReverseTrajectory());
 		SmartDashboard.putData("Magic Motion Robot", new DoTeleopRobotMagicMotion());
 		SmartDashboard.putData("Vision Motion Robot", new DoTeleopRobotVisionPosition());
 		SmartDashboard.putData("Reset Elevator Position", new ResetElevatorPosition());
-		SmartDashboard.putData("Log Drive", new LogDriveData(10));
+		SmartDashboard.putData("Log Drive", new LogDriveData("Drive", 10));
 	}
 
 	public Joystick getgamepad() {

@@ -49,62 +49,35 @@ public class HoldElevatorPositionMotionMagic extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		/*
-		 * 
-		 * 
-		 * raise elevator
-		 * 
-		 * int cruiseVelocity = (int) (speedFPS * FT_PER_SEC_TO_ENC_CTS_PER_100MS); int
-		 * acceleration = cruiseVelocity / 2;
-		 * 
-		 */
 
 		if (Robot.cubeHandler.holdPositionInches != lastHoldPositionInches) {
 
-			Robot.cubeHandler.elevatorMotionDown = Robot.cubeHandler.holdPositionInches < lastHoldPositionInches;
-
 			RobotMap.elevatorMotor.selectProfileSlot(0, 0);
-			RobotMap.elevatorMotor.config_kF(0,
-					Robot.prefs.getDouble("ElevatorMMKf", CubeHandler.elevatorPrefsDefaults[0]), 0);
-			RobotMap.elevatorMotor.config_kP(0,
-					Robot.prefs.getDouble("ElevatorMMKp", CubeHandler.elevatorPrefsDefaults[1]), 0);
-			RobotMap.elevatorMotor.config_kI(0,
-					Robot.prefs.getDouble("ElevatorMMKi", CubeHandler.elevatorPrefsDefaults[2]), 0);
-			RobotMap.elevatorMotor.config_kD(0,
-					Robot.prefs.getDouble("ElevatorMMKd", CubeHandler.elevatorPrefsDefaults[3]), 0);
 
+			if (Robot.cubeHandler.moveIsUp) {
+				RobotMap.elevatorMotor.config_kF(0,
+						Robot.prefs.getDouble("ElevatorMMKf", CubeHandler.elevatorPrefsDefaults[0]), 0);
+				RobotMap.elevatorMotor.config_kP(0,
+						Robot.prefs.getDouble("ElevatorMMKp", CubeHandler.elevatorPrefsDefaults[1]), 0);
+				RobotMap.elevatorMotor.config_kI(0,
+						Robot.prefs.getDouble("ElevatorMMKi", CubeHandler.elevatorPrefsDefaults[2]), 0);
+				RobotMap.elevatorMotor.config_kD(0,
+						Robot.prefs.getDouble("ElevatorMMKd", CubeHandler.elevatorPrefsDefaults[3]), 0);
+			} else {
+				RobotMap.elevatorMotor.config_kF(0,
+						Robot.prefs.getDouble("ElevatorDownMMKf", CubeHandler.elevatorPrefsDefaults[4]), 0);
+				RobotMap.elevatorMotor.config_kP(0,
+						Robot.prefs.getDouble("ElevatorDownMMKp", CubeHandler.elevatorPrefsDefaults[5]), 0);
+				RobotMap.elevatorMotor.config_kI(0,
+						Robot.prefs.getDouble("ElevatorDownMMKi", CubeHandler.elevatorPrefsDefaults[6]), 0);
+				RobotMap.elevatorMotor.config_kD(0,
+						Robot.prefs.getDouble("ElevatorDownMMKd", CubeHandler.elevatorPrefsDefaults[7]), 0);
+			}
 			Robot.cubeHandler.magicMotionElevator(Robot.cubeHandler.holdPositionInches,
 					CubeHandler.ELEVATOR_POSITION_RATE);
 
 			lastHoldPositionInches = Robot.cubeHandler.holdPositionInches;
 		}
-
-		/*
-		 * lower elevator
-		 * 
-		 */
-		// if (Robot.cubeHandler.holdPositionInches < lastHoldPositionInches) {
-		// RobotMap.elevatorMotor.selectProfileSlot(0, 0);
-		//
-		// RobotMap.elevatorMotor.config_kF(0,
-		// Robot.prefs.getDouble("ElevatorDownMMKf",
-		// CubeHandler.elevatorPrefsDefaults[4]), 0);
-		// RobotMap.elevatorMotor.config_kP(0,
-		// Robot.prefs.getDouble("ElevatorDownMMKp",
-		// CubeHandler.elevatorPrefsDefaults[5]), 0);
-		// RobotMap.elevatorMotor.config_kI(0,
-		// Robot.prefs.getDouble("ElevatorDownMMKi",
-		// CubeHandler.elevatorPrefsDefaults[6]), 0);
-		// RobotMap.elevatorMotor.config_kD(0,
-		// Robot.prefs.getDouble("ElevatorDownMMKd",
-		// CubeHandler.elevatorPrefsDefaults[7]), 0);
-		//
-		// Robot.cubeHandler.magicMotionElevator(Robot.cubeHandler.holdPositionInches,
-		// CubeHandler.ELEVATOR_POSITION_RATE);
-		//
-		// lastHoldPositionInches = Robot.cubeHandler.holdPositionInches;
-		// }
-
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

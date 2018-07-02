@@ -75,7 +75,7 @@ public class PathfinderReverseNotifier {
 			/*
 			 * names = { "Step", "Left Cmd", "Left Ft", "Right Cmd ", "Right Ft",
 			 * "Angle Cmd", "Angle", "LeftSegVel", "left", "ActLeftVel", "RightSegVel",
-			 * "right", "ActRightVel", "turn" };
+			 * "right", "ActRightVel", "turn" ,"battery"};
 			 * 
 			 */
 			Robot.simpleCSVLogger.writeData((double) passCounter,
@@ -88,7 +88,7 @@ public class PathfinderReverseNotifier {
 					left, Robot.driveTrainCanBus.getLeftFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					Robot.driveTrainCanBus.revRightDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					right, Robot.driveTrainCanBus.getRightFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
-					turn);
+					turn,Robot.powerPanel.getVoltage());
 		}
 	}
 }

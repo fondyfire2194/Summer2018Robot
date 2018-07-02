@@ -7,7 +7,7 @@ import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoLeftSwitchFromLeftMov
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoLeftSwitchFromRightMove;
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightScaleFromLeftMove;
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightScaleFromRightMove;
-import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightSwitchFromCenterMove;
+import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightSwitchFromCenterMove2;
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightSwitchFromLeftMove;
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoRightSwitchFromRightMove;
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoTrajectoryScale;
@@ -38,7 +38,7 @@ public enum PathSelectAuto {
 
 	LEFTSWITCHFROMCENTER("LSW_C", DriveTrainCanBus.LSW_C, new DoLeftSwitchFromCenterMove(),
 			new DoLeftSwitchFromCenterTrajectories(), new DoLeftSwitchFromCenter()), //
-	RIGHTSWITCHFROMCENTER("RSW_C", DriveTrainCanBus.RSW_C, new DoRightSwitchFromCenterMove(),
+	RIGHTSWITCHFROMCENTER("RSW_C", DriveTrainCanBus.RSW_C, new DoRightSwitchFromCenterMove2(),
 			new DoRightSwitchFromCenterTrajectories(), new DoRightSwitchFromCenter()), //
 
 	LEFTSWITCHFROMLEFT("LSW_L", DriveTrainCanBus.LSW_L, new DoLeftSwitchFromLeftMove(),
@@ -80,7 +80,7 @@ public enum PathSelectAuto {
 	}
 
 	void build() {
-		if (Robot.checkUsbFilePath() && Robot.buildTrajectory.buildFileName(name, gains)) {
+		if (Robot.isSwitch && Robot.checkUsbFilePath() && Robot.buildTrajectory.buildFileName(name, gains)) {
 
 			if (Robot.isSwitch)
 				Robot.firstAutonomousCommand = new DoTrajectorySwitch();

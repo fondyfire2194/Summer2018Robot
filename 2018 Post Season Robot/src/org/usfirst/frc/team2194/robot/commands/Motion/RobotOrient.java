@@ -7,6 +7,7 @@ package org.usfirst.frc.team2194.robot.commands.Motion;
 
 import org.usfirst.frc.team2194.robot.Robot;
 import org.usfirst.frc.team2194.robot.RobotMap;
+import org.usfirst.frc.team2194.robot.commands.LogDriveData;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -50,7 +51,7 @@ public class RobotOrient extends Command {
 			RobotMap.driveRightMotorA.selectProfileSlot(0, 0);
 		}
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(0);
-		rampIncrement = mySpeed / 20;
+		rampIncrement = mySpeed / 10;
 		Robot.robotRotate.setPIDF(Robot.prefs.getDouble("RobotRotateKp", DriveTrainCanBus.drivePrefsDefaults[10]), 0,
 				Robot.prefs.getDouble("RobotRotateKd", DriveTrainCanBus.drivePrefsDefaults[22]), 0);
 		Robot.robotRotate.setMaxOut(DriveTrainCanBus.MINIMUM_START_PCT);
@@ -98,6 +99,7 @@ public class RobotOrient extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
+		Robot.robotRotate.setMaxOut(DriveTrainCanBus.MINIMUM_START_PCT);
 		Robot.robotRotate.disable();
 		Robot.orientRunning = false;
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(.5);

@@ -203,9 +203,9 @@ public class Robot extends IterativeRobot {
 	private static boolean secondaryTrajectory;
 	// Trajectory log data headers
 	public static String[] names = { "Step", "Left Cmd", "Left Ft", "Right Cmd ", "Right Ft", "Angle Cmd", "Angle",
-			"LeftSegVel", "left", "ActLeftVel", "RightSegVel", "right", "ActRightVel", "turn" };
+			"LeftSegVel", "left", "ActLeftVel", "RightSegVel", "right", "ActRightVel", "turn", "battery" };
 	public static String[] units = { "Number", "FT", "FT", "FT", "FT", "Deg", "Deg", "pct", "pct", "pct", "pct", "pct",
-			"pct", "pct" };
+			"pct", "pct", "volts" };
 
 	public static String usbFilePath = "/U";
 	public static boolean createIntakeRunFile;
@@ -213,6 +213,7 @@ public class Robot extends IterativeRobot {
 	public static boolean useVision = true;
 	public static double xPosition;
 	public static double yPosition;
+	public static boolean createElevatorRunFile = true;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -279,7 +280,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Wheel Mode", 0);
 
 		SmartDashboard.putNumber("XPixelTarget", 5);
-
+		SmartDashboard.putBoolean("USBOK", checkUsbFilePath());
 		if (!RobotMap.elevatorSwitch.get() && cubeHandler.holdPositionInches != 0
 				&& cubeHandler.getElevatorEncoderPosition() != 0) {
 			cubeHandler.resetElevatorPosition();

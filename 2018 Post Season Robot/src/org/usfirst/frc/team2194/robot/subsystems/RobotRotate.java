@@ -70,8 +70,15 @@ public class RobotRotate extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		Robot.driveTrainCanBus.leftDriveOut(output);
-		Robot.driveTrainCanBus.rightDriveOut(-output);
+		double temp = 0;
+		if (Math.abs(output) < DriveTrainCanBus.MINIMUM_START_PCT) {
+			temp = DriveTrainCanBus.MINIMUM_START_PCT;
+			if (output < 0)
+				temp = -temp;
+		} else
+			temp = output;
+		Robot.driveTrainCanBus.leftDriveOut(temp);
+		Robot.driveTrainCanBus.rightDriveOut(-temp);
 	}
 
 	public void enablePID() {
