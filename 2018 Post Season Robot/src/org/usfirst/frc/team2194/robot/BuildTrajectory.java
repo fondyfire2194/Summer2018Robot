@@ -3,6 +3,7 @@ package org.usfirst.frc.team2194.robot;
 import java.io.File;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 
 public class BuildTrajectory {
@@ -19,8 +20,7 @@ public class BuildTrajectory {
 		Robot.doMotionOption = true;
 
 		String tempPath = null;
-		// String filePath = "/home/lvuser/TrajCSV/";
-		String filePath = "/U/TrajCSV/";
+		String filePath = "/home/lvuser/TrajCSV/";
 		String testPath = "Test/";
 		String switchPath = "Switch/";
 		String scalePath = "Scale/";
@@ -54,9 +54,9 @@ public class BuildTrajectory {
 			Robot.activeLeftTrajectory = Pathfinder.readFromCSV(myLeftFile);
 			Robot.activeRightTrajectory = Pathfinder.readFromCSV(myRightFile);
 			Robot.doMotionOption = false;
+			Robot.chosenFile = name;
 		}
 
-		Robot.chosenFile = name;
 		DriverStation.reportWarning(myLeftFile.getAbsolutePath(), false);
 		DriverStation.reportWarning(myLeftFile.toString(), false);
 

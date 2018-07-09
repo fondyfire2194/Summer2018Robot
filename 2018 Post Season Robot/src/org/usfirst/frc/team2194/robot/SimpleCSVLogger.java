@@ -1,12 +1,15 @@
 package org.usfirst.frc.team2194.robot;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
  *******************************************************************************************
@@ -78,7 +81,17 @@ public class SimpleCSVLogger {
 			System.out.println("Warning - log is already open!");
 			return 0;
 		}
+		output_dir = "/U" + "/data_captures/";
 		output_dir += subDir + "/";
+		File file = new File(output_dir);
+		if (!file.exists()) {
+			if (file.mkdir()) {
+				System.out.println("Directory is created!");
+			} else {
+				System.out.println("Failed to create directory!");
+			}
+		}
+
 		log_open = false;
 		System.out.println("Initalizing Log file...");
 		numberOfElements = data_fields.length;
@@ -94,16 +107,22 @@ public class SimpleCSVLogger {
 			log_file = new BufferedWriter(fstream);
 
 			// Write user-defined header line
+			String comma = ",";
+			int pass = 0;
 			for (String header_txt : data_fields) {
-				log_file.write(header_txt + ", ");
+				if (pass == numberOfElements - 1)
+					comma = "";
+				else
+					comma = ",";
+				pass++;
+				log_file.write(header_txt + comma);
 			}
 			// End of line
 			log_file.write("\n");
 
 			// Write user-defined units line
-			String comma = ",";
-			int pass = 0;
-
+			pass = 0;
+			comma = ",";
 			for (String header_txt : units_fields) {
 				if (pass == numberOfElements - 1)
 					comma = "";

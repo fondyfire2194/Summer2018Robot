@@ -96,7 +96,7 @@ public class Robot extends IterativeRobot {
 	public static boolean trajectoryRunning;
 	public static Trajectory activeLeftTrajectory;
 	public static Trajectory activeRightTrajectory;
-	public static boolean createTrajectoryRunFile;
+	public static boolean createTrajectoryRunFile=true;;
 	public static String chosenFile = "None Chosen";
 
 	private Integer startPosition = 0;
@@ -197,12 +197,12 @@ public class Robot extends IterativeRobot {
 	private static boolean oppositeSideSwitch;
 	private static boolean secondaryTrajectory;
 	// Trajectory log data headers
-	public static String[] names = { "Step", "Left Cmd", "Left Ft", "Right Cmd ", "Right Ft", "Angle Cmd", "Angle",
+	public static String[] names = { "Step", "LeftCmd", "LeftFt", "RightCmd ", "RightFt", "AngleCmd", "Angle",
 			"LeftSegVel", "left", "ActLeftVel", "RightSegVel", "right", "ActRightVel", "turn", "battery" };
 	public static String[] units = { "Number", "FT", "FT", "FT", "FT", "Deg", "Deg", "pct", "pct", "pct", "pct", "pct",
 			"pct", "pct", "volts" };
 
-	public static String usbFilePath = "/U";
+	public static String usbFilePath = "/U/TrajCSV/";
 	public static boolean createIntakeRunFile;
 	public static boolean createDriveRunFile;
 	public static boolean useVision = true;
