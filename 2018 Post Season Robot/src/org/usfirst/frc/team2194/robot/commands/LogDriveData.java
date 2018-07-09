@@ -16,10 +16,10 @@ public class LogDriveData extends Command {
 
 	private String[] names = { "Time", "Gyro Yaw", "LeftSpeed", "RightSpeed", "LeftA Amps", "LeftA Volts", "LeftB Amps",
 			"LeftB Volts", "LeftC Amps", "LeftC Volts", "RightA Amps", "RightA Volts", "RightB Amps", "RightB Volts",
-			"RightC Amps", "RightC Volts", "Left Ft", "Right Ft", "Left Error", "Left Vel", "Right Error",
-			"Right Vel" };
+			"RightC Amps", "RightC Volts", "Left Ft", "Right Ft", "Left Error", "Left Vel", "Right Error", "Right Vel",
+			"Battery" };
 	private String[] units = { "mS", "Degrees", "PU", "PU", "Amps", "Volts", "Amps", "Volts", "Amps", "Volts", "Amps",
-			"Volts", "Amps", "Volts", "Amps", "Volts", "Ft", "Ft", "EncCts", "Ft/sec", "EncCts", "Ft/sec" };
+			"Volts", "Amps", "Volts", "Amps", "Volts", "Ft", "Ft", "EncCts", "Ft/sec", "EncCts", "Ft/sec", "Volts" };
 
 	public LogDriveData(String subDir, String typeName, double timeout) {
 		myTimeout = timeout;
@@ -53,7 +53,7 @@ public class LogDriveData extends Command {
 					((double) RobotMap.driveLeftMotorA.getClosedLoopError(0)),
 					Robot.driveTrainCanBus.getLeftFeetPerSecond(),
 					(double) RobotMap.driveRightMotorA.getClosedLoopError(0),
-					Robot.driveTrainCanBus.getRightFeetPerSecond());
+					Robot.driveTrainCanBus.getRightFeetPerSecond(), Robot.powerPanel.getVoltage());
 		}
 	}
 
