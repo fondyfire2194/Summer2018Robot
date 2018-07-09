@@ -61,7 +61,8 @@ public class Robot extends IterativeRobot {
 	public static AirCompressor airCompressor;
 	public static PowerPanel powerPanel;
 
-	public static OI oi;
+	// public static OI oi;
+	public static OIAlt oi;
 
 	public static Preferences prefs;
 
@@ -292,8 +293,8 @@ public class Robot extends IterativeRobot {
 
 		firstAutonomousCommandStarted = false;
 
-		oi = new OI();
-
+		// oi = new OI();
+		oi = new OIAlt();
 		Timer.delay(.1);
 
 		testTrajectoryChooser = new SendableChooser<Integer>();
@@ -1024,8 +1025,12 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putBoolean("Auto2Started", secondAutonomousCommandStarted);
 			SmartDashboard.putBoolean("Auto2Dn", secondAutonomousCommandsDone);
 			SmartDashboard.putNumber("AngTar", angleTarget);
-			SmartDashboard.putBoolean("Gamepad", oi.gamepad.getButtonStateA() || oi.gamepad.getButtonStateX()
-					|| oi.gamepad.getButtonStateB() || oi.gamepad.getButtonStateY());
+			SmartDashboard.putBoolean("GamepadABXY",
+					oi.elevatorToBottomPosition.get() || oi.elevatorToTravelPosition.get()
+							|| oi.elevatorToScalePosition.get() || oi.elevatorToScaleLowPosition.get());
+			SmartDashboard.putBoolean("GamepadShTr",
+					oi.elevatorToSwitchPosition.get() || oi.elevatorToPortalPosition.get()
+							|| oi.elevatorToExchangePosition.get() || oi.raiseClimbHook.get());
 			SmartDashboard.putNumber("X Position", xPosition);
 			SmartDashboard.putNumber("Y Position", yPosition);
 			break;

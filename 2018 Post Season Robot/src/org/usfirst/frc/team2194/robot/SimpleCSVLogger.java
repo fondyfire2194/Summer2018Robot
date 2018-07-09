@@ -60,6 +60,7 @@ public class SimpleCSVLogger {
 	String output_dir = "/U" + "/data_captures/"; // USB drive is mounted to /U on roboRIO
 	BufferedWriter log_file = null;
 	boolean log_open = false;
+	int numberOfElements;
 
 	/**
 	 * Determines a unique file name, and opens a file in the data captures
@@ -80,6 +81,7 @@ public class SimpleCSVLogger {
 
 		log_open = false;
 		System.out.println("Initalizing Log file...");
+		numberOfElements = data_fields.length;
 		try {
 			// Reset state variables
 			log_write_index = 0;
@@ -99,8 +101,16 @@ public class SimpleCSVLogger {
 			log_file.write("\n");
 
 			// Write user-defined units line
+			String comma = ",";
+			int pass = 0;
+
 			for (String header_txt : units_fields) {
-				log_file.write(header_txt + ", ");
+				if (pass == numberOfElements - 1)
+					comma = "";
+				else
+					comma = ",";
+				pass++;
+				log_file.write(header_txt + comma);
 			}
 			// End of line
 			log_file.write("\n");
@@ -138,8 +148,15 @@ public class SimpleCSVLogger {
 		try {
 
 			// Write user-defined data
+			String comma = ",";
+			int pass = 0;
 			for (double data_val : data_elements) {
-				line_to_write = line_to_write.concat(Double.toString(data_val) + ", ");
+				if (pass == numberOfElements - 1)
+					comma = "";
+				else
+					comma = ",";
+				pass++;
+				line_to_write = line_to_write.concat(Double.toString(data_val) + comma);
 			}
 
 			// End of line

@@ -159,9 +159,6 @@ public class OI {
 		jogElevator = gamepad.getStartButton();
 		jogElevator.whileHeld(new RunElevatorFromGamepad());
 
-		// runDrives = new JoystickButton(joystick1, 6);
-		// runDrives.whileHeld(new ContinuousOutDrive(.25));
-
 		SmartDashboard.putData("Reset Encoders", new ResetEncoders());
 		SmartDashboard.putData("Reset Gyro", new ResetGyro());
 		SmartDashboard.putData("Toggle Closed Loop", new ToggleCloseDriveSpeedLoop());
