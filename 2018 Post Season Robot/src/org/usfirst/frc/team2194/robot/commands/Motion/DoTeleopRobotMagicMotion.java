@@ -19,7 +19,7 @@ public class DoTeleopRobotMagicMotion extends InstantCommand {
 	// Called once when the command executes
 	protected void initialize() {
 		Robot.doTeleopMagicMotion = true;
-		new LogDriveData("MagicMotion", 5).start();
+		new LogDriveData("MagicMotion", "MagicMotion", 5).start();
 	}
 
 }

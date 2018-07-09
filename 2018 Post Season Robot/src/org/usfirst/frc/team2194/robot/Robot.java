@@ -2,11 +2,7 @@
 package org.usfirst.frc.team2194.robot;
 
 import java.io.File;
-import java.util.Vector;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
-
-import org.usfirst.frc.team2194.robot.commands.LogDriveData;
 import org.usfirst.frc.team2194.robot.commands.TimeDelay;
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoCrossLineMove;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeft;
@@ -18,7 +14,6 @@ import org.usfirst.frc.team2194.robot.commands.Motion.DriveToVisionTarget;
 import org.usfirst.frc.team2194.robot.commands.Motion.PathfinderReverseTrajectoryUsingNotifier;
 import org.usfirst.frc.team2194.robot.commands.Motion.PathfinderTrajectoryUsingNotifier;
 import org.usfirst.frc.team2194.robot.commands.Motion.RobotOrient;
-import org.usfirst.frc.team2194.robot.commands.Motion.RunFromGamepadCanBus;
 import org.usfirst.frc.team2194.robot.subsystems.AirCompressor;
 import org.usfirst.frc.team2194.robot.subsystems.Climber;
 import org.usfirst.frc.team2194.robot.subsystems.CubeHandler;
@@ -31,7 +26,6 @@ import org.usfirst.frc.team2194.robot.subsystems.Sensors;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;

@@ -2,8 +2,6 @@ package org.usfirst.frc.team2194.robot;
 
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

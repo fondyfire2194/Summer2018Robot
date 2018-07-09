@@ -2,8 +2,6 @@ package org.usfirst.frc.team2194.robot;
 
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.Notifier;
 import jaci.pathfinder.Pathfinder;
 
@@ -87,8 +85,8 @@ public class PathfinderReverseNotifier {
 					Robot.driveTrainCanBus.revLeftDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					left, Robot.driveTrainCanBus.getLeftFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					Robot.driveTrainCanBus.revRightDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
-					right, Robot.driveTrainCanBus.getRightFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
-					turn,Robot.powerPanel.getVoltage());
+					right, Robot.driveTrainCanBus.getRightFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, turn,
+					Robot.powerPanel.getVoltage());
 		}
 	}
 }

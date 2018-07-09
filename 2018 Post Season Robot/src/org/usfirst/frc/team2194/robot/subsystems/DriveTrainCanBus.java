@@ -354,6 +354,7 @@ public class DriveTrainCanBus extends Subsystem {
 			RobotMap.driveLeftMotorC.setNeutralMode(NeutralMode.Coast);
 		}
 	}
+
 	public void setRightBrakeMode(boolean brakeOn) {
 
 		if (brakeOn) {

@@ -23,7 +23,7 @@ public class LogIntakeData extends TimedCommand {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		if (Robot.createIntakeRunFile)
-			Robot.simpleCSVLogger.init("Intake", names, units);
+			Robot.simpleCSVLogger.init("Intake", "Intake", names, units);
 		startTime = Timer.getFPGATimestamp();
 	}
 

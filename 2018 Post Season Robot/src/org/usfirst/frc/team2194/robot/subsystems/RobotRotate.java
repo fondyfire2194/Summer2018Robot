@@ -6,10 +6,7 @@
 package org.usfirst.frc.team2194.robot.subsystems;
 
 import org.usfirst.frc.team2194.robot.Robot;
-import org.usfirst.frc.team2194.robot.RobotMap;
 import org.usfirst.frc.team2194.robot.SD;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;

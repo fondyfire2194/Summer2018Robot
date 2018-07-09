@@ -29,7 +29,7 @@ public class ElevatorMoveToHeight extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		if (Robot.createElevatorRunFile)
-			Robot.simpleCSVLogger.init("Elev", names, units);
+			Robot.simpleCSVLogger.init("Elev", "Elev", names, units);
 		Robot.cubeHandler.moveIsUp = myHeight > Robot.cubeHandler.holdPositionInches;
 		Robot.cubeHandler.moveIsDown = myHeight < Robot.cubeHandler.holdPositionInches;
 		Robot.cubeHandler.holdPositionInches = myHeight;
@@ -47,8 +47,10 @@ public class ElevatorMoveToHeight extends Command {
 					(double) RobotMap.elevatorMotor.getClosedLoopError(0));
 		}
 		atPosition = (!Robot.cubeHandler.moveIsUp && !Robot.cubeHandler.moveIsDown)
-				|| Robot.cubeHandler.moveIsUp && Robot.cubeHandler.getElevatorPositionInches() > myHeight - atPositionBand
-				|| Robot.cubeHandler.moveIsDown && Robot.cubeHandler.getElevatorPositionInches() < myHeight + atPositionBand;
+				|| Robot.cubeHandler.moveIsUp
+						&& Robot.cubeHandler.getElevatorPositionInches() > myHeight - atPositionBand
+				|| Robot.cubeHandler.moveIsDown
+						&& Robot.cubeHandler.getElevatorPositionInches() < myHeight + atPositionBand;
 
 		if (!atPosition)
 			atPositionTimer.reset();

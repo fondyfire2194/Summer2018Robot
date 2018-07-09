@@ -19,7 +19,7 @@ public class DoTeleopRobotOrient extends InstantCommand {
 	// Called once when the command executes
 	protected void initialize() {
 		Robot.doTeleopOrient = true;
-		new LogDriveData("Orient", 5).start();
+		new LogDriveData("Orient", "Orient", 5).start();
 	}
 
 }

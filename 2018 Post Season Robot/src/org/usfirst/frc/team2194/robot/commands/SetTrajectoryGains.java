@@ -18,7 +18,7 @@ public class SetTrajectoryGains extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		for (int i = 0; i < Robot.activeTrajectoryGains.length; i++) 
+		for (int i = 0; i < Robot.activeTrajectoryGains.length; i++)
 			Robot.activeTrajectoryGains[i] = myGains[i];
 	}
 

@@ -12,7 +12,6 @@ import org.usfirst.frc.team2194.robot.commands.CubeHandler.RunElevatorFromGamepa
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnIntakeWheels;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.VariableOuttake;
-import org.usfirst.frc.team2194.robot.commands.Motion.ContinuousOutDrive;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopReverseOrient;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotMagicMotion;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotOrient;
@@ -166,7 +165,7 @@ public class OI {
 		SmartDashboard.putData("Reset Values", new ResetScanValues());
 
 		SmartDashboard.putData("Position Robot", new DoTeleopRobotPosition());
-		
+
 		SmartDashboard.putData("Orient Robot", new DoTeleopRobotOrient());
 
 		SmartDashboard.putData("Orient Reverse", new DoTeleopReverseOrient());
@@ -175,7 +174,7 @@ public class OI {
 		SmartDashboard.putData("Magic Motion Robot", new DoTeleopRobotMagicMotion());
 		SmartDashboard.putData("Vision Motion Robot", new DoTeleopRobotVisionPosition());
 		SmartDashboard.putData("Reset Elevator Position", new ResetElevatorPosition());
-		SmartDashboard.putData("Log Drive", new LogDriveData("Drive", 10));
+		SmartDashboard.putData("Log Drive", new LogDriveData("Drive", "Drive", 10));
 	}
 
 	public Joystick getgamepad() {

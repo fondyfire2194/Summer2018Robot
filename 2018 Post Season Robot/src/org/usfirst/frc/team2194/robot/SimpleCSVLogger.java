@@ -72,13 +72,13 @@ public class SimpleCSVLogger {
 	 *            A set of strings for signal units to write into the file
 	 * @return 0 on successful log open, -1 on failure
 	 */
-	public int init(String name, String[] data_fields, String[] units_fields) {
+	public int init(String subDir, String name, String[] data_fields, String[] units_fields) {
 
 		if (log_open) {
 			System.out.println("Warning - log is already open!");
 			return 0;
 		}
-
+		output_dir += subDir + "/";
 		log_open = false;
 		System.out.println("Initalizing Log file...");
 		numberOfElements = data_fields.length;

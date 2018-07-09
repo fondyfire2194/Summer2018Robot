@@ -155,10 +155,10 @@ public class OIAlt {
 		elevatorToScaleLowPosition
 				.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SCALE_LOW_POSITION_INCHES));
 
-		elevatorToSwitchPosition = new JoystickButton(gamepad, BUTTON_SHOULDER_LEFT);//Left Shoulder
+		elevatorToSwitchPosition = new JoystickButton(gamepad, BUTTON_SHOULDER_LEFT);// Left Shoulder
 		elevatorToSwitchPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
 
-		elevatorToPortalPosition = new JoystickButton(gamepad,BUTTON_SHOULDER_RIGHT);//Right Shoulder
+		elevatorToPortalPosition = new JoystickButton(gamepad, BUTTON_SHOULDER_RIGHT);// Right Shoulder
 		elevatorToPortalPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PORTAL_POSITION_INCHES));
 
 		raiseClimbHook = new JoystickButton(gamepad, BUTTON_TRIGGER_LEFT);
@@ -188,7 +188,7 @@ public class OIAlt {
 		SmartDashboard.putData("Magic Motion Robot", new DoTeleopRobotMagicMotion());
 		SmartDashboard.putData("Vision Motion Robot", new DoTeleopRobotVisionPosition());
 		SmartDashboard.putData("Reset Elevator Position", new ResetElevatorPosition());
-		SmartDashboard.putData("Log Drive", new LogDriveData("Drive", 10));
+		SmartDashboard.putData("Log Drive", new LogDriveData("Drive", "Drive", 10));
 	}
 
 	public Joystick getgamepad() {

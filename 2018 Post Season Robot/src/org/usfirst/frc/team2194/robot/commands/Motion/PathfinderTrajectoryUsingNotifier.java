@@ -2,11 +2,8 @@ package org.usfirst.frc.team2194.robot.commands.Motion;
 
 import org.usfirst.frc.team2194.robot.PathfinderNotifier;
 import org.usfirst.frc.team2194.robot.Robot;
-import org.usfirst.frc.team2194.robot.RobotMap;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
-
-import com.ctre.phoenix.motorcontrol.StatusFrame;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -57,7 +54,7 @@ public class PathfinderTrajectoryUsingNotifier extends Command {
 		Robot.driveTrainCanBus.rightDf.reset();
 		Robot.trajectoryRunning = true;
 		if (Robot.createTrajectoryRunFile)
-			Robot.simpleCSVLogger.init(Robot.chosenFile, Robot.names, Robot.units);
+			Robot.simpleCSVLogger.init("Trajectory", Robot.chosenFile, Robot.names, Robot.units);
 		scanCounter = 0;
 		startTime = Timer.getFPGATimestamp();
 		PathfinderNotifier.startNotifier();

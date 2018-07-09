@@ -2,12 +2,8 @@ package org.usfirst.frc.team2194.robot.commands.Motion;
 
 import org.usfirst.frc.team2194.robot.PathfinderReverseNotifier;
 import org.usfirst.frc.team2194.robot.Robot;
-import org.usfirst.frc.team2194.robot.RobotMap;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
-
-import com.ctre.phoenix.motorcontrol.ControlFrame;
-import com.ctre.phoenix.motorcontrol.StatusFrame;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -48,7 +44,7 @@ public class PathfinderReverseTrajectoryUsingNotifier extends Command {
 
 		Robot.trajectoryRunning = true;
 		if (Robot.createTrajectoryRunFile)
-			Robot.simpleCSVLogger.init(Robot.chosenFile + "Rev", Robot.names, Robot.units);
+			Robot.simpleCSVLogger.init("Trajectory", Robot.chosenFile + "Rev", Robot.names, Robot.units);
 
 		PathfinderReverseNotifier.startNotifier();
 

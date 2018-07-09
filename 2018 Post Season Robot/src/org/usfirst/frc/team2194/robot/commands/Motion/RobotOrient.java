@@ -7,7 +7,6 @@ package org.usfirst.frc.team2194.robot.commands.Motion;
 
 import org.usfirst.frc.team2194.robot.Robot;
 import org.usfirst.frc.team2194.robot.RobotMap;
-import org.usfirst.frc.team2194.robot.commands.LogDriveData;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 
 import edu.wpi.first.wpilibj.Timer;
