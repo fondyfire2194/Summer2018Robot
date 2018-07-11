@@ -35,12 +35,17 @@ public class RunElevatorFromGamepad extends Command {
 		RobotMap.elevatorMotor.configPeakOutputReverse(-1, 0);
 
 		double yValue;
+		double temp;
 		if (Math.abs(Robot.oi.gamepad.getY()) > .1)
 			yValue = Robot.oi.gamepad.getY();
 		else
 			yValue = 0;
-		if (!RobotMap.elevatorSwitch.get() && yValue > 0)
+		if (!RobotMap.elevatorSwitch.get() && yValue > 0)// inhibit down move on bottom switch
 			yValue = 0;
+		// square joystick and preserve sign
+		temp = yValue * yValue;
+		if (yValue < 0)
+			temp = -temp;
 		Robot.cubeHandler.runElevatorMotor(-yValue);// y up gives a negative value
 		// if (yValue > 0)
 		// Robot.cubeHandler.holdPositionInches =

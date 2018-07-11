@@ -26,6 +26,7 @@ public class RobotRotate extends PIDSubsystem {
 	private static final int toleranceBuffer = 5;
 
 	public double loopOutput;
+	public boolean orientClockwise;
 
 	// Initialize your subsystem here
 	public RobotRotate() {

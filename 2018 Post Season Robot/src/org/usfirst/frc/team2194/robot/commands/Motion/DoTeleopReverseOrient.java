@@ -19,7 +19,7 @@ public class DoTeleopReverseOrient extends InstantCommand {
 	// Called once when the command executes
 	protected void initialize() {
 		Robot.doTeleopReverseOrient = true;
-		new LogDriveData("ReverseOrient", "ReverseOrient", 5).start();
+		new LogDriveData("Orient", "ReverseOrient", 5).start();
 	}
 
 }

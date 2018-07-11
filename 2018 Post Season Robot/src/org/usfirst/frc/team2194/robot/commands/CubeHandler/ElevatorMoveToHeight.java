@@ -15,10 +15,10 @@ public class ElevatorMoveToHeight extends Command {
 	private double atPositionBand = 3;
 	private double startTime;
 
-	private String[] names = { "Time", "TargetHt", "ElevCmdSpeed", "Elev Amps", "Elev Volts", "Actual Ht",
-			"ElevatorSpeedIPS", "Enc Speed", "Loop Error" };
+	private String[] names = { "Time", "TargetHt", "CmdSpeed", "Amps", "Volts", "ActualHt",
+			"SpeedIPS", "EncSpeed", "LoopError" };
 	private String[] units = { "mS", "In", "PU", "Amps", "Volts", "In", "In/sec", "Cts/100ms", "Counts" };
-	private Timer atPositionTimer;
+	private Timer atPositionTimer = new Timer();
 
 	public ElevatorMoveToHeight(double height) {
 		// Use requires() here to declare subsystem dependencies

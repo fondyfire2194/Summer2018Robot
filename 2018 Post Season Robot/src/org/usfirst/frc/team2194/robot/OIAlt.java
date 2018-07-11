@@ -144,7 +144,6 @@ public class OIAlt {
 
 		elevatorToBottomPosition = new JoystickButton(gamepad, BUTTON_A);// A
 		elevatorToBottomPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
-
 		elevatorToTravelPosition = new JoystickButton(gamepad, BUTTON_B);// B
 		elevatorToTravelPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_TRAVEL_POSITION_INCHES));
 

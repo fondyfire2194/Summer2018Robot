@@ -29,6 +29,7 @@ public class RobotOrient extends Command {
 	private double rampIncrement;
 	private double startTime;
 	private double rampTime;
+	private double angleError;
 
 	public RobotOrient(double angle, double speed, boolean accuracy, double timeout) {
 		// Use requires() here to declare subsystem dependencies
@@ -51,8 +52,19 @@ public class RobotOrient extends Command {
 		}
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(0);
 		rampIncrement = mySpeed / 10;
-		Robot.robotRotate.setPIDF(Robot.prefs.getDouble("RobotRotateKp", DriveTrainCanBus.drivePrefsDefaults[10]), 0,
-				Robot.prefs.getDouble("RobotRotateKd", DriveTrainCanBus.drivePrefsDefaults[22]), 0);
+		angleError = myAngle - Robot.sensors.getGyroAngle();
+		if (angleError > 180)
+			angleError -= 360;
+		if (angleError < -180)
+			angleError += 360;
+
+		if (angleError > 0)
+			Robot.robotRotate.setPIDF(Robot.prefs.getDouble("RobotRotateKp", DriveTrainCanBus.drivePrefsDefaults[10]),
+					0, Robot.prefs.getDouble("RobotRotateKd", DriveTrainCanBus.drivePrefsDefaults[22]), 0);
+		else
+			Robot.robotRotate.setPIDF(Robot.prefs.getDouble("RobotRevRotateKp", DriveTrainCanBus.drivePrefsDefaults[7]),
+					0, Robot.prefs.getDouble("RobotRotateKd", DriveTrainCanBus.drivePrefsDefaults[22]), 0);
+
 		Robot.robotRotate.setMaxOut(DriveTrainCanBus.MINIMUM_START_PCT);
 		Robot.robotRotate.setSetpoint(myAngle);
 		Robot.robotRotate.enablePID();

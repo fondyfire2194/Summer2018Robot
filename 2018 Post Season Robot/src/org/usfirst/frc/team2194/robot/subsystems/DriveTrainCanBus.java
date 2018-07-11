@@ -161,8 +161,8 @@ public class DriveTrainCanBus extends Subsystem {
 		drivePrefsNames[6] = "MMKd";
 		drivePrefsDefaults[6] = 0;
 
-		drivePrefsNames[7] = "notUsed";
-		drivePrefsDefaults[7] = .21;
+		drivePrefsNames[7] = "RobotRevRotateKp";
+		drivePrefsDefaults[7] = .013;
 
 		drivePrefsNames[8] = "DriveStraightKp";
 		drivePrefsDefaults[8] = 0.05;

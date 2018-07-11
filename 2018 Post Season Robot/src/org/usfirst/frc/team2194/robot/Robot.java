@@ -55,7 +55,7 @@ public class Robot extends IterativeRobot {
 	public static AirCompressor airCompressor;
 	public static PowerPanel powerPanel;
 
-	// public static OI oi;
+//	 public static OI oi;
 	public static OIAlt oi;
 
 	public static Preferences prefs;
@@ -287,7 +287,7 @@ public class Robot extends IterativeRobot {
 
 		firstAutonomousCommandStarted = false;
 
-		// oi = new OI();
+//		 oi = new OI();
 		oi = new OIAlt();
 		Timer.delay(.1);
 
