@@ -52,11 +52,20 @@ public class RobotOrient extends Command {
 		}
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(0);
 		rampIncrement = mySpeed / 10;
+		/*
+		 * error = command - actual. Needs adjusting if outside =+/-180
+		 * 
+		 * if answer is + 200 actually want to move -160 so subtract 360
+		 * 
+		 * if answer is - 200 actually want to move +160 so add 360
+		 * 
+		 * command = - 170, actual = 160 error = - 330 adjusted error 30 so error + 360
+		 */
 		angleError = myAngle - Robot.sensors.getGyroAngle();
 		if (angleError > 180)
 			angleError -= 360;
 		if (angleError < -180)
-			angleError += 360;
+			angleError = 360;
 
 		if (angleError > 0)
 			Robot.robotRotate.setPIDF(Robot.prefs.getDouble("RobotRotateKp", DriveTrainCanBus.drivePrefsDefaults[10]),

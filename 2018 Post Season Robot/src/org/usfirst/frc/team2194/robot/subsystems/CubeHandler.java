@@ -53,6 +53,7 @@ public class CubeHandler extends Subsystem {
 	private boolean switchWasSeen;
 	// public boolean elevatorMotionDown;
 	public boolean cubePickedUp;
+	public double lastHoldPositionInches;
 
 	public enum intakeSide {
 		left, right
@@ -209,6 +210,7 @@ public class CubeHandler extends Subsystem {
 		SmartDashboard.putNumber("Elevator EncCtsPer100ms", RobotMap.elevatorMotor.getSelectedSensorVelocity(0));
 		SD.putN1("Elevator Target", elevatorTargetPosition);
 		SD.putN1("Elevator Hold", holdPositionInches);
+		SD.putN1("Elevator Last Hold", lastHoldPositionInches);
 		SD.putN1("Elevator Pct V", RobotMap.elevatorMotor.getMotorOutputPercent());
 		SD.putN1("Elevator Speed IPS", getElevatorSpeedInchesPerSecond());
 		SD.putN1("Intake Amps Left", RobotMap.intakeLeftMotor.getOutputCurrent());
@@ -216,6 +218,7 @@ public class CubeHandler extends Subsystem {
 		SD.putN1("ElI", RobotMap.elevatorMotor.getIntegralAccumulator(0));
 		SD.putN1("El Talon Temp", RobotMap.elevatorMotor.getTemperature());
 		SmartDashboard.putBoolean("Elevator Switch", RobotMap.elevatorSwitch.get());
+		SmartDashboard.putBoolean("Switch Was Seen", switchWasSeen);
 
 		if (!RobotMap.elevatorSwitch.get() && !switchWasSeen) {
 			resetElevatorPosition();

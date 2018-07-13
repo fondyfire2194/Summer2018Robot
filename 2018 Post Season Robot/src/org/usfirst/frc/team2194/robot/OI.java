@@ -91,7 +91,7 @@ public class OI {
 	public JoystickButton elevatorToPortalPosition;
 	public JoystickButton elevatorToScalePosition;
 	public JoystickButton elevatorToScaleLowPosition;
-	public JoystickButton elevatorToExchange;
+	public JoystickButton elevatorToExchangePosition;
 
 	public JoystickButton jogElevator;
 	public JoystickButton variableOut;
@@ -152,8 +152,8 @@ public class OI {
 		raiseClimbHook.whileHeld(new DriveClimber(-.9));
 		raiseClimbHook.whenReleased(new StopClimber());
 
-		elevatorToExchange = gamepad.getRightTriggerClick();
-		elevatorToExchange.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_EXCHANGE_POSITION_INCHES));
+		elevatorToExchangePosition = gamepad.getRightTriggerClick();
+		elevatorToExchangePosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_EXCHANGE_POSITION_INCHES));
 
 		jogElevator = gamepad.getStartButton();
 		jogElevator.whileHeld(new RunElevatorFromGamepad());

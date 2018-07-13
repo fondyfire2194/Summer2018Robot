@@ -205,7 +205,7 @@ public class Robot extends IterativeRobot {
 	public static String usbFilePath = "/U/TrajCSV/";
 	public static boolean createIntakeRunFile;
 	public static boolean createDriveRunFile;
-	public static boolean useVision = true;
+	public static boolean useVision = false;
 	public static double xPosition;
 	public static double yPosition;
 	public static boolean createElevatorRunFile = true;

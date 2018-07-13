@@ -43,7 +43,7 @@ public class HoldElevatorPositionMotionMagic extends Command {
 		RobotMap.elevatorMotor.configNominalOutputReverse(0, 0);
 
 		Robot.cubeHandler.holdPositionInches = Robot.cubeHandler.getElevatorPositionInches();
-		lastHoldPositionInches = Robot.cubeHandler.holdPositionInches + .01;
+		Robot.cubeHandler.lastHoldPositionInches = Robot.cubeHandler.holdPositionInches + .01;
 
 	}
 

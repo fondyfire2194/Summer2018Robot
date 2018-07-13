@@ -14,11 +14,11 @@ public class ElevatorMoveToHeight extends Command {
 	private boolean atPosition;
 	private double atPositionBand = 3;
 	private double startTime;
+	private double inPositionStartTime;
 
-	private String[] names = { "Time", "TargetHt", "CmdSpeed", "Amps", "Volts", "ActualHt",
-			"SpeedIPS", "EncSpeed", "LoopError" };
+	private String[] names = { "Time", "TargetHt", "CmdSpeed", "Amps", "Volts", "ActualHt", "SpeedIPS", "EncSpeed",
+			"LoopError" };
 	private String[] units = { "mS", "In", "PU", "Amps", "Volts", "In", "In/sec", "Cts/100ms", "Counts" };
-	private Timer atPositionTimer = new Timer();
 
 	public ElevatorMoveToHeight(double height) {
 		// Use requires() here to declare subsystem dependencies
@@ -33,7 +33,7 @@ public class ElevatorMoveToHeight extends Command {
 		Robot.cubeHandler.moveIsUp = myHeight > Robot.cubeHandler.holdPositionInches;
 		Robot.cubeHandler.moveIsDown = myHeight < Robot.cubeHandler.holdPositionInches;
 		Robot.cubeHandler.holdPositionInches = myHeight;
-		atPositionTimer.start();
+		inPositionStartTime = Timer.getFPGATimestamp();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -52,20 +52,21 @@ public class ElevatorMoveToHeight extends Command {
 				|| Robot.cubeHandler.moveIsDown
 						&& Robot.cubeHandler.getElevatorPositionInches() < myHeight + atPositionBand;
 
-		if (!atPosition)
-			atPositionTimer.reset();
+		if (!atPosition) {
+			inPositionStartTime = Timer.getFPGATimestamp();
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return atPositionTimer.get() > .5;
+		return Timer.getFPGATimestamp() - inPositionStartTime > 2;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
 		if (Robot.createElevatorRunFile)
 			Robot.simpleCSVLogger.close();
-		atPositionTimer.stop();
+		inPositionStartTime = Timer.getFPGATimestamp();
 	}
 
 	// Called when another command which requires one or more of the same
