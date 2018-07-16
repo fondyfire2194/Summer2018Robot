@@ -55,7 +55,7 @@ public class Robot extends IterativeRobot {
 	public static AirCompressor airCompressor;
 	public static PowerPanel powerPanel;
 
-//	 public static OI oi;
+	// public static OI oi;
 	public static OIAlt oi;
 
 	public static Preferences prefs;
@@ -96,7 +96,7 @@ public class Robot extends IterativeRobot {
 	public static boolean trajectoryRunning;
 	public static Trajectory activeLeftTrajectory;
 	public static Trajectory activeRightTrajectory;
-	public static boolean createTrajectoryRunFile=true;;
+	public static boolean createTrajectoryRunFile = true;;
 	public static String chosenFile = "None Chosen";
 
 	private Integer startPosition = 0;
@@ -232,11 +232,11 @@ public class Robot extends IterativeRobot {
 		driveTrainCanBus = new DriveTrainCanBus();
 		driveTrainCanBus.initPrefs();
 		makePrefs(prefs, DriveTrainCanBus.drivePrefsNames, DriveTrainCanBus.drivePrefsDefaults);
-//		if (prefs.containsKey("Robot Rotate Ki"))
-//			prefs.remove("Robot Rotate Ki");
-//		if (prefs.containsKey("Robot Rotate Kp"))
-//			prefs.remove("Robot Rotate Kp");
-//
+		// if (prefs.containsKey("Robot Rotate Ki"))
+		// prefs.remove("Robot Rotate Ki");
+		// if (prefs.containsKey("Robot Rotate Kp"))
+		// prefs.remove("Robot Rotate Kp");
+		//
 		driveTrainCanBus.setLeftBrakeMode(true);
 		driveTrainCanBus.setRightBrakeMode(true);
 
@@ -287,7 +287,7 @@ public class Robot extends IterativeRobot {
 
 		firstAutonomousCommandStarted = false;
 
-//		 oi = new OI();
+		// oi = new OI();
 		oi = new OIAlt();
 		Timer.delay(.1);
 
@@ -940,8 +940,7 @@ public class Robot extends IterativeRobot {
 			doTeleopRevTrajectory = false;
 			doTeleopTrajectory = false;
 		}
-		teleopAutoRunning = doTeleopMagicMotion || doTeleopOrient || doTeleopPosition || doTeleopReverseOrient
-				|| doTeleopRevTrajectory || doTeleopRotateToVision || doTeleopTrajectory || doTeleopVisionMotion;
+		teleopAutoRunning = magicMotionRunning || positionRunning || orientRunning || trajectoryRunning;
 
 		updateStatus();
 	}
@@ -1005,6 +1004,7 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putBoolean("Loop Closed", closeDriveSpeedLoop);
 			SmartDashboard.putBoolean("Log Trajectory", createTrajectoryRunFile);
 			SmartDashboard.putBoolean("PositionRunning", positionRunning);
+			SmartDashboard.putBoolean("TeleopAutoRunning", teleopAutoRunning);
 			SmartDashboard.putBoolean("MagicMotionRunning", magicMotionRunning);
 			SmartDashboard.putBoolean("OrientRunning", orientRunning);
 			SmartDashboard.putBoolean("VisionRunning", visionMotionRunning);

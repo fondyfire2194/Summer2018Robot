@@ -374,18 +374,24 @@ public class DriveTrainCanBus extends Subsystem {
 		if (side != driveSide.right) {
 			leftMotorA.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
 			leftMotorA.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			leftMotorB.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			leftMotorB.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			leftMotorC.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			leftMotorC.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
+			// leftMotorB.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
+			// leftMotorB.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT,
+			// 0);
+			// leftMotorC.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
+			// leftMotorC.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT,
+			// 0);
 		}
 		if (side != driveSide.left) {
 			rightMotorA.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
 			rightMotorA.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			rightMotorB.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			rightMotorB.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			rightMotorC.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			rightMotorC.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
+			// rightMotorB.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT,
+			// 0);
+			// rightMotorB.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT,
+			// 0);
+			// rightMotorC.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT,
+			// 0);
+			// rightMotorC.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT,
+			// 0);
 		}
 	}
 
@@ -552,24 +558,6 @@ public class DriveTrainCanBus extends Subsystem {
 
 		leftMotorA.set(ControlMode.MotionMagic, targetPosition * DRIVE_ENCODER_COUNTS_PER_INCH);
 		rightMotorA.set(ControlMode.MotionMagic, targetPosition * DRIVE_ENCODER_COUNTS_PER_INCH);
-	}
-
-	public void setStatusFramePeriod(int period) {
-		RobotMap.driveLeftMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
-		RobotMap.driveRightMotorA.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
-		RobotMap.driveLeftMotorB.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
-		RobotMap.driveRightMotorB.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
-		RobotMap.driveLeftMotorC.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
-		RobotMap.driveRightMotorC.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, period, 0);
-	}
-
-	public void setControlFramePeriod(int period) {
-		RobotMap.driveLeftMotorA.setControlFramePeriod(ControlFrame.Control_3_General, period);
-		RobotMap.driveRightMotorA.setControlFramePeriod(ControlFrame.Control_3_General, period);
-		RobotMap.driveLeftMotorB.setControlFramePeriod(ControlFrame.Control_3_General, period);
-		RobotMap.driveRightMotorB.setControlFramePeriod(ControlFrame.Control_3_General, period);
-		RobotMap.driveLeftMotorC.setControlFramePeriod(ControlFrame.Control_3_General, period);
-		RobotMap.driveRightMotorC.setControlFramePeriod(ControlFrame.Control_3_General, period);
 	}
 
 	public void updateStatus() {

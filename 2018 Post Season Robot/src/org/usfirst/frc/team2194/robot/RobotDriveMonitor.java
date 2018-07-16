@@ -22,7 +22,7 @@ public class RobotDriveMonitor {
 	private int lastLeftEncoderPosition;
 	private int lastRightEncoderPosition;
 	private int DRIVE_ENCODER_STOPPED_BAND = 10;
-	private double DRIVE_MOTOR_POWER_STOPPED_BAND = .005;
+	private double DRIVE_MOTOR_POWER_STOPPED_BAND = 1;
 	private int leftStoppedCounter;
 	private int rightStoppedCounter;
 	private double lastXRobotPositionFt;
@@ -44,7 +44,8 @@ public class RobotDriveMonitor {
 			}
 
 		}
-		return leftStoppedCounter > 2;
+		return false;
+//		return leftStoppedCounter > 2;
 	}
 
 	public boolean getRightDriveStopped() {
@@ -57,7 +58,8 @@ public class RobotDriveMonitor {
 			} else
 				rightStoppedCounter = 0;
 		}
-		return rightStoppedCounter > 2;
+		return false;
+//		return rightStoppedCounter > 2;
 
 	}
 
