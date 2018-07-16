@@ -37,9 +37,9 @@ public enum PathSelectAuto {
 	 */
 
 	LEFTSWITCHFROMCENTER("LSW_C", DriveTrainCanBus.LSW_C, new DoLeftSwitchFromCenterMove(),
-			new DoLeftSwitchFromCenterTrajectories(), new DoLeftSwitchFromCenter()), //
+			new DoLeftSwitchFromCenter(), new DoLeftSwitchFromCenter()), //
 	RIGHTSWITCHFROMCENTER("RSW_C", DriveTrainCanBus.RSW_C, new DoRightSwitchFromCenterMove2(),
-			new DoRightSwitchFromCenterTrajectories(), new DoRightSwitchFromCenter()), //
+			new DoRightSwitchFromCenter(), new DoRightSwitchFromCenter()), //
 
 	LEFTSWITCHFROMLEFT("LSW_L", DriveTrainCanBus.LSW_L, new DoLeftSwitchFromLeftMove(),
 			new DoLeftSwitchFromLeftTrajectories(), new DoLeftSwitchFromLeft()), //

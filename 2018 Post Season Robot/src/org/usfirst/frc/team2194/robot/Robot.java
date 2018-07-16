@@ -232,11 +232,11 @@ public class Robot extends IterativeRobot {
 		driveTrainCanBus = new DriveTrainCanBus();
 		driveTrainCanBus.initPrefs();
 		makePrefs(prefs, DriveTrainCanBus.drivePrefsNames, DriveTrainCanBus.drivePrefsDefaults);
-		if (prefs.containsKey("Robot Rotate Ki"))
-			prefs.remove("Robot Rotate Ki");
-		if (prefs.containsKey("Robot Rotate Kp"))
-			prefs.remove("Robot Rotate Kp");
-
+//		if (prefs.containsKey("Robot Rotate Ki"))
+//			prefs.remove("Robot Rotate Ki");
+//		if (prefs.containsKey("Robot Rotate Kp"))
+//			prefs.remove("Robot Rotate Kp");
+//
 		driveTrainCanBus.setLeftBrakeMode(true);
 		driveTrainCanBus.setRightBrakeMode(true);
 

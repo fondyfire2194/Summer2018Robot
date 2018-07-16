@@ -43,29 +43,29 @@ public class DoLeftSwitchFromLeftTrajectories extends CommandGroup {
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_TRAVEL_POSITION_INCHES));
 		// turn ready to reverse toward scale
 		addSequential(new ResetEncoders());
-		addSequential(new RunTrajectory("LSW_L2", DriveTrainCanBus.LSW_L2));
-		addSequential(new SetDriveStraightAngle(50));
-
-		addSequential(new ResetEncoders());
-
-		addParallel(new DriveToVisionTarget(0, 5, 4));
-
-		addSequential(new TimeDelay(1));
-
-		addSequential(new TurnWheelsToIntake(.5, 1));
-
-		addParallel(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, false, 2));
-
-		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
-
-		addSequential(new PositionToSwitchWall(3, DistCon.SHORT_POSITION_RATE, 2));
-
-		addSequential(new OuttakeCube(.5));
-
-		addSequential(new ResetEncoders());
-
-		addSequential(new DriveMagicMotion(-2, motionType.absolute, driveSide.both, DistCon.SHORT_POSITION_RATE, 2.5));
-
+//		addSequential(new RunTrajectory("LSW_L2", DriveTrainCanBus.LSW_L2));
+//		addSequential(new SetDriveStraightAngle(50));
+//
+//		addSequential(new ResetEncoders());
+//
+//		addParallel(new DriveToVisionTarget(0, 5, 4));
+//
+//		addSequential(new TimeDelay(1));
+//
+//		addSequential(new TurnWheelsToIntake(.5, 1));
+//
+//		addParallel(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, false, 2));
+//
+//		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
+//
+//		addSequential(new PositionToSwitchWall(3, DistCon.SHORT_POSITION_RATE, 2));
+//
+//		addSequential(new OuttakeCube(.5));
+//
+//		addSequential(new ResetEncoders());
+//
+//		addSequential(new DriveMagicMotion(-2, motionType.absolute, driveSide.both, DistCon.SHORT_POSITION_RATE, 2.5));
+//
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
 
 	}
