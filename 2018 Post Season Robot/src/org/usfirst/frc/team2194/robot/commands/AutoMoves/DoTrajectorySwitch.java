@@ -39,6 +39,8 @@ public class DoTrajectorySwitch extends CommandGroup {
 		addSequential(new ResetEncoders());
 		addSequential(new SetLeftDriveBrakeOn(Robot.rightSwitchActive));
 		addSequential(new SetRightDriveBrakeOn(Robot.leftSwitchActive));
+		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_AUTO_FIRST_POSITION_INCHES));
+
 		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
 		addSequential(new PathfinderTrajectoryUsingNotifier());
 		addSequential(new SetLeftDriveBrakeOn(true));

@@ -49,7 +49,7 @@ public class DoLeftScaleFromLeftMove extends CommandGroup {
 		// zone
 		// cable
 
-		addSequential(new RobotOrient(70, DistCon.ORIENT_RATE, true, 2));
+		addSequential(new RobotOrient(70, DistCon.ORIENT_RATE, true, 4));
 
 		addSequential(new SetDriveStraightAngle(70));
 

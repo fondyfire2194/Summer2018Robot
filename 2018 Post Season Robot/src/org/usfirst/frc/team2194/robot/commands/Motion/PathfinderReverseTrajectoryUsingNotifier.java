@@ -59,13 +59,13 @@ public class PathfinderReverseTrajectoryUsingNotifier extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		PathfinderReverseNotifier.stopNotfier();
 		Robot.trajectoryRunning = false;
 		Robot.driveTrainCanBus.leftDriveOut(0);
 		Robot.driveTrainCanBus.rightDriveOut(0);
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(.5);
 		if (Robot.createTrajectoryRunFile)
 			Robot.simpleCSVLogger.close();
-		PathfinderReverseNotifier.stopNotfier();
 	}
 
 	// Called when another command which requires one or more of the same

@@ -14,16 +14,12 @@ import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoTrajectoryScale;
 import org.usfirst.frc.team2194.robot.commands.AutoMoves.DoTrajectorySwitch;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftScale;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenter;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromCenterTrajectories;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeft;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromLeftTrajectories;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoLeftSwitchFromRight;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightScale;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromCenter;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromCenterTrajectories;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromLeft;
 import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRight;
-import org.usfirst.frc.team2194.robot.commands.Autonomous.DoRightSwitchFromRightTrajectories;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -41,10 +37,10 @@ public enum PathSelectAuto {
 	RIGHTSWITCHFROMCENTER("RSW_C", DriveTrainCanBus.RSW_C, new DoRightSwitchFromCenterMove2(),
 			new DoRightSwitchFromCenter(), new DoRightSwitchFromCenter()), //
 
-	LEFTSWITCHFROMLEFT("LSW_L", DriveTrainCanBus.LSW_L, new DoLeftSwitchFromLeftMove(),
-			new DoLeftSwitchFromLeftTrajectories(), new DoLeftSwitchFromLeft()), //
+	LEFTSWITCHFROMLEFT("LSW_L", DriveTrainCanBus.LSW_L, new DoLeftSwitchFromLeftMove(), new DoLeftSwitchFromLeft(),
+			new DoLeftSwitchFromLeft()), //
 	RIGHTSWITCHFROMRIGHT("RSW_R", DriveTrainCanBus.RSW_R, new DoRightSwitchFromRightMove(),
-			new DoRightSwitchFromRightTrajectories(), new DoRightSwitchFromRight()), //
+			new DoRightSwitchFromRight(), new DoRightSwitchFromRight()), //
 
 	LEFTSWITCHFROMRIGHT("LSW_R", DriveTrainCanBus.LSW_R, new DoLeftSwitchFromRightMove(), new DoLeftSwitchFromRight(),
 			new DoLeftSwitchFromRight()), //

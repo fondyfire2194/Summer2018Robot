@@ -123,6 +123,8 @@ public class RobotOrient extends Command {
 		Robot.robotRotate.disable();
 		Robot.orientRunning = false;
 		Robot.driveTrainCanBus.configOpenLoopAcceleration(.5);
+		Robot.driveTrainCanBus.leftDriveOut(0);
+		Robot.driveTrainCanBus.rightDriveOut(0);
 		// Robot.closeDriveSpeedLoop = false;
 	}
 

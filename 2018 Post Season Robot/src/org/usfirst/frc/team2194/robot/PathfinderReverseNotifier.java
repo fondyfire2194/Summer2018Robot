@@ -83,10 +83,10 @@ public class PathfinderReverseNotifier {
 					-Robot.driveTrainCanBus.getRightFeet(), Pathfinder.boundHalfDegrees(desired_heading),
 					-Robot.sensors.getGyroYaw(),
 					Robot.driveTrainCanBus.revLeftDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
-					left, Robot.driveTrainCanBus.getLeftFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
+					leftPct, Robot.driveTrainCanBus.getLeftFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					Robot.driveTrainCanBus.revRightDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
-					right, Robot.driveTrainCanBus.getRightFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, turn,
-					Robot.powerPanel.getVoltage());
+					rightPct, Robot.driveTrainCanBus.getRightFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
+					turn, Robot.powerPanel.getVoltage());
 		}
 	}
 }

@@ -3,7 +3,6 @@ package org.usfirst.frc.team2194.robot;
 import java.io.File;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 
 public class BuildTrajectory {

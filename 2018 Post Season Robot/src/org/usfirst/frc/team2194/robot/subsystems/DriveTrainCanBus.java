@@ -6,10 +6,8 @@ import org.usfirst.frc.team2194.robot.RobotMap;
 import org.usfirst.frc.team2194.robot.SD;
 import org.usfirst.frc.team2194.robot.commands.Motion.RunFromGamepadCanBus;
 
-import com.ctre.phoenix.motorcontrol.ControlFrame;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -130,13 +128,14 @@ public class DriveTrainCanBus extends Subsystem {
 	private int test;
 	public double leftSpeedForDebug;
 	public double rightSpeedForDebug;
+	public boolean leftEncoderStopped;
+	public boolean rightEncoderStopped;
 
 	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 		setDefaultCommand(new RunFromGamepadCanBus());
-
 	}
 
 	public void initPrefs() {
@@ -191,8 +190,8 @@ public class DriveTrainCanBus extends Subsystem {
 		drivePrefsNames[16] = "PathA";
 		drivePrefsDefaults[16] = .0;
 
-		drivePrefsNames[17] = "PathTurn ";
-		drivePrefsDefaults[17] = .1;
+		drivePrefsNames[17] = "PathTurn";
+		drivePrefsDefaults[17] = .8;
 
 		drivePrefsNames[18] = "RevPathP";
 		drivePrefsDefaults[18] = .4;
@@ -330,26 +329,26 @@ public class DriveTrainCanBus extends Subsystem {
 	 * per unit of error Start with Kp at .15
 	 */
 	public void setVelocityGains() {
-		RobotMap.driveLeftMotorA.selectProfileSlot(0, 0);
-		RobotMap.driveRightMotorA.selectProfileSlot(0, 0);
+		leftMotorA.selectProfileSlot(0, 0);
+		rightMotorA.selectProfileSlot(0, 0);
 
-		RobotMap.driveLeftMotorA.config_kF(0, .21, 0);
-		RobotMap.driveRightMotorA.config_kF(0, .21, 0);
+		leftMotorA.config_kF(0, .21, 0);
+		rightMotorA.config_kF(0, .21, 0);
 
-		RobotMap.driveLeftMotorA.config_kP(0, .15, 0);
-		RobotMap.driveRightMotorA.config_kP(0, .15, 0);
+		leftMotorA.config_kP(0, .15, 0);
+		rightMotorA.config_kP(0, .15, 0);
 	}
 
 	public void setLeftBrakeMode(boolean brakeOn) {
 
 		if (brakeOn) {
-			RobotMap.driveLeftMotorA.setNeutralMode(NeutralMode.Brake);
+			leftMotorA.setNeutralMode(NeutralMode.Brake);
 			RobotMap.driveLeftMotorB.setNeutralMode(NeutralMode.Brake);
 			RobotMap.driveLeftMotorC.setNeutralMode(NeutralMode.Brake);
 		}
 
 		else {
-			RobotMap.driveLeftMotorA.setNeutralMode(NeutralMode.Coast);
+			leftMotorA.setNeutralMode(NeutralMode.Coast);
 			RobotMap.driveLeftMotorB.setNeutralMode(NeutralMode.Coast);
 			RobotMap.driveLeftMotorC.setNeutralMode(NeutralMode.Coast);
 		}
@@ -358,13 +357,13 @@ public class DriveTrainCanBus extends Subsystem {
 	public void setRightBrakeMode(boolean brakeOn) {
 
 		if (brakeOn) {
-			RobotMap.driveRightMotorA.setNeutralMode(NeutralMode.Brake);
+			rightMotorA.setNeutralMode(NeutralMode.Brake);
 			RobotMap.driveRightMotorB.setNeutralMode(NeutralMode.Brake);
 			RobotMap.driveRightMotorC.setNeutralMode(NeutralMode.Brake);
 		}
 
 		else {
-			RobotMap.driveRightMotorA.setNeutralMode(NeutralMode.Coast);
+			rightMotorA.setNeutralMode(NeutralMode.Coast);
 			RobotMap.driveRightMotorB.setNeutralMode(NeutralMode.Coast);
 			RobotMap.driveRightMotorC.setNeutralMode(NeutralMode.Coast);
 		}
@@ -374,24 +373,10 @@ public class DriveTrainCanBus extends Subsystem {
 		if (side != driveSide.right) {
 			leftMotorA.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
 			leftMotorA.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			// leftMotorB.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			// leftMotorB.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT,
-			// 0);
-			// leftMotorC.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			// leftMotorC.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT,
-			// 0);
 		}
 		if (side != driveSide.left) {
 			rightMotorA.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
 			rightMotorA.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT, 0);
-			// rightMotorB.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT,
-			// 0);
-			// rightMotorB.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT,
-			// 0);
-			// rightMotorC.configPeakOutputForward(feetPerSecond * FT_PER_SEC_TO_PCT_OUT,
-			// 0);
-			// rightMotorC.configPeakOutputReverse(-feetPerSecond * FT_PER_SEC_TO_PCT_OUT,
-			// 0);
 		}
 	}
 
@@ -418,20 +403,20 @@ public class DriveTrainCanBus extends Subsystem {
 
 	public void setPosition(double positionFt, driveSide side, double feetPerSecond) {
 
-		RobotMap.driveLeftMotorA.selectProfileSlot(1, 0);
-		RobotMap.driveRightMotorA.selectProfileSlot(1, 0);
+		leftMotorA.selectProfileSlot(1, 0);
+		rightMotorA.selectProfileSlot(1, 0);
 
-		RobotMap.driveLeftMotorA.config_kP(1, Robot.prefs.getDouble("Kp", drivePrefsDefaults[0]), 0);
-		RobotMap.driveRightMotorA.config_kP(1, Robot.prefs.getDouble("Kp", drivePrefsDefaults[0]), 0);
+		leftMotorA.config_kP(1, Robot.prefs.getDouble("Kp", drivePrefsDefaults[0]), 0);
+		rightMotorA.config_kP(1, Robot.prefs.getDouble("Kp", drivePrefsDefaults[0]), 0);
 
-		RobotMap.driveLeftMotorA.config_kI(1, Robot.prefs.getDouble("Ki", drivePrefsDefaults[1]), 0);
-		RobotMap.driveRightMotorA.config_kI(1, Robot.prefs.getDouble("Ki", drivePrefsDefaults[1]), 0);
+		leftMotorA.config_kI(1, Robot.prefs.getDouble("Ki", drivePrefsDefaults[1]), 0);
+		rightMotorA.config_kI(1, Robot.prefs.getDouble("Ki", drivePrefsDefaults[1]), 0);
 
-		RobotMap.driveLeftMotorA.config_kD(1, Robot.prefs.getDouble("Kd", drivePrefsDefaults[24]), 0);
-		RobotMap.driveRightMotorA.config_kD(1, Robot.prefs.getDouble("Kd", drivePrefsDefaults[24]), 0);
+		leftMotorA.config_kD(1, Robot.prefs.getDouble("Kd", drivePrefsDefaults[24]), 0);
+		rightMotorA.config_kD(1, Robot.prefs.getDouble("Kd", drivePrefsDefaults[24]), 0);
 
-		RobotMap.driveLeftMotorA.config_IntegralZone(1, Robot.prefs.getInt("Izone", (int) drivePrefsDefaults[2]), 0);
-		RobotMap.driveRightMotorA.config_IntegralZone(1, Robot.prefs.getInt("Izone", (int) drivePrefsDefaults[2]), 0);
+		leftMotorA.config_IntegralZone(1, Robot.prefs.getInt("Izone", (int) drivePrefsDefaults[2]), 0);
+		rightMotorA.config_IntegralZone(1, Robot.prefs.getInt("Izone", (int) drivePrefsDefaults[2]), 0);
 
 		leftPositionTargetFt = positionFt;
 		rightPositionTargetFt = positionFt;
@@ -458,56 +443,48 @@ public class DriveTrainCanBus extends Subsystem {
 	public void magicMotionDrive(double distance, double speedFPS, driveSide side) {
 
 		/*
-		 * set acceleration and cruise velocity - see documentation
-		 * 
-		 * accel is in encCtsper100ms per sec addSequential(new ResetEncoders());
-		 * 
-		 * 
-		 * for 1/2 second accel decel
-		 * 
-		 * accel = cruise velocity x 2
-		 * 
+		 * set acceleration and cruise velocity - see documentation accel is in
+		 * encCtsper100ms per sec addSequential(new ResetEncoders()); for 1/2 second
+		 * accel decel accel = cruise velocity x 2
 		 */
 
 		int cruiseVelocity = (int) (speedFPS * FT_PER_SEC_TO_ENC_CTS_PER_100MS);
 		int acceleration = cruiseVelocity * 2;
 
 		if (side != driveSide.right) {
-			RobotMap.driveLeftMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 0);
-			RobotMap.driveLeftMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
-			RobotMap.driveLeftMotorA.selectProfileSlot(2, 0);
-			RobotMap.driveLeftMotorA.config_kF(2, Robot.prefs.getDouble("MMKf", drivePrefsDefaults[3]), 0);
-			RobotMap.driveLeftMotorA.config_kP(2, Robot.prefs.getDouble("MMKp", drivePrefsDefaults[4]), 0);
-			RobotMap.driveLeftMotorA.config_kI(2, Robot.prefs.getDouble("MMKi", drivePrefsDefaults[5]), 0);
-			RobotMap.driveLeftMotorA.config_kD(2, Robot.prefs.getDouble("MMKd", drivePrefsDefaults[6]), 0);
-			RobotMap.driveLeftMotorA.config_IntegralZone(2,
-					(int) Robot.prefs.getDouble("MMIzone", drivePrefsDefaults[23]), 0);
-			RobotMap.driveLeftMotorA.configOpenloopRamp(0, 0);
-			RobotMap.driveLeftMotorA.configClosedloopRamp(0, 0);
-			RobotMap.driveLeftMotorA.configPeakOutputForward(1, 0);
-			RobotMap.driveLeftMotorA.configPeakOutputReverse(-1, 0);
-			RobotMap.driveLeftMotorA.configMotionCruiseVelocity(cruiseVelocity, 0);
-			RobotMap.driveLeftMotorA.configMotionAcceleration(acceleration, 0);
-			RobotMap.driveLeftMotorA.set(ControlMode.MotionMagic, distance * 12 * DRIVE_ENCODER_COUNTS_PER_INCH);
+			leftMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 0);
+			leftMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
+			leftMotorA.selectProfileSlot(2, 0);
+			leftMotorA.config_kF(2, Robot.prefs.getDouble("MMKf", drivePrefsDefaults[3]), 0);
+			leftMotorA.config_kP(2, Robot.prefs.getDouble("MMKp", drivePrefsDefaults[4]), 0);
+			leftMotorA.config_kI(2, Robot.prefs.getDouble("MMKi", drivePrefsDefaults[5]), 0);
+			leftMotorA.config_kD(2, Robot.prefs.getDouble("MMKd", drivePrefsDefaults[6]), 0);
+			leftMotorA.config_IntegralZone(2, (int) Robot.prefs.getDouble("MMIzone", drivePrefsDefaults[23]), 0);
+			leftMotorA.configOpenloopRamp(0, 0);
+			leftMotorA.configClosedloopRamp(0, 0);
+			leftMotorA.configPeakOutputForward(1, 0);
+			leftMotorA.configPeakOutputReverse(-1, 0);
+			leftMotorA.configMotionCruiseVelocity(cruiseVelocity, 0);
+			leftMotorA.configMotionAcceleration(acceleration, 0);
+			leftMotorA.set(ControlMode.MotionMagic, distance * 12 * DRIVE_ENCODER_COUNTS_PER_INCH);
 
 		}
 		if (side != driveSide.left) {
-			RobotMap.driveRightMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 0);
-			RobotMap.driveRightMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
-			RobotMap.driveRightMotorA.selectProfileSlot(2, 0);
-			RobotMap.driveRightMotorA.config_kF(2, Robot.prefs.getDouble("MMKf", drivePrefsDefaults[3]), 0);
-			RobotMap.driveRightMotorA.config_kP(2, Robot.prefs.getDouble("MMKp", drivePrefsDefaults[4]), 0);
-			RobotMap.driveRightMotorA.config_kI(2, Robot.prefs.getDouble("MMKi", drivePrefsDefaults[5]), 0);
-			RobotMap.driveRightMotorA.config_kD(2, Robot.prefs.getDouble("MM Kd", drivePrefsDefaults[6]), 0);
-			RobotMap.driveRightMotorA.config_IntegralZone(2,
-					(int) Robot.prefs.getDouble("MMIzone", drivePrefsDefaults[23]), 0);
-			RobotMap.driveRightMotorA.configOpenloopRamp(0, 0);
-			RobotMap.driveRightMotorA.configClosedloopRamp(0, 0);
-			RobotMap.driveRightMotorA.configPeakOutputForward(1, 0);
-			RobotMap.driveLeftMotorA.configPeakOutputReverse(-1, 0);
-			RobotMap.driveRightMotorA.configMotionCruiseVelocity(cruiseVelocity, 0);
-			RobotMap.driveRightMotorA.configMotionAcceleration(acceleration, 0);
-			RobotMap.driveRightMotorA.set(ControlMode.MotionMagic, distance * 12 * DRIVE_ENCODER_COUNTS_PER_INCH);
+			rightMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 0);
+			rightMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
+			rightMotorA.selectProfileSlot(2, 0);
+			rightMotorA.config_kF(2, Robot.prefs.getDouble("MMKf", drivePrefsDefaults[3]), 0);
+			rightMotorA.config_kP(2, Robot.prefs.getDouble("MMKp", drivePrefsDefaults[4]), 0);
+			rightMotorA.config_kI(2, Robot.prefs.getDouble("MMKi", drivePrefsDefaults[5]), 0);
+			rightMotorA.config_kD(2, Robot.prefs.getDouble("MM Kd", drivePrefsDefaults[6]), 0);
+			rightMotorA.config_IntegralZone(2, (int) Robot.prefs.getDouble("MMIzone", drivePrefsDefaults[23]), 0);
+			rightMotorA.configOpenloopRamp(0, 0);
+			rightMotorA.configClosedloopRamp(0, 0);
+			rightMotorA.configPeakOutputForward(1, 0);
+			rightMotorA.configPeakOutputReverse(-1, 0);
+			rightMotorA.configMotionCruiseVelocity(cruiseVelocity, 0);
+			rightMotorA.configMotionAcceleration(acceleration, 0);
+			rightMotorA.set(ControlMode.MotionMagic, distance * 12 * DRIVE_ENCODER_COUNTS_PER_INCH);
 
 		}
 	}
@@ -532,35 +509,46 @@ public class DriveTrainCanBus extends Subsystem {
 			rightMotorA.setSelectedSensorPosition((int) (value * 12 * DRIVE_ENCODER_COUNTS_PER_INCH), 0, 0);
 	}
 
-	public void stopMotor(driveSide side) {
-		if (side != driveSide.right)
-			leftMotorA.set(ControlMode.Disabled, 0);
-		if (side != driveSide.left)
-			rightMotorA.set(ControlMode.Disabled, 0);
-	}
+	// public void stopMotor(driveSide side) {
+	// if (side != driveSide.right)
+	// leftMotorA.set(ControlMode.Disabled, 0);
+	// if (side != driveSide.left)
+	// rightMotorA.set(ControlMode.Disabled, 0);
+	// }
 
-	public void motionMagic(double targetPosition, double ftPerSec, double acceleration) {
-
-		/* Set relevant frame periods to be at least as fast as periodic rate */
-		configDrivePeakout(8, driveSide.both);
-
-		leftMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 0);
-		leftMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
-
-		rightMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 0);
-		rightMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
-
-		leftMotorA.configMotionCruiseVelocity((int) (ftPerSec * FT_PER_SEC_TO_ENC_CTS_PER_100MS), 0);
-		leftMotorA.configMotionAcceleration((int) acceleration, 0);
-
-		rightMotorA.configMotionCruiseVelocity((int) (ftPerSec * FT_PER_SEC_TO_ENC_CTS_PER_100MS), 0);
-		rightMotorA.configMotionAcceleration((int) acceleration, 0);
-
-		leftMotorA.set(ControlMode.MotionMagic, targetPosition * DRIVE_ENCODER_COUNTS_PER_INCH);
-		rightMotorA.set(ControlMode.MotionMagic, targetPosition * DRIVE_ENCODER_COUNTS_PER_INCH);
-	}
+	// public void motionMagic(double targetPosition, double ftPerSec, double
+	// acceleration) {
+	//
+	// /* Set relevant frame periods to be at least as fast as periodic rate */
+	// configDrivePeakout(8, driveSide.both);
+	//
+	// leftMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
+	// 0);
+	// leftMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic,
+	// 10, 0);
+	//
+	// rightMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0,
+	// 10, 0);
+	// rightMotorA.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic,
+	// 10, 0);
+	//
+	// leftMotorA.configMotionCruiseVelocity((int) (ftPerSec *
+	// FT_PER_SEC_TO_ENC_CTS_PER_100MS), 0);
+	// leftMotorA.configMotionAcceleration((int) acceleration, 0);
+	//
+	// rightMotorA.configMotionCruiseVelocity((int) (ftPerSec *
+	// FT_PER_SEC_TO_ENC_CTS_PER_100MS), 0);
+	// rightMotorA.configMotionAcceleration((int) acceleration, 0);
+	//
+	// leftMotorA.set(ControlMode.MotionMagic, targetPosition *
+	// DRIVE_ENCODER_COUNTS_PER_INCH);
+	// rightMotorA.set(ControlMode.MotionMagic, targetPosition *
+	// DRIVE_ENCODER_COUNTS_PER_INCH);
+	// }
 
 	public void updateStatus() {
+		leftEncoderStopped = Robot.driveMonitor.getLeftDriveStopped();
+		rightEncoderStopped = Robot.driveMonitor.getRightDriveStopped();
 
 		SD.putN2("RightFt", getRightFeet());
 		SD.putN2("LeftFt", getLeftFeet());
@@ -577,7 +565,9 @@ public class DriveTrainCanBus extends Subsystem {
 		SD.putN1("RightInches", getRightInches());
 
 		SmartDashboard.putBoolean("LinPos", leftSideInPosition());
-		SmartDashboard.putBoolean("RinPos", rightSideInPosition());
+		SmartDashboard.putBoolean("REncPos", rightSideInPosition());
+		SmartDashboard.putBoolean("LEncStopped", leftEncoderStopped);
+		SmartDashboard.putBoolean("REncStopped", rightEncoderStopped);
 		SmartDashboard.putBoolean("LisStopped", leftSideStopped);
 		SmartDashboard.putBoolean("RisStopped", rightSideStopped);
 		// if (Robot.trajectoryRunning) {
@@ -588,8 +578,8 @@ public class DriveTrainCanBus extends Subsystem {
 		SD.putN1("LTarget", leftPositionTargetFt);
 		SD.putN1("RTarget", rightPositionTargetFt);
 
-		SD.putN1("LeftPower", RobotMap.driveLeftMotorA.getMotorOutputPercent());
-		SD.putN1("RightPower", RobotMap.driveRightMotorA.getMotorOutputPercent());
+		SD.putN1("LeftPower", leftMotorA.getMotorOutputPercent());
+		SD.putN1("RightPower", rightMotorA.getMotorOutputPercent());
 		SD.putN1("RightEncoderCount", rightMotorA.getSelectedSensorPosition(0));
 		SD.putN1("RightVelocity", rightMotorA.getSelectedSensorVelocity(0));
 		SD.putN1("LeftEncoderCount", leftMotorA.getSelectedSensorPosition(0));

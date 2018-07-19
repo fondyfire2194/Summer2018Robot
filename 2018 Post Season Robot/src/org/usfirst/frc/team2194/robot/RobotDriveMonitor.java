@@ -28,8 +28,26 @@ public class RobotDriveMonitor {
 	private double lastXRobotPositionFt;
 	private double lastYRobotPositionFt;
 	private double distanceChange;
+	private int leftEncoderStoppedCounter;
+	private int rightEncoderStoppedCounter;
 
 	public RobotDriveMonitor() {
+	}
+
+	public boolean getLeftEncoderStopped() {
+		if (Math.abs(RobotMap.driveLeftMotorA.getSelectedSensorVelocity(0)) < 10)
+			leftEncoderStoppedCounter++;
+		else
+			leftEncoderStoppedCounter = 0;
+		return leftEncoderStoppedCounter > 10;
+	}
+
+	public boolean getRightEncoderStopped() {
+		if (Math.abs(RobotMap.driveRightMotorA.getSelectedSensorVelocity(0)) < 10)
+			rightEncoderStoppedCounter++;
+		else
+			rightEncoderStoppedCounter = 0;
+		return rightEncoderStoppedCounter > 10;
 	}
 
 	public boolean getLeftDriveStopped() {
@@ -45,7 +63,7 @@ public class RobotDriveMonitor {
 
 		}
 		return false;
-//		return leftStoppedCounter > 2;
+		// return leftStoppedCounter > 2;
 	}
 
 	public boolean getRightDriveStopped() {
@@ -59,7 +77,7 @@ public class RobotDriveMonitor {
 				rightStoppedCounter = 0;
 		}
 		return false;
-//		return rightStoppedCounter > 2;
+		// return rightStoppedCounter > 2;
 
 	}
 

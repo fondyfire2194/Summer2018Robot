@@ -75,6 +75,7 @@ public class RobotRotate extends PIDSubsystem {
 				temp = -temp;
 		} else
 			temp = output;
+		loopOutput = temp;
 		Robot.driveTrainCanBus.leftDriveOut(temp);
 		Robot.driveTrainCanBus.rightDriveOut(-temp);
 	}
@@ -105,11 +106,11 @@ public class RobotRotate extends PIDSubsystem {
 	}
 
 	public boolean inPosition() {
-		return (Math.abs(getError()) < 3);
+		return (Math.abs(getError()) <= 3);
 	}
 
 	public boolean closeToPosition() {
-		return (Math.abs(getError()) < 5);
+		return (Math.abs(getError()) <= 5);
 	}
 
 	public boolean isEnabled() {

@@ -42,7 +42,7 @@ import jaci.pathfinder.Trajectory;
  */
 public class Robot extends IterativeRobot {
 	CasseroleRIOLoadMonitor loadMon;
-	RobotDriveMonitor driveMonitor;
+	public static RobotDriveMonitor driveMonitor;
 	public static SimpleCSVLogger simpleCSVLogger;
 	public static DriveTrainCanBus driveTrainCanBus;
 	public static Sensors sensors;
@@ -197,7 +197,7 @@ public class Robot extends IterativeRobot {
 	private static boolean oppositeSideSwitch;
 	private static boolean secondaryTrajectory;
 	// Trajectory log data headers
-	public static String[] names = { "Step", "LeftCmd", "LeftFt", "RightCmd ", "RightFt", "AngleCmd", "Angle",
+	public static String[] names = { "Step", "LeftCmd", "LeftFt", "RightCmd", "RightFt", "AngleCmd", "Angle",
 			"LeftSegVel", "left", "ActLeftVel", "RightSegVel", "right", "ActRightVel", "turn", "battery" };
 	public static String[] units = { "Number", "FT", "FT", "FT", "FT", "Deg", "Deg", "pct", "pct", "pct", "pct", "pct",
 			"pct", "pct", "volts" };
@@ -208,7 +208,7 @@ public class Robot extends IterativeRobot {
 	public static boolean useVision = false;
 	public static double xPosition;
 	public static double yPosition;
-	public static boolean createElevatorRunFile = true;
+	public static boolean createElevatorRunFile = false;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -232,8 +232,8 @@ public class Robot extends IterativeRobot {
 		driveTrainCanBus = new DriveTrainCanBus();
 		driveTrainCanBus.initPrefs();
 		makePrefs(prefs, DriveTrainCanBus.drivePrefsNames, DriveTrainCanBus.drivePrefsDefaults);
-		// if (prefs.containsKey("Robot Rotate Ki"))
-		// prefs.remove("Robot Rotate Ki");
+		if (prefs.containsKey("PathTurn "))
+			prefs.remove("PathTurn ");
 		// if (prefs.containsKey("Robot Rotate Kp"))
 		// prefs.remove("Robot Rotate Kp");
 		//
@@ -367,6 +367,7 @@ public class Robot extends IterativeRobot {
 		motionCommandComplete = false;
 		driveTrainCanBus.leftDriveOut(0);
 		driveTrainCanBus.rightDriveOut(0);
+		driveTrainCanBus.configDrivePeakout(DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, driveSide.both);
 		cubeHandler.intakeWheelsTurn(0);
 	}
 
@@ -393,6 +394,7 @@ public class Robot extends IterativeRobot {
 		cubeHandler.closeIntakeArms();
 		driveTrainCanBus.setLeftBrakeMode(true);
 		driveTrainCanBus.setRightBrakeMode(true);
+		driveTrainCanBus.configDrivePeakout(DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, driveSide.both);
 		startPosition = startPositionChooser.getSelected();
 
 		switch (startPosition) {
@@ -699,11 +701,10 @@ public class Robot extends IterativeRobot {
 		}
 
 		// moves to switch or scale are complete so do remainder of auto
-		// if ((secondAutonomousCommand != null && !secondAutonomousCommandStarted) &&
-		// firstAutonomousCommandDone) {
-		// secondAutonomousCommand.start();
-		// secondAutonomousCommandStarted = true;
-		// }
+		if ((secondAutonomousCommand != null && !secondAutonomousCommandStarted) && firstAutonomousCommandDone) {
+			secondAutonomousCommand.start();
+			secondAutonomousCommandStarted = true;
+		}
 		// if (secondAutonomousCommand.isRunning() && allCameras.visionTargetNotFound)
 		// secondAutonomousCommand.cancel();
 
@@ -726,6 +727,7 @@ public class Robot extends IterativeRobot {
 		firstAutonomousCommandDone = false;
 		secondAutonomousCommandsDone = false;
 		motionCommandRunning = false;
+		driveTrainCanBus.configDrivePeakout(DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, driveSide.both);
 		driveTrainCanBus.leftDriveOut(0);
 		driveTrainCanBus.rightDriveOut(0);
 		cubeHandler.holdPositionInches = cubeHandler.getElevatorPositionInches();
@@ -771,7 +773,7 @@ public class Robot extends IterativeRobot {
 			doTeleopVisionMotion = false;
 		}
 		if (doTeleopOrient) {
-			sensors.resetGyro();
+			// sensors.resetGyro();
 			driveTrainCanBus.resetEncoders();
 			angleTarget = SmartDashboard.getNumber("Target Angle", 90);
 			orientRate = SmartDashboard.getNumber("Orient Rate", .25);
@@ -1027,6 +1029,8 @@ public class Robot extends IterativeRobot {
 							|| oi.elevatorToExchangePosition.get() || oi.raiseClimbHook.get());
 			SmartDashboard.putNumber("X Position", xPosition);
 			SmartDashboard.putNumber("Y Position", yPosition);
+			SmartDashboard.putNumber("Active PathP", activeTrajectoryGains[0]);
+			SmartDashboard.putNumber("Active PathTurn", activeTrajectoryGains[3]);
 			break;
 		case 6:
 			cubeHandler.updateStatus();

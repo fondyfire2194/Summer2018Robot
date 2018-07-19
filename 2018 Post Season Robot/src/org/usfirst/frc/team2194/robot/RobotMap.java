@@ -72,16 +72,22 @@ public class RobotMap {
 		driveLeftMotorA.configVoltageCompSaturation(12, 0);
 		driveLeftMotorA.enableVoltageCompensation(false);
 		driveLeftMotorA.setSensorPhase(true);
+		driveLeftMotorA.configPeakOutputForward(1, 0);
+		driveLeftMotorA.configPeakOutputReverse(-1, 0);
 
 		driveLeftMotorB = new TalonSRX(4);
 		driveLeftMotorB.set(ControlMode.Follower, driveLeftMotorAID); // set(ControlMode.Follower, masterTalonID);
 		driveLeftMotorB.setInverted(true);
 		driveLeftMotorB.setNeutralMode(NeutralMode.Brake);
+		driveLeftMotorB.configPeakOutputForward(1, 0);
+		driveLeftMotorB.configPeakOutputReverse(-1, 0);
 
 		driveLeftMotorC = new TalonSRX(5);
 		driveLeftMotorC.set(ControlMode.Follower, driveLeftMotorAID);
 		driveLeftMotorC.setInverted(true);
 		driveLeftMotorC.setNeutralMode(NeutralMode.Brake);
+		driveLeftMotorC.configPeakOutputForward(1, 0);
+		driveLeftMotorC.configPeakOutputReverse(-1, 0);
 
 		driveRightMotorA = new TalonSRX(6);
 		driveRightMotorAID = driveRightMotorA.getDeviceID();
@@ -94,16 +100,22 @@ public class RobotMap {
 		driveRightMotorA.configVoltageCompSaturation(12, 0);
 		driveRightMotorA.enableVoltageCompensation(false);
 		driveRightMotorA.setSensorPhase(true);
+		driveRightMotorA.configPeakOutputForward(1, 0);
+		driveRightMotorA.configPeakOutputReverse(-1, 0);
 
 		driveRightMotorB = new TalonSRX(7);
 		driveRightMotorB.set(ControlMode.Follower, driveRightMotorAID);
 		driveRightMotorB.setInverted(false);
 		driveRightMotorB.setNeutralMode(NeutralMode.Brake);
+		driveRightMotorB.configPeakOutputForward(1, 0);
+		driveRightMotorB.configPeakOutputReverse(-1, 0);
 
 		driveRightMotorC = new TalonSRX(8);
 		driveRightMotorC.set(ControlMode.Follower, driveRightMotorAID);
 		driveRightMotorC.setInverted(false);
 		driveRightMotorC.setNeutralMode(NeutralMode.Brake);
+		driveRightMotorB.configPeakOutputForward(1, 0);
+		driveRightMotorB.configPeakOutputReverse(-1, 0);
 
 		pdp = new PowerDistributionPanel(1);
 		compressor = new Compressor(0);

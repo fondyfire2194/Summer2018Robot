@@ -70,7 +70,8 @@ public class DriveToSwitchWall extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.driveTrainCanBus.runStalledDetect = false;
-		Robot.driveTrainCanBus.stopMotor(driveSide.both);
+		Robot.driveTrainCanBus.leftDriveOut(0);
+		Robot.driveTrainCanBus.rightDriveOut(0);
 		Robot.magicMotionRunning = false;
 		RobotMap.driveLeftMotorA.selectProfileSlot(0, 0);
 		RobotMap.driveLeftMotorB.selectProfileSlot(0, 0);

@@ -70,7 +70,8 @@ public class DriveToVisionTarget extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.driveTrainCanBus.stopMotor(driveSide.both);
+		Robot.driveTrainCanBus.leftDriveOut(0);
+		Robot.driveTrainCanBus.rightDriveOut(0);
 		Robot.driveTrainCanBus.configDrivePeakout(DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, driveSide.both);
 		Robot.visionMotionRunning = false;
 		Robot.driveTrainCanBus.driveStraightAngle = initialTargetAngle;

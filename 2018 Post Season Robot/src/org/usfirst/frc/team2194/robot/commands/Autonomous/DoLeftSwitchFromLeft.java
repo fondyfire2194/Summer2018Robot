@@ -35,7 +35,7 @@ public class DoLeftSwitchFromLeft extends CommandGroup {
 				DistCon.SHORT_POSITION_RATE, 3));
 		// turn to angle and drop elevator
 
-		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_TRAVEL_POSITION_INCHES));
+		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_TRAVEL_POSITION_INCHES));
 
 		addSequential(new RobotOrient(0, DistCon.ORIENT_RATE, true, 3));
 

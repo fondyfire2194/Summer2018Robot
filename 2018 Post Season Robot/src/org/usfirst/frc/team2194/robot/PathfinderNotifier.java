@@ -17,6 +17,7 @@ public class PathfinderNotifier {
 	public static int segmentCounter = 0;
 	public static double minTime = 9999;
 	public static double maxTime = 0;
+	public static int notifierRunning;
 
 	public static final class PeriodicRunnable implements java.lang.Runnable {
 		public void run() {
@@ -111,11 +112,11 @@ public class PathfinderNotifier {
 					Robot.driveTrainCanBus.leftDf.getSegment().position, Robot.driveTrainCanBus.getLeftFeet(),
 					Robot.driveTrainCanBus.rightDf.getSegment().position, Robot.driveTrainCanBus.getRightFeet(),
 					Pathfinder.boundHalfDegrees(desired_heading), -Robot.sensors.getGyroYaw(),
-					Robot.driveTrainCanBus.leftDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, left,
-					Robot.driveTrainCanBus.getLeftFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
-					Robot.driveTrainCanBus.rightDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, right,
-					Robot.driveTrainCanBus.getRightFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC, turn,
-					Robot.powerPanel.getVoltage());
+					Robot.driveTrainCanBus.leftDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
+					leftPct, Robot.driveTrainCanBus.getLeftFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
+					Robot.driveTrainCanBus.rightDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
+					rightPct, Robot.driveTrainCanBus.getRightFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
+					turn, Robot.powerPanel.getVoltage());
 		}
 
 		thisTime = Timer.getFPGATimestamp();
@@ -131,5 +132,6 @@ public class PathfinderNotifier {
 			timeSum = 0;
 			SmartDashboard.putNumber("Time", timeAverage);
 		}
+		SmartDashboard.putNumber("NotifierRng", notifierRunning);
 	}
 }

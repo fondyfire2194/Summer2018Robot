@@ -19,7 +19,7 @@ public class DoTeleopRobotPosition extends InstantCommand {
 	// Called once when the command executes
 	protected void initialize() {
 		Robot.doTeleopPosition = true;
-//		new LogDriveData("Position", "Position", 5).start();
+		new LogDriveData("Position", "Position", 5).start();
 	}
 
 }

@@ -2,7 +2,6 @@ package org.usfirst.frc.team2194.robot.commands.Motion;
 
 import org.usfirst.frc.team2194.robot.Robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -56,8 +55,8 @@ public class RunFromGamepadCanBus extends Command {
 			xValue = 0;
 		} else
 			straightComp = 0;
-		if (!DriverStation.getInstance().isAutonomous() && !Robot.teleopAutoRunning)
-			Robot.driveTrainCanBus.arcadeDrive(-yValue, xValue, straightComp);
+		// if (!DriverStation.getInstance().isAutonomous() && !Robot.teleopAutoRunning)
+		Robot.driveTrainCanBus.arcadeDrive(-yValue, xValue, straightComp);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

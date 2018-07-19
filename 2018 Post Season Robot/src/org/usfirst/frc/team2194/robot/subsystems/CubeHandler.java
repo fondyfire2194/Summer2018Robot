@@ -28,6 +28,7 @@ public class CubeHandler extends Subsystem {
 	public double holdPositionInches;
 	public static double ELEVATOR_PICKUP_POSITION_INCHES = .5;
 	public static double ELEVATOR_EXCHANGE_POSITION_INCHES = 3.5;
+	public static double ELEVATOR_AUTO_FIRST_POSITION_INCHES = 4.5;
 	public static double ELEVATOR_TRAVEL_POSITION_INCHES = 10;
 	public static double ELEVATOR_SWITCH_POSITION_INCHES = 26;
 	public static double ELEVATOR_SWITCH_HIGH_POSITION_INCHES = 34;
@@ -171,7 +172,7 @@ public class CubeHandler extends Subsystem {
 			cruiseVelocity = cruiseVelocity / 2;
 			acceleration = cruiseVelocity;// 1 second to soften bottom hit
 		} else
-			acceleration = cruiseVelocity * 2;// 1/2 second
+			acceleration = cruiseVelocity / 2;// 1/2 second
 
 		RobotMap.elevatorMotor.configMotionCruiseVelocity(cruiseVelocity, 0);
 		RobotMap.elevatorMotor.configMotionAcceleration(acceleration, 0);
