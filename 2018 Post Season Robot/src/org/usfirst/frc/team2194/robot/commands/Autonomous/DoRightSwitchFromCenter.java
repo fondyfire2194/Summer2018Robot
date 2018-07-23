@@ -17,6 +17,7 @@ import org.usfirst.frc.team2194.robot.commands.Motion.SetDriveStraightAngle;
 import org.usfirst.frc.team2194.robot.subsystems.CubeHandler;
 import org.usfirst.frc.team2194.robot.subsystems.DriveTrainCanBus.driveSide;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -38,19 +39,19 @@ public class DoRightSwitchFromCenter extends CommandGroup {
 		addSequential(new ResetEncoders());
 		addSequential(new ResetGyro());
 
-		addParallel(new DriveMagicMotion(-3, motionType.absolute, driveSide.both, DistCon.SHORT_POSITION_RATE, 3));
+		addParallel(new DriveMagicMotion(-3.5, motionType.absolute, driveSide.both, 3, 5));
 
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
 
 		addSequential(new CloseIntakeArms());
 
-		addSequential(new RobotOrient(-50, .25, false, 1.5));
+		addSequential(new RobotOrient(-50, .25, false, 1.75));
 
 		addSequential(new SetDriveStraightAngle(-50));
 
 		addSequential(new ResetEncoders());
 
-		addParallel(new DriveToCubePickup(4, motionType.absolute, DistCon.SHORT_POSITION_RATE * .5, 3));
+		addParallel(new DriveToCubePickup(5, motionType.absolute, DistCon.SHORT_POSITION_RATE * .75, 4));
 
 		// addParallel(new LogIntakeData(3));
 
@@ -58,19 +59,19 @@ public class DoRightSwitchFromCenter extends CommandGroup {
 
 		// addSequential(new TimeDelay(1.25));
 
-		addSequential(new TurnWheelsToIntake(.5, 3));
+		addSequential(new TurnWheelsToIntake(.5, 4));
 
 		addParallel(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE, false, false, 2));
 
 		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
 
-		addSequential(new RobotOrient(0, .25, false, 1.5));
+		addSequential(new RobotOrient(0, .25, false, 1.75));
 
 		addSequential(new SetDriveStraightAngle(0));
 
 		addSequential(new ResetEncoders());
 
-		addSequential(new PositionToSwitchWall(3, DistCon.SHORT_POSITION_RATE, 2));
+		addSequential(new PositionToSwitchWall(4, DistCon.SHORT_POSITION_RATE, 2));
 
 		addSequential(new OuttakeCube(.5));
 

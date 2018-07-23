@@ -55,6 +55,7 @@ public class CubeHandler extends Subsystem {
 	// public boolean elevatorMotionDown;
 	public boolean cubePickedUp;
 	public double lastHoldPositionInches;
+	private int elevatorHiCurrent;
 
 	public enum intakeSide {
 		left, right
@@ -169,10 +170,10 @@ public class CubeHandler extends Subsystem {
 		int acceleration;
 
 		if (Robot.cubeHandler.moveIsDown) {
-			cruiseVelocity = cruiseVelocity / 2;
+			cruiseVelocity = (cruiseVelocity * 3) / 4;
 			acceleration = cruiseVelocity;// 1 second to soften bottom hit
 		} else
-			acceleration = cruiseVelocity / 2;// 1/2 second
+			acceleration = cruiseVelocity;// 1/2 second
 
 		RobotMap.elevatorMotor.configMotionCruiseVelocity(cruiseVelocity, 0);
 		RobotMap.elevatorMotor.configMotionAcceleration(acceleration, 0);
@@ -198,6 +199,14 @@ public class CubeHandler extends Subsystem {
 	}
 
 	public void updateStatus() {
+		// check for elevator unable to reach position for 250 * 20ms = 5 sec
+		if (RobotMap.elevatorMotor.getOutputCurrent() > 6)
+			elevatorHiCurrent++;
+		else
+			elevatorHiCurrent = 0;
+		if (elevatorHiCurrent > 250)
+			holdPositionInches = getElevatorPositionInches();
+
 		elevatorTooLow = getElevatorPositionInches() <= ELEVATOR_MIN_HEIGHT;
 		elevatorTooHigh = getElevatorPositionInches() >= ELEVATOR_MAX_HEIGHT;
 

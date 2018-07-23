@@ -83,6 +83,7 @@ public class RobotOrient extends Command {
 		passCount = 0;
 		// Robot.closeDriveSpeedLoop = true;
 		startTime = Timer.getFPGATimestamp();
+		doneAccelerating = false;
 	}
 
 	// Called repeatedly when this Command is scheduled to run

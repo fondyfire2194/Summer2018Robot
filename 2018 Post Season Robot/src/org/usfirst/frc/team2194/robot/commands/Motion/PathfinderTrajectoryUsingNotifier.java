@@ -51,8 +51,10 @@ public class PathfinderTrajectoryUsingNotifier extends Command {
 		Robot.driveTrainCanBus.leftDf.reset();
 		Robot.driveTrainCanBus.rightDf.reset();
 		Robot.trajectoryRunning = true;
-		if (Robot.createTrajectoryRunFile)
+		if (Robot.createTrajectoryRunFile) {
 			Robot.simpleCSVLogger.init("Trajectory", Robot.chosenFile, Robot.names, Robot.units);
+			// Robot.simpleCSVLogger.writeData(P, I, D, V, A);
+		}
 		scanCounter = 0;
 		startTime = Timer.getFPGATimestamp();
 		PathfinderNotifier.startNotifier();

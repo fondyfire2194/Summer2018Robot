@@ -60,7 +60,7 @@ public class DriveTrainCanBus extends Subsystem {
 
 	public static double FT_PER_SEC_TO_PCT_OUT = 1 / MAX_ROBOT_FT_PER_SEC;
 
-	public static double MINIMUM_START_PCT = .1;// pct needed to get robot moving;
+	public static double MINIMUM_START_PCT = .15;// pct needed to get robot moving;
 
 	public double IN_POSITION_BANDWIDTH = .075;
 	public double MM_IN_POSITION_BANDWIDTH = .4;
@@ -218,6 +218,14 @@ public class DriveTrainCanBus extends Subsystem {
 	public void resetEncoders() {
 		leftMotorA.setSelectedSensorPosition(0, 0, 0);
 		rightMotorA.setSelectedSensorPosition(0, 0, 0);
+	}
+
+	public double getLeftAmps() {
+		return leftMotorA.getOutputCurrent() + leftMotorB.getOutputCurrent() + leftMotorC.getOutputCurrent();
+	}
+
+	public double getRightAmps() {
+		return rightMotorA.getOutputCurrent() + rightMotorB.getOutputCurrent() + rightMotorC.getOutputCurrent();
 	}
 
 	public double getLeftInches() {
@@ -547,8 +555,8 @@ public class DriveTrainCanBus extends Subsystem {
 	// }
 
 	public void updateStatus() {
-		leftEncoderStopped = Robot.driveMonitor.getLeftDriveStopped();
-		rightEncoderStopped = Robot.driveMonitor.getRightDriveStopped();
+		leftEncoderStopped = Robot.driveMonitor.getLeftEncoderStopped();
+		rightEncoderStopped = Robot.driveMonitor.getRightEncoderStopped();
 
 		SD.putN2("RightFt", getRightFeet());
 		SD.putN2("LeftFt", getLeftFeet());
@@ -565,7 +573,7 @@ public class DriveTrainCanBus extends Subsystem {
 		SD.putN1("RightInches", getRightInches());
 
 		SmartDashboard.putBoolean("LinPos", leftSideInPosition());
-		SmartDashboard.putBoolean("REncPos", rightSideInPosition());
+		SmartDashboard.putBoolean("RinPos", rightSideInPosition());
 		SmartDashboard.putBoolean("LEncStopped", leftEncoderStopped);
 		SmartDashboard.putBoolean("REncStopped", rightEncoderStopped);
 		SmartDashboard.putBoolean("LisStopped", leftSideStopped);

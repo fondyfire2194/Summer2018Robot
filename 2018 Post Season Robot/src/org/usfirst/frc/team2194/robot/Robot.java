@@ -198,9 +198,10 @@ public class Robot extends IterativeRobot {
 	private static boolean secondaryTrajectory;
 	// Trajectory log data headers
 	public static String[] names = { "Step", "LeftCmd", "LeftFt", "RightCmd", "RightFt", "AngleCmd", "Angle",
-			"LeftSegVel", "left", "ActLeftVel", "RightSegVel", "right", "ActRightVel", "turn", "battery" };
+			"LeftSegVel", "left", "ActLeftVel", "RightSegVel", "right", "ActRightVel", "turn", "battery", "LeftAmps",
+			"RightAmps" };
 	public static String[] units = { "Number", "FT", "FT", "FT", "FT", "Deg", "Deg", "pct", "pct", "pct", "pct", "pct",
-			"pct", "pct", "volts" };
+			"pct", "pct", "volts", "Amps", "Amps" };
 
 	public static String usbFilePath = "/U/TrajCSV/";
 	public static boolean createIntakeRunFile;
@@ -390,6 +391,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		createElevatorRunFile = false;
 		firstAutonomousCommandStarted = false;
 		cubeHandler.closeIntakeArms();
 		driveTrainCanBus.setLeftBrakeMode(true);
@@ -722,6 +724,7 @@ public class Robot extends IterativeRobot {
 		if (useVision)
 			allCameras.cubeVisionTurnedOn = false;
 
+		createElevatorRunFile = true;
 		trajectoryRunning = false;
 		motionCommandComplete = false;
 		firstAutonomousCommandDone = false;
