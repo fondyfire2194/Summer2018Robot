@@ -204,7 +204,7 @@ public class Robot extends IterativeRobot {
 			"pct", "pct", "volts", "Amps", "Amps" };
 
 	public static String usbFilePath = "/U/TrajCSV/";
-	public static boolean createIntakeRunFile;
+	public static boolean createIntakeRunFile=true;
 	public static boolean createDriveRunFile;
 	public static boolean useVision = false;
 	public static double xPosition;
@@ -219,7 +219,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		RobotMap.init();
 		DistCon.init();
-		// DistCon.updateStatus();
+//		 DistCon.updateStatus();
 		// loadMon = new CasseroleRIOLoadMonitor();
 		driveMonitor = new RobotDriveMonitor();
 		prefs = Preferences.getInstance();
@@ -277,11 +277,11 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putNumber("XPixelTarget", 5);
 		SmartDashboard.putBoolean("USBOK", checkUsbFilePath());
-		if (!RobotMap.elevatorSwitch.get() && cubeHandler.holdPositionInches != 0
-				&& cubeHandler.getElevatorEncoderPosition() != 0) {
-			cubeHandler.resetElevatorPosition();
-			cubeHandler.holdPositionInches = 0;
-		}
+//		if (!RobotMap.elevatorSwitch.get() && cubeHandler.holdPositionInches != 0
+//				&& cubeHandler.getElevatorEncoderPosition() != 0) {
+//			cubeHandler.resetElevatorPosition();
+//			cubeHandler.holdPositionInches = 0;
+//		}
 		sensors.initAHRS();
 		Timer.delay(3);
 		sensors.resetGyro();

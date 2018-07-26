@@ -3,6 +3,7 @@ package org.usfirst.frc.team2194.robot.commands.AutoMoves;
 import org.usfirst.frc.team2194.robot.DistCon;
 import org.usfirst.frc.team2194.robot.Robot.motionType;
 import org.usfirst.frc.team2194.robot.commands.SetFirstAutoCommandsDone;
+import org.usfirst.frc.team2194.robot.commands.TimeDelay;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.OuttakeCube;
 import org.usfirst.frc.team2194.robot.commands.Motion.DriveMagicMotion;
@@ -38,6 +39,8 @@ public class DoLeftSwitchFromCenterMove extends CommandGroup {
 		addSequential(new ResetEncoders());
 
 		addSequential(new ResetGyro());
+		addSequential(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_AUTO_FIRST_POSITION_INCHES));
+		addSequential(new TimeDelay(.5));
 
 		addParallel(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
 

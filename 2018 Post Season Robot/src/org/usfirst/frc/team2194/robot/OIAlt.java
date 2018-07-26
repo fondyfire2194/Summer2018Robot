@@ -9,6 +9,7 @@ import org.usfirst.frc.team2194.robot.commands.CubeHandler.ElevatorMoveToHeight;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.OpenIntakeArms;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.ResetElevatorPosition;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.RunElevatorFromGamepad;
+import org.usfirst.frc.team2194.robot.commands.CubeHandler.SetElevatorTargetHeight;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnIntakeWheels;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.VariableOuttake;
@@ -142,31 +143,44 @@ public class OIAlt {
 		climbRobot.whileHeld(new DriveClimber(.9));
 		climbRobot.whenReleased(new StopClimber());
 
-		elevatorToBottomPosition = new JoystickButton(gamepad, BUTTON_A);// A
-		elevatorToBottomPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
-		elevatorToTravelPosition = new JoystickButton(gamepad, BUTTON_B);// B
-		elevatorToTravelPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_TRAVEL_POSITION_INCHES));
-
-		elevatorToScalePosition = new JoystickButton(gamepad, BUTTON_Y);// Y
-		elevatorToScalePosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SCALE_POSITION_INCHES));
-
-		elevatorToScaleLowPosition = new JoystickButton(gamepad, BUTTON_X);// X
-		elevatorToScaleLowPosition
-				.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SCALE_LOW_POSITION_INCHES));
-
-		elevatorToSwitchPosition = new JoystickButton(gamepad, BUTTON_SHOULDER_LEFT);// Left Shoulder
-		elevatorToSwitchPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
-
-		elevatorToPortalPosition = new JoystickButton(gamepad, BUTTON_SHOULDER_RIGHT);// Right Shoulder
-		elevatorToPortalPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PORTAL_POSITION_INCHES));
-
 		raiseClimbHook = new JoystickButton(gamepad, BUTTON_TRIGGER_LEFT);
 		// stopIntakeWheels.whenPressed(new TurnIntakeWheels(0));
 		raiseClimbHook.whileHeld(new DriveClimber(-.9));
 		raiseClimbHook.whenReleased(new StopClimber());
 
+		elevatorToBottomPosition = new JoystickButton(gamepad, BUTTON_A);// A
+		// elevatorToBottomPosition.whenPressed(new
+		// ElevatorMoveToHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
+		elevatorToBottomPosition.whenPressed(new SetElevatorTargetHeight(CubeHandler.ELEVATOR_PICKUP_POSITION_INCHES));
+
+		elevatorToTravelPosition = new JoystickButton(gamepad, BUTTON_B);// B
+		// elevatorToTravelPosition.whenPressed(new
+		// ElevatorMoveToHeight(CubeHandler.ELEVATOR_TRAVEL_POSITION_INCHES));
+		elevatorToTravelPosition.whenPressed(new SetElevatorTargetHeight(CubeHandler.ELEVATOR_TRAVEL_POSITION_INCHES));
+
+		elevatorToScalePosition = new JoystickButton(gamepad, BUTTON_Y);// Y
+		// elevatorToScalePosition.whenPressed(new
+		// ElevatorMoveToHeight(CubeHandler.ELEVATOR_SCALE_POSITION_INCHES));
+		elevatorToScalePosition.whenPressed(new SetElevatorTargetHeight(CubeHandler.ELEVATOR_SCALE_POSITION_INCHES));
+
+		elevatorToScaleLowPosition = new JoystickButton(gamepad, BUTTON_X);// X
+		// elevatorToScaleLowPosition
+		// .whenPressed(new
+		// ElevatorMoveToHeight(CubeHandler.ELEVATOR_SCALE_LOW_POSITION_INCHES));
+		elevatorToScaleLowPosition
+				.whenPressed(new SetElevatorTargetHeight(CubeHandler.ELEVATOR_SCALE_LOW_POSITION_INCHES));
+
+		elevatorToSwitchPosition = new JoystickButton(gamepad, BUTTON_SHOULDER_LEFT);// Left Shoulder
+//		elevatorToSwitchPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
+		elevatorToSwitchPosition.whenPressed(new SetElevatorTargetHeight(CubeHandler.ELEVATOR_SWITCH_POSITION_INCHES));
+
+		elevatorToPortalPosition = new JoystickButton(gamepad, BUTTON_SHOULDER_RIGHT);// Right Shoulder
+//		elevatorToPortalPosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_PORTAL_POSITION_INCHES));
+		elevatorToPortalPosition.whenPressed(new SetElevatorTargetHeight(CubeHandler.ELEVATOR_PORTAL_POSITION_INCHES));
+
 		elevatorToExchangePosition = new JoystickButton(gamepad, BUTTON_TRIGGER_RIGHT);
-		elevatorToExchangePosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_EXCHANGE_POSITION_INCHES));
+//		elevatorToExchangePosition.whenPressed(new ElevatorMoveToHeight(CubeHandler.ELEVATOR_EXCHANGE_POSITION_INCHES));
+		elevatorToExchangePosition.whenPressed(new SetElevatorTargetHeight(CubeHandler.ELEVATOR_EXCHANGE_POSITION_INCHES));
 
 		jogElevator = new JoystickButton(gamepad, BUTTON_START);
 		jogElevator.whileHeld(new RunElevatorFromGamepad());

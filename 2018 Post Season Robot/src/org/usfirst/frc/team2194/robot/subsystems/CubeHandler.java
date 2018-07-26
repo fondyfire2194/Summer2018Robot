@@ -56,6 +56,9 @@ public class CubeHandler extends Subsystem {
 	public boolean cubePickedUp;
 	public double lastHoldPositionInches;
 	private int elevatorHiCurrent;
+	public int testGPButton;
+	public boolean elevatorMoveInProgress;
+	private int switchCounter;
 
 	public enum intakeSide {
 		left, right
@@ -209,6 +212,8 @@ public class CubeHandler extends Subsystem {
 
 		elevatorTooLow = getElevatorPositionInches() <= ELEVATOR_MIN_HEIGHT;
 		elevatorTooHigh = getElevatorPositionInches() >= ELEVATOR_MAX_HEIGHT;
+		SmartDashboard.putBoolean("ElInMM", RobotMap.elevatorMotor.getControlMode() == ControlMode.MotionMagic);
+		SmartDashboard.putBoolean("ElInPCTV", RobotMap.elevatorMotor.getControlMode() == ControlMode.PercentOutput);
 
 		SD.putN1("Elevator Amps", RobotMap.elevatorMotor.getOutputCurrent());
 		SD.putN1("Elevator Inches", getElevatorPositionInches());
@@ -227,10 +232,20 @@ public class CubeHandler extends Subsystem {
 		SD.putN1("Intake Amps Right", RobotMap.intakeRightMotor.getOutputCurrent());
 		SD.putN1("ElI", RobotMap.elevatorMotor.getIntegralAccumulator(0));
 		SD.putN1("El Talon Temp", RobotMap.elevatorMotor.getTemperature());
-		SmartDashboard.putBoolean("Elevator Switch", RobotMap.elevatorSwitch.get());
+		SmartDashboard.putNumber("ElevTrajPos",
+				RobotMap.elevatorMotor.getActiveTrajectoryPosition() / CubeHandler.ENCODER_COUNTS_PER_INCH);
+		SmartDashboard.putBoolean("Elevator Switch", !RobotMap.elevatorSwitch.get());
 		SmartDashboard.putBoolean("Switch Was Seen", switchWasSeen);
+		SmartDashboard.putNumber("ELHIAMPS", elevatorHiCurrent);
+		SmartDashboard.putBoolean("ElMoveIsUp", moveIsUp);
+		SmartDashboard.putBoolean("ElMoveIsDown", moveIsDown);
 
-		if (!RobotMap.elevatorSwitch.get() && !switchWasSeen) {
+		if (!RobotMap.elevatorSwitch.get())
+			switchCounter++;
+		else
+			switchCounter = 0;
+
+		if (switchCounter > 10 && !switchWasSeen) {
 			resetElevatorPosition();
 			holdPositionInches = getElevatorPositionInches();
 			switchWasSeen = true;

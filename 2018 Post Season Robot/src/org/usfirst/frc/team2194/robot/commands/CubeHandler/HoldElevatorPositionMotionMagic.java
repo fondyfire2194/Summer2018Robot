@@ -75,7 +75,6 @@ public class HoldElevatorPositionMotionMagic extends Command {
 			}
 			Robot.cubeHandler.magicMotionElevator(Robot.cubeHandler.holdPositionInches,
 					CubeHandler.ELEVATOR_POSITION_RATE);
-
 			lastHoldPositionInches = Robot.cubeHandler.holdPositionInches;
 		}
 	}

@@ -13,13 +13,15 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TurnWheelsToIntake extends Command {
 	private double mySpeed;
 	private boolean currentPeakSeen;
-	private double highCurrentLimit = 10;
-	private double highCurrentTimeLimit = .5;
+	private double highCurrentLimit = 15;
+	private double highCurrentTimeLimit = .95;
 	private double highCurrentTime;
 
 	private double startTime;
 	private double waitForMotorStartedTime = 1;
 	private double myTimeout;
+	private String[] names = { "Time", "Left Amps", "Left Volts", "Right Amps", "Right Volts" };
+	private String[] units = { "mS", "Amps", "Volts", "Amps", "Volts" };
 
 	public TurnWheelsToIntake(double speed, double timeout) {
 		// Use requires() here to declare subsystem dependencies
@@ -30,6 +32,8 @@ public class TurnWheelsToIntake extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		if (Robot.createIntakeRunFile)
+			Robot.simpleCSVLogger.init("Intake", "Intake", names, units);
 		Robot.cubeHandler.intakeWheelsTurn(mySpeed);
 		highCurrentTime = 0;
 		currentPeakSeen = false;
@@ -50,6 +54,12 @@ public class TurnWheelsToIntake extends Command {
 				Robot.cubeHandler.cubePickedUp = true;
 			}
 		}
+		if (Robot.createIntakeRunFile) {
+			Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime),
+					RobotMap.intakeLeftMotor.getOutputCurrent(), RobotMap.intakeLeftMotor.getMotorOutputVoltage(),
+					RobotMap.intakeRightMotor.getOutputCurrent(), RobotMap.intakeRightMotor.getMotorOutputVoltage(),
+					Robot.driveTrainCanBus.getLeftFeet());
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -60,6 +70,8 @@ public class TurnWheelsToIntake extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.cubeHandler.intakeWheelsTurn(0);
+		if (Robot.createIntakeRunFile)
+			Robot.simpleCSVLogger.close();
 	}
 
 	// Called when another command which requires one or more of the same
