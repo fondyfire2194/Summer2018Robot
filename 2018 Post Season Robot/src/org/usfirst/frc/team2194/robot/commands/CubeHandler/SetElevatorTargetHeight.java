@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2194.robot.commands.CubeHandler;
 
 import org.usfirst.frc.team2194.robot.Robot;
+import org.usfirst.frc.team2194.robot.commands.LogElevatorData;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -19,7 +20,8 @@ public class SetElevatorTargetHeight extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		scanCtr=0;
+		scanCtr = 0;
+		new LogElevatorData(6).start();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -32,7 +34,7 @@ public class SetElevatorTargetHeight extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return scanCtr>=1;
+		return scanCtr >= 1;
 	}
 
 	// Called once after isFinished returns true
