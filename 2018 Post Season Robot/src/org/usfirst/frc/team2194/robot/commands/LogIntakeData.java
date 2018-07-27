@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
  */
 public class LogIntakeData extends TimedCommand {
 	private double startTime;
-	private String[] names = { "Time", "Left Amps", "Left Volts", "Right Amps", "Right Volts" };
-	private String[] units = { "mS", "Amps", "Volts", "Amps", "Volts" };
+	private String[] names = { "Time", "Left Amps", "Left Volts", "Right Amps", "Right Volts","Dist" };
+	private String[] units = { "mS", "Amps", "Volts", "Amps", "Volts","Ft" };
 
 	public LogIntakeData(double timeout) {
 		super(timeout);

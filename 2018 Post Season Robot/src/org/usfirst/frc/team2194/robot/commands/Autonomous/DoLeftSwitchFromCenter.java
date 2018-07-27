@@ -49,8 +49,8 @@ public class DoLeftSwitchFromCenter extends CommandGroup {
 
 		addSequential(new ResetEncoders());
 
-		addParallel(new DriveToCubePickup(4, motionType.absolute, DistCon.SHORT_POSITION_RATE, 2));
-		addSequential(new TurnWheelsToIntake(.5, 1));
+		addParallel(new DriveToCubePickup(4, motionType.absolute, DistCon.SHORT_POSITION_RATE, 5));
+		addSequential(new TurnWheelsToIntake(.5, 5));
 
 		addParallel(new DriveToPosition(0, motionType.absolute, DistCon.SHORT_POSITION_RATE - 1, false, false, 2));
 

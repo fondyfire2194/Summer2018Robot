@@ -239,6 +239,9 @@ public class CubeHandler extends Subsystem {
 		SmartDashboard.putNumber("ELHIAMPS", elevatorHiCurrent);
 		SmartDashboard.putBoolean("ElMoveIsUp", moveIsUp);
 		SmartDashboard.putBoolean("ElMoveIsDown", moveIsDown);
+		SmartDashboard.putNumber("IntakeLAmps", RobotMap.intakeLeftMotor.getOutputCurrent());
+		SmartDashboard.putNumber("IntakeRAmps", RobotMap.intakeRightMotor.getOutputCurrent());
+		SmartDashboard.putNumber("ELHIAMPS", elevatorHiCurrent);
 
 		if (!RobotMap.elevatorSwitch.get())
 			switchCounter++;

@@ -12,6 +12,7 @@ import org.usfirst.frc.team2194.robot.commands.CubeHandler.RunElevatorFromGamepa
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.SetElevatorTargetHeight;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.SpinCube;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnIntakeWheels;
+import org.usfirst.frc.team2194.robot.commands.CubeHandler.TurnWheelsToIntake;
 import org.usfirst.frc.team2194.robot.commands.CubeHandler.VariableOuttake;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopReverseOrient;
 import org.usfirst.frc.team2194.robot.commands.Motion.DoTeleopRobotMagicMotion;
@@ -202,6 +203,7 @@ public class OIAlt {
 		SmartDashboard.putData("Vision Motion Robot", new DoTeleopRobotVisionPosition());
 		SmartDashboard.putData("Reset Elevator Position", new ResetElevatorPosition());
 		SmartDashboard.putData("Log Drive", new LogDriveData("Drive", "Drive", 10));
+		SmartDashboard.putData("Intake Auto", new TurnWheelsToIntake(.5	, 10));
 	}
 
 	public Joystick getgamepad() {

@@ -204,7 +204,7 @@ public class Robot extends IterativeRobot {
 			"pct", "pct", "volts", "Amps", "Amps" };
 
 	public static String usbFilePath = "/U/TrajCSV/";
-	public static boolean createIntakeRunFile=true;
+	public static boolean createIntakeRunFile = true;
 	public static boolean createDriveRunFile;
 	public static boolean useVision = false;
 	public static double xPosition;
@@ -219,7 +219,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		RobotMap.init();
 		DistCon.init();
-//		 DistCon.updateStatus();
+		// DistCon.updateStatus();
 		// loadMon = new CasseroleRIOLoadMonitor();
 		driveMonitor = new RobotDriveMonitor();
 		prefs = Preferences.getInstance();
@@ -277,11 +277,11 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putNumber("XPixelTarget", 5);
 		SmartDashboard.putBoolean("USBOK", checkUsbFilePath());
-//		if (!RobotMap.elevatorSwitch.get() && cubeHandler.holdPositionInches != 0
-//				&& cubeHandler.getElevatorEncoderPosition() != 0) {
-//			cubeHandler.resetElevatorPosition();
-//			cubeHandler.holdPositionInches = 0;
-//		}
+		// if (!RobotMap.elevatorSwitch.get() && cubeHandler.holdPositionInches != 0
+		// && cubeHandler.getElevatorEncoderPosition() != 0) {
+		// cubeHandler.resetElevatorPosition();
+		// cubeHandler.holdPositionInches = 0;
+		// }
 		sensors.initAHRS();
 		Timer.delay(3);
 		sensors.resetGyro();
@@ -454,16 +454,11 @@ public class Robot extends IterativeRobot {
 		switch (oppositeSidePriority) {
 
 		case 1:
-			oppositeScaleHasPriority = true;
-			oppositeSwitchHasPriority = false;
-			oppositeDoNotUse = false;
-			break;
-		case 2:
 			oppositeScaleHasPriority = false;
 			oppositeSwitchHasPriority = true;
 			oppositeDoNotUse = false;
 			break;
-		case 3:
+		case 2:
 			oppositeScaleHasPriority = false;
 			oppositeSwitchHasPriority = false;
 			oppositeDoNotUse = true;
@@ -490,25 +485,8 @@ public class Robot extends IterativeRobot {
 		}
 		// loop until game data is available
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
-		// if (gameData == null) {
-		// gameData = "";
-		// }
-		// int retries = 100;
-		// while (gameData.length() < 2 && retries > 0) {
-		// DriverStation.reportError("Gamedata is " + gameData + " retrying " + retries,
-		// false);
-		// try {
-		// Thread.sleep(5);
-		// gameData = DriverStation.getInstance().getGameSpecificMessage();
-		// if (gameData == null) {
-		// gameData = "";
-		// }
-		// } catch (Exception e) {
-		// }
-		// retries--;
-		// }
 		SmartDashboard.putString("Auto/gameData", gameData);
-		// DriverStation.reportError("gameData before parse: " + gameData, false);
+
 
 		if (gameData.charAt(0) == 'L') {
 			// Put left auto code here

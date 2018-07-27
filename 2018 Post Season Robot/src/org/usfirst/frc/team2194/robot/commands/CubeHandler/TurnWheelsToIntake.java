@@ -13,15 +13,15 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TurnWheelsToIntake extends Command {
 	private double mySpeed;
 	private boolean currentPeakSeen;
-	private double highCurrentLimit = 15;
-	private double highCurrentTimeLimit = .95;
+	private double highCurrentLimit = 10;
+	private double highCurrentTimeLimit = 1;
 	private double highCurrentTime;
 
 	private double startTime;
-	private double waitForMotorStartedTime = 1;
+	private double waitForMotorStartedTime = 2;
 	private double myTimeout;
-	private String[] names = { "Time", "Left Amps", "Left Volts", "Right Amps", "Right Volts" };
-	private String[] units = { "mS", "Amps", "Volts", "Amps", "Volts" };
+	private String[] names = { "Time", "Left Amps", "Left Volts", "Right Amps", "Right Volts","Dist" ,"HCTime"};
+	private String[] units = { "mS", "Amps", "Volts", "Amps", "Volts","Ft","Secs" };
 
 	public TurnWheelsToIntake(double speed, double timeout) {
 		// Use requires() here to declare subsystem dependencies
@@ -58,7 +58,7 @@ public class TurnWheelsToIntake extends Command {
 			Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime),
 					RobotMap.intakeLeftMotor.getOutputCurrent(), RobotMap.intakeLeftMotor.getMotorOutputVoltage(),
 					RobotMap.intakeRightMotor.getOutputCurrent(), RobotMap.intakeRightMotor.getMotorOutputVoltage(),
-					Robot.driveTrainCanBus.getLeftFeet());
+					Robot.driveTrainCanBus.getLeftFeet(),highCurrentTime);
 		}
 	}
 

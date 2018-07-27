@@ -75,8 +75,14 @@ public enum PathSelectAuto {
 		this.secondMove = secondMove;
 	}
 
+	/*
+	 * use trajectories for lset and right start switch and for left switch center
+	 * start
+	 * 
+	 * 
+	 */
 	void build() {
-		if (Robot.isSwitch && !Robot.centerStartPosition && Robot.checkUsbFilePath()
+		if (Robot.isSwitch && (!Robot.centerStartPosition || Robot.leftSwitchActive) && Robot.checkUsbFilePath()
 				&& Robot.buildTrajectory.buildFileName(name, gains)) {
 
 			if (Robot.isSwitch)
