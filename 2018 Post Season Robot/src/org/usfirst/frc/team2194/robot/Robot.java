@@ -198,10 +198,9 @@ public class Robot extends IterativeRobot {
 	private static boolean secondaryTrajectory;
 	// Trajectory log data headers
 	public static String[] names = { "Step", "LeftCmd", "LeftFt", "RightCmd", "RightFt", "AngleCmd", "Angle",
-			"LeftSegVel", "left", "ActLeftVel", "RightSegVel", "right", "ActRightVel", "turn", "battery", "LeftAmps",
-			"RightAmps" };
+			"LeftSegVel", "left", "ActLeftVel", "RightSegVel", "right", "ActRightVel", "turn" };
 	public static String[] units = { "Number", "FT", "FT", "FT", "FT", "Deg", "Deg", "pct", "pct", "pct", "pct", "pct",
-			"pct", "pct", "volts", "Amps", "Amps" };
+			"pct", "pct" };
 
 	public static String usbFilePath = "/U/TrajCSV/";
 	public static boolean createIntakeRunFile = true;
@@ -486,7 +485,6 @@ public class Robot extends IterativeRobot {
 		// loop until game data is available
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 		SmartDashboard.putString("Auto/gameData", gameData);
-
 
 		if (gameData.charAt(0) == 'L') {
 			// Put left auto code here

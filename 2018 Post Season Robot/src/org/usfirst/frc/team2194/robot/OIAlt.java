@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2194.robot;
 
 import org.usfirst.frc.team2194.robot.commands.LogDriveData;
+import org.usfirst.frc.team2194.robot.commands.LogIntakeData;
 import org.usfirst.frc.team2194.robot.commands.ResetScanValues;
 import org.usfirst.frc.team2194.robot.commands.Climber.DriveClimber;
 import org.usfirst.frc.team2194.robot.commands.Climber.StopClimber;
@@ -204,6 +205,7 @@ public class OIAlt {
 		SmartDashboard.putData("Reset Elevator Position", new ResetElevatorPosition());
 		SmartDashboard.putData("Log Drive", new LogDriveData("Drive", "Drive", 10));
 		SmartDashboard.putData("Intake Auto", new TurnWheelsToIntake(.5	, 10));
+		SmartDashboard.putData("Log Intake", new LogIntakeData(10));
 	}
 
 	public Joystick getgamepad() {

@@ -30,7 +30,5 @@
 	<classpathentry kind="lib" path="C:/Users/cools/wpilib/user/java/lib/robolog-server-dependencies.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8.jar"/>
 	<classpathentry kind="lib" path="C:/Users/cools/wpilib/user/java/lib/Pathfinder-Java-1.8.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/robolog-server-dependencies.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/robolog-server.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

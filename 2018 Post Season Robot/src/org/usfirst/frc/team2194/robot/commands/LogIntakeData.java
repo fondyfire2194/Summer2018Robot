@@ -11,8 +11,14 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
  */
 public class LogIntakeData extends TimedCommand {
 	private double startTime;
-	private String[] names = { "Time", "Left Amps", "Left Volts", "Right Amps", "Right Volts","Dist" };
-	private String[] units = { "mS", "Amps", "Volts", "Amps", "Volts","Ft" };
+	private String[] names = { "Time", "Left Amps", "Left Volts", "Right Amps", "Right Volts", "Dist", "Battery" };
+	private String[] units = { "mS", "Amps", "Volts", "Amps", "Volts", "Ft", "Volts" };
+	double leftAmps;
+	double leftVolts;
+	double rightAmps;
+	double rightVolts;
+	double batteryVolts;
+	boolean oops;
 
 	public LogIntakeData(double timeout) {
 		super(timeout);
@@ -29,11 +35,25 @@ public class LogIntakeData extends TimedCommand {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (Robot.createIntakeRunFile) {
-			Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime),
-					RobotMap.intakeLeftMotor.getOutputCurrent(), RobotMap.intakeLeftMotor.getMotorOutputVoltage(),
-					RobotMap.intakeRightMotor.getOutputCurrent(), RobotMap.intakeRightMotor.getMotorOutputVoltage(),
-					Robot.driveTrainCanBus.getLeftFeet());
+		if (Robot.simpleCSVLogger.log_open && Robot.createIntakeRunFile) {
+			leftAmps = 999999;
+			leftVolts = 999999;
+			rightAmps = 999999;
+			rightVolts = 999999;
+			batteryVolts = 99999;
+			try {
+				leftAmps = RobotMap.intakeLeftMotor.getOutputCurrent();
+				leftVolts = RobotMap.intakeLeftMotor.getMotorOutputVoltage();
+				rightAmps = RobotMap.intakeRightMotor.getOutputCurrent();
+				rightVolts = RobotMap.intakeRightMotor.getMotorOutputVoltage();
+				batteryVolts = RobotMap.pdp.getVoltage();
+
+			} catch (Exception e) {
+				oops = true;
+			}
+
+			Robot.simpleCSVLogger.writeData((Timer.getFPGATimestamp() - startTime), leftAmps, leftVolts, rightAmps,
+					rightVolts, Robot.driveTrainCanBus.getLeftFeet(),batteryVolts);
 		}
 	}
 

@@ -104,7 +104,7 @@ public class PathfinderNotifier {
 			 * 
 			 * names = { "Step", "Left Cmd", "Left Ft", "Right Cmd ", "Right Ft",
 			 * "Angle Cmd", "Angle", "LeftSegVel", "left", "ActLeftVel", "RightSegVel",
-			 * "right", "ActRightVel", "turn" ,"battery","LeftAmps,'RightAmps"};
+			 * "right", "ActRightVel", "turn"};
 			 * 
 			 */
 
@@ -116,8 +116,7 @@ public class PathfinderNotifier {
 					leftPct, Robot.driveTrainCanBus.getLeftFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					Robot.driveTrainCanBus.rightDf.getSegment().velocity / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
 					rightPct, Robot.driveTrainCanBus.getRightFeetPerSecond() / DriveTrainCanBus.MAX_ROBOT_FT_PER_SEC,
-					turn, Robot.powerPanel.getVoltage(), Robot.driveTrainCanBus.getLeftAmps(),
-					Robot.driveTrainCanBus.getRightAmps());
+					turn);
 		}
 
 		thisTime = Timer.getFPGATimestamp();
